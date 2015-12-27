@@ -1,6 +1,6 @@
 {
     "name": "cpf",
-    "version": "0.0.0",
+    "version": "0.0.1",
     "description": "Formatar, gerar ou validar um CPF.",
     "main": "index.js",
     "repository": {
