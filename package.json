@@ -1,0 +1,12 @@
+{
+    "name": "cpf",
+    "version": "0.0.0",
+    "description": "Formatar, gerar ou validar um CPF.",
+    "main": "index.js",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/theuves/cpf.git"
+    },
+    "author": "Matheus Alves",
+    "license": "MIT"
+}
