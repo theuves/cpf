@@ -1,67 +1,25 @@
 'use strict';
 
-var randomInt = require('random-int');
+var shuffleList = require('shuffle-list');
 
-function digVerif(numeros) {
-    var pdv = function () {
-        var nums = [];
+function digVerif(cpf) {
+    cpf = cpf.reverse();
+    var v1 = 0,
+        v2 = 0;
 
-        var n = 0,
-            i = 10;
+    var i = 0;
 
-        while (i >= 2) {
-            nums.push(i * numeros[n]);
-            n = n + 1;
-            i = i - 1;
-        }
+    while (i < 9) {
+        v1 = v1 + cpf[i] * (9 - (i % 10));
+        v2 = v2 + cpf[i] * (9 - ((i + 1) % 10));
+        i = i + 1;
+    }
 
-        var num = 0;
+    v1 = (v1 % 11) % 10;
+    v2 = v2 + v1 * 9;
+    v2 = (v2 % 11) % 10;
 
-        nums.forEach(function (i) {
-            num += i;
-        });
-
-        var resto = parseInt(num % 11);
-
-        if (resto < 2) {
-            return '0';
-        } else {
-            var digito = 11 - resto;
-            return digito.toString();
-        }
-    };
-
-    numeros.push(pdv());
-
-    var sdv = function () {
-        var nums = [];
-
-        var n = 0,
-            i = 11;
-
-        while (i >= 2) {
-            nums.push(i * numeros[n]);
-            n = n + 1;
-            i = i - 1;
-        }
-
-        var num = 0;
-
-        nums.forEach(function (i) {
-            num += i;
-        });
-
-        var resto = num % 11;
-
-        if (resto < 2) {
-            return '0';
-        } else {
-            var digito = 11 - resto;
-            return digito.toString();
-        }
-    };
-
-    return pdv() + sdv();
+    return v1 + '' + v2;
 }
 
 function formatar(cpf) {
@@ -78,19 +36,9 @@ function formatar(cpf) {
 }
 
 function gerar() {
-    var numeros = [
-        randomInt(9),
-        randomInt(9),
-        randomInt(9),
-        randomInt(9),
-        randomInt(9),
-        randomInt(9),
-        randomInt(9),
-        randomInt(9),
-        randomInt(9)
-    ];
-
-    var jun = numeros.join(''),
+    var list = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+        numeros = shuffleList(list).splice(0, 9),
+        jun = numeros.join(''),
         dig = digVerif(numeros);
 
     return formatar(jun + dig);
