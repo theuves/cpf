@@ -25,13 +25,15 @@ function digVerif(cpf) {
 function formatar(cpf) {
     cpf = cpf.toString();
 
-    if (/^\d{11}$/.test(cpf)) {
+    if (/^\d{3}(\.)?\d{3}(\.)?\d{3}-?\d{2}$/.test(cpf)) {
+        cpf = cpf.replace(/\.|-/g, '');
+
         var num = cpf.match(/\d{3}/g).join('.'),
             ver = cpf.substr(9);
 
         return num + '-' + ver;
     } else {
-        return undefined;
+        return false;
     }
 }
 
@@ -43,7 +45,6 @@ function gerar() {
 
     return formatar(jun + dig);
 }
-
 
 function validar(cpf) {
     cpf = cpf.toString();
