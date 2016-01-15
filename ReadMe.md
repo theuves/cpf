@@ -12,6 +12,8 @@ $ npm install cpf
 
 ## Uso
 
+Alguns exemplos:
+
 ```js
 var CPF = require('cpf');
 
