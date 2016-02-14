@@ -1,6 +1,6 @@
 # cpf
 
-> Formatar, gerar ou validar um [CPF](https://pt.wikipedia.org/wiki/cpf).
+> Formatar, gerar ou validar um [CPF](https://pt.wikipedia.org/wiki/CPF).
 
 ## Instalação
 
@@ -12,15 +12,16 @@ $ npm install cpf
 
 ## Uso
 
-Alguns exemplos:
+Veja alguns exemplos:
 
 ```js
 var CPF = require('cpf');
 
 CPF.formatar(11144477735); //=> '111.444.777-35'
-CPF.gerar(); //=> '111.444.777-35'
 CPF.validar('111.444.777-35'); //=> true
 ```
+
+Use `CPF.gerar()` para gerar um CPF aleatório.
 
 ## Licença
 
