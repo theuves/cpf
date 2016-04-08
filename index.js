@@ -23,21 +23,17 @@ function digVerif(cpf) {
 }
 
 function formatar(cpf) {
-    cpf = cpf.toString();
+    var cpf = cpf.toString().replace(/\D+/g, "");
 
-    if (/^\d{3}(\.)?\d{3}(\.)?\d{3}-?\d{2}$/.test(cpf)) {
-        cpf = cpf.replace(/\.|-/g, '');
+    cpf = cpf.replace(/(\d{1,3})(\d{1,3})?(\d{1,3})?(\d{1,2})?/, "$1.$2.$3-$4");
 
-        var num = cpf.match(/\d{3}/g).join('.'),
-            ver = cpf.substr(9);
+    //Removes simbols at the end, alowing backspace
+    cpf = cpf.replace(/(\D+)$/, "");
 
-        return num + '-' + ver;
-    } else {
-        return false;
-    }
+    return cpf;
 }
 
-function gerar() {
+function gerar(format) {
     var list = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
         numeros = shuffleList(list).splice(0, 9),
         jun = numeros.join(''),
