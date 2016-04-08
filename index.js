@@ -23,11 +23,12 @@ function digVerif(cpf) {
 }
 
 function formatar(cpf) {
-    var cpf = cpf.toString().replace(/\D+/g, "");
+    cpf = cpf.toString().replace(/\D+/g, "");
 
     cpf = cpf.replace(/(\d{1,3})(\d{1,3})?(\d{1,3})?(\d{1,2})?/, "$1.$2.$3-$4");
 
-    //Removes simbols at the end, alowing backspace
+    //Removes simbols at the end
+    //Needed for backspace in browsers
     cpf = cpf.replace(/(\D+)$/, "");
 
     return cpf;
