@@ -23,6 +23,9 @@ function digVerif(cpf) {
 }
 
 function formatar(cpf) {
+    if (cpf===undefined) {
+      return "";
+    }
     cpf = cpf.toString().replace(/\D+/g, "");
 
     cpf = cpf.replace(/(\d{1,3})(\d{1,3})?(\d{1,3})?(\d{1,2})?/, "$1.$2.$3-$4");
