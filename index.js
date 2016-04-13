@@ -71,10 +71,6 @@ function validar(cpf) {
 }
 
 module.exports = {
-    formatar: formatar,
-    gerar: gerar,
-    validar: validar,
-
     format: formatar,
     generate: gerar,
     validate: validar
