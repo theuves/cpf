@@ -17,11 +17,11 @@ Veja alguns exemplos:
 ```js
 var CPF = require('cpf');
 
-CPF.formatar(11144477735); //=> '111.444.777-35'
-CPF.validar('111.444.777-35'); //=> true
+CPF.format(11144477735); //=> '111.444.777-35'
+CPF.validate('111.444.777-35'); //=> true
 ```
 
-Use `CPF.gerar()` para gerar um CPF aleatório.
+Use `CPF.generate()` para gerar um CPF aleatório.
 
 ## Licença
 
