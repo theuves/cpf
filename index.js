@@ -23,7 +23,7 @@ function digVerif(cpf) {
 }
 
 function formatar(cpf) {
-    if (cpf===undefined) {
+    if (cpf === undefined) {
       return '';
     }
     cpf = cpf.toString().replace(/\D+/g, '');
