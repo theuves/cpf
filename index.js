@@ -2,7 +2,7 @@
 
 var shuffleList = require('shuffle-list');
 
-function digVerif(cpf) {
+function dv(cpf) {
     cpf = cpf.reverse();
     var v1 = 0,
         v2 = 0;
@@ -22,7 +22,7 @@ function digVerif(cpf) {
     return v1 + '' + v2;
 }
 
-function formatar(cpf) {
+function format(cpf) {
     if (cpf === undefined) {
         return '';
     }
@@ -38,20 +38,18 @@ function formatar(cpf) {
     return cpf;
 }
 
-function gerar() {
+function generate() {
     var list = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-        numeros = shuffleList(list).splice(0, 9),
-        jun = numeros.join(''),
-        dig = digVerif(numeros);
+        numbers = shuffleList(list).splice(0, 9);
 
-    return formatar(jun + dig);
+    return format(numbers.join('') + dv(numbers));
 }
 
-function validar(cpf) {
+function validate(cpf) {
     cpf = cpf.toString();
 
     if (/^\d{11}$/.test(cpf)) {
-        cpf = formatar(cpf);
+        cpf = format(cpf);
     }
 
     var re = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
@@ -61,7 +59,7 @@ function validar(cpf) {
             nums = cpf.split('-')[0]
                 .match(/\d/g);
 
-        if (digVerif(nums) === digs) {
+        if (dv(nums) === digs) {
             return true;
         } else {
             return false;
@@ -72,7 +70,7 @@ function validar(cpf) {
 }
 
 module.exports = {
-    format: formatar,
-    generate: gerar,
-    validate: validar
+    format: format,
+    generate: generate,
+    validate: validate
 };
