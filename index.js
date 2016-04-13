@@ -23,21 +23,21 @@ function digVerif(cpf) {
 }
 
 function formatar(cpf) {
-    cpf = cpf.toString();
-
-    if (/^\d{3}(\.)?\d{3}(\.)?\d{3}-?\d{2}$/.test(cpf)) {
-        cpf = cpf.replace(/\.|-/g, '');
-
-        var num = cpf.match(/\d{3}/g).join('.'),
-            ver = cpf.substr(9);
-
-        return num + '-' + ver;
-    } else {
-        return false;
+    if (cpf===undefined) {
+      return "";
     }
+    cpf = cpf.toString().replace(/\D+/g, "");
+
+    cpf = cpf.replace(/(\d{1,3})(\d{1,3})?(\d{1,3})?(\d{1,2})?/, "$1.$2.$3-$4");
+
+    //Removes simbols at the end
+    //Needed for backspace in browsers
+    cpf = cpf.replace(/(\D+)$/, "");
+
+    return cpf;
 }
 
-function gerar() {
+function gerar(format) {
     var list = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
         numeros = shuffleList(list).splice(0, 9),
         jun = numeros.join(''),
@@ -73,5 +73,9 @@ function validar(cpf) {
 module.exports = {
     formatar: formatar,
     gerar: gerar,
-    validar: validar
+    validar: validar,
+
+    format: formatar,
+    generate: gerar,
+    validate: validar
 };
