@@ -1,7 +1,7 @@
 {
     "name": "cpf",
     "version": "0.1.1",
-    "description": "Formatar, gerar ou validar um CPF.",
+    "description": "Basic functions for handling CPF numbers.",
     "main": "index.js",
     "dependencies": {
         "shuffle-list": "^1.0.0"
