@@ -55,6 +55,12 @@ function validate(cpf) {
     var re = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
 
     if (re.test(cpf)) {
+        var regex = /^(1{11}|2{11}|3{11}|4{11}|5{11}|6{11}|7{11}|8{11}|9{11})$/;
+
+        if (regex.test(cpf.replace(/\.|-/g, ''))) {
+            return false;
+        }
+
         var digs = cpf.split('-')[1],
             nums = cpf.split('-')[0]
                 .match(/\d/g);
