@@ -88,20 +88,6 @@ CPF.validate('111.444.777-34'); //=> false
 CPF.validate('111.444.777-355'); //=> false
 ```
 
-<a name="semi-valid"></a>
-Note that this returns `true` for the values bellow. Useful when testing manually.
-
-- 000.000.000-00
-- 111.111.111-11
-- 222.222.222-22
-- 333.333.333-33
-- 444.444.444-44
-- 555.555.555-55
-- 666.666.666-66
-- 777.777.777-77
-- 888.888.888-88
-- 999.999.999-99
-
 ## Generation
 Generates a valid, formatted CPF for testing purposes.
 
@@ -117,11 +103,11 @@ CPF.generate().length; //=> 14
 # Future work
 Some ideas of extensions to this library, for anyone willing to contribute.
 
-- [ ] Deprecate the functions in Portuguese.
+- [x] Deprecate the functions in Portuguese.
 - [ ] Automated testing (see examples in [Usage](#usage)).
 - Custom/optional behaviour
   - [ ] Unformatted CPF generation
-  - [ ] Return `false` for [some CPFs](#validation) even with a valid hash.
+  - [x] Return `false` for [some CPFs](#validation) even with a valid hash.
 
 # License
 
