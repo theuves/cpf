@@ -6,7 +6,7 @@ Basic functions for handling [CPF](https://en.wikipedia.org/wiki/Cadastro_de_Pes
 
 
 
-# Installation
+## Installation
 
 Using [NPM](http://npmjs.com/):
 
@@ -14,10 +14,8 @@ Using [NPM](http://npmjs.com/):
 $ npm install cpf --save
 ```
 
-# <a name="usage"></a>Usage
-Although the CPF is composed of numbers, it is good practice to treat it as a string to preserve any leading `0`s.
+## Usage
 
-## TL;DR
 ```js
 var CPF = require('cpf');
 
@@ -25,8 +23,10 @@ CPF.format('11144477735'); //=> '111.444.777-35'
 CPF.validate('111.444.777-35'); //=> true
 CPF.generate(); //=> formatted string with 14 character
 ```
+Although the CPF is composed of numbers, it is good practice to treat it as a string to preserve any leading `0`s.
 
-## Formatting
+### Formatting
+
 The `format()` function supports incomplete values.
 
 ```js
@@ -42,6 +42,7 @@ CPF.format('111-444-777-35'); //=> '111.444.777-35'
 ```
 
 This allows formatting the content of a text field directly, with on the fly formatting.
+
 ```js
 CPF.format('111'); //=> '111'
 CPF.format('1114'); //=> '111.4'
@@ -51,6 +52,7 @@ CPF.format('1114'); //=> '111.4'
 ```
 
 It ignores any non-digit, filling the separators as they are needed.
+
 ```js
 var CPF = require('cpf');
 
@@ -61,6 +63,7 @@ CPF.format('111-444-777-35'); //=> '111.444.777-35'
 ```
 
 It also clamps the string to 11 digits (14 with separators).
+
 ```js
 var CPF = require('cpf');
 
@@ -69,7 +72,8 @@ CPF.format('111444777355'); //=> '111.444.777-35'
 CPF.format('111.444.777-355'); //=> '111.444.777-35'
 ```
 
-## <a name="validation"></a>Validation
+### Validation
+
 Checks if the hash of the first 9 digits match the last 2 digits. It takes either an 11-digit string or a formatted 14-character string.
 
 ```js
@@ -78,17 +82,18 @@ var CPF = require('cpf');
 CPF.validate('11144477735'); //=> true
 CPF.validate('111.444.777-35'); //=> true
 
-//incomplete
+// incomplete
 CPF.validate('111.444.777-3'); //=> false
 
-//invalid hash
+// invalid hash
 CPF.validate('111.444.777-34'); //=> false
 
-//too many digits
+// too many digits
 CPF.validate('111.444.777-355'); //=> false
 ```
 
-## Generation
+### Generation
+
 Generates a valid, formatted CPF for testing purposes.
 
 ```js
@@ -100,15 +105,14 @@ CPF.generate().length; //=> 14
 /^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(CPF.generate()); //=> true
 ```
 
-# Future work
+## Future work
+
 Some ideas of extensions to this library, for anyone willing to contribute.
 
-- [x] Deprecate the functions in Portuguese.
 - [ ] Automated testing (see examples in [Usage](#usage)).
 - Custom/optional behaviour
   - [ ] Unformatted CPF generation
-  - [x] Return `false` for [some CPFs](#validation) even with a valid hash.
 
-# License
+## License
 
-[MIT](http://theuves.mit-license.org/)
+[MIT](https://raw.githubusercontent.com/theuves/cpf/master/License)
