@@ -1,15 +1,29 @@
 {
-    "name": "cpf",
-    "version": "0.1.2",
-    "description": "Basic functions for handling CPF numbers.",
-    "main": "index.js",
-    "dependencies": {
-        "shuffle-list": "^1.0.0"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/theuves/cpf.git"
-    },
-    "author": "Matheus Alves",
-    "license": "MIT"
+  "name": "cpf",
+  "version": "0.1.2",
+  "description": "Basic functions for handling CPF numbers.",
+  "main": "index.js",
+  "keywords": [
+    "cpf",
+    "brazil",
+    "brasil"
+  ],
+  "dependencies": {
+    "shuffle-list": "^1.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/theuves/cpf.git"
+  },
+  "devDependencies": {
+    "mocha": "^2.5.3"
+  },
+  "scripts": {
+    "test": "mocha test.js --colors"
+  },
+  "author": {
+    "name": "Matheus Alves",
+    "email": "theuves@gmail.com"
+  },
+  "license": "MIT"
 }
