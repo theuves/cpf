@@ -62,16 +62,6 @@ CPF.format('111 4'); //=> '111.4'
 CPF.format('111-444-777-35'); //=> '111.444.777-35'
 ```
 
-It also clamps the string to 11 digits (14 with separators).
-
-```js
-var CPF = require('cpf');
-
-CPF.format('11144477735'); //=> '111.444.777-35'
-CPF.format('111444777355'); //=> '111.444.777-35'
-CPF.format('111.444.777-355'); //=> '111.444.777-35'
-```
-
 ### Validation
 
 Checks if the hash of the first 9 digits match the last 2 digits. It takes either an 11-digit string or a formatted 14-character string.
