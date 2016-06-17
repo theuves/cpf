@@ -1,4 +1,4 @@
-# CPF
+# cpf [![Build Status](https://travis-ci.org/theuves/cpf.svg?branch=master)](https://travis-ci.org/theuves/cpf)
 
 Basic functions for handling [CPF](https://en.wikipedia.org/wiki/Cadastro_de_Pessoas_F%C3%ADsicas) numbers.
 
@@ -99,7 +99,6 @@ CPF.generate().length; //=> 14
 
 Some ideas of extensions to this library, for anyone willing to contribute.
 
-- [ ] Automated testing (see examples in [Usage](#usage)).
 - Custom/optional behaviour
   - [ ] Unformatted CPF generation
 
