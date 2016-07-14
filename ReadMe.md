@@ -4,11 +4,9 @@ Basic functions for handling [CPF](https://en.wikipedia.org/wiki/Cadastro_de_Pes
 
 > Cadastro de Pessoas Físicas (CPF) – Portuguese for "Natural Persons Register" – is the Brazilian individual taxpayer registry identification, a number attributed by the Department of Federal Revenue of Brazil.
 
-
-
 ## Installation
 
-Using [NPM](http://npmjs.com/):
+With [`npm`](http://npmjs.com/) do:
 
 ```
 $ npm install cpf --save
@@ -23,7 +21,6 @@ CPF.format('11144477735'); //=> '111.444.777-35'
 CPF.validate('111.444.777-35'); //=> true
 CPF.generate(); //=> formatted string with 14 character
 ```
-Although the CPF is composed of numbers, it is good practice to treat it as a string to preserve any leading `0`s.
 
 ### Formatting
 
@@ -95,13 +92,6 @@ CPF.generate().length; //=> 14
 /^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(CPF.generate()); //=> true
 ```
 
-## Future work
-
-Some ideas of extensions to this library, for anyone willing to contribute.
-
-- Custom/optional behaviour
-  - [ ] Unformatted CPF generation
-
 ## License
 
-[MIT](https://raw.githubusercontent.com/theuves/cpf/master/License)
+MIT &copy; [Matheus Alves](https://github.com/theuves)
