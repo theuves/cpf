@@ -1,6 +1,6 @@
 {
   "name": "cpf",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Format, generate or validate CPF numbers.",
   "main": "index.js",
   "keywords": [
