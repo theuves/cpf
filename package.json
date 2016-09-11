@@ -1,7 +1,7 @@
 {
   "name": "cpf",
   "version": "0.1.3",
-  "description": "Basic functions for handling CPF numbers.",
+  "description": "Format, generate or validate CPF numbers.",
   "main": "index.js",
   "keywords": [
     "cpf",
