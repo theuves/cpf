@@ -4,7 +4,7 @@
  
 Install it with the command `npm install --save cpf`.
  
-See the some examples:
+See some examples:
 
 ```js
 var CPF = require('cpf');
