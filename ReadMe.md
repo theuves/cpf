@@ -1,4 +1,4 @@
-# cpf
+# cpf ![](https://travis-ci.org/theuves/cpf.svg)
 
 > Format, generate or validate CPF numbers.
  
