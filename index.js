@@ -19,7 +19,7 @@ function dv(cpf) {
     v2 = v2 + v1 * 9;
     v2 = (v2 % 11) % 10;
 
-    return v1 + '' + v2;
+    return [v1, v2].join('');
 }
 
 function format(cpf) {
@@ -62,14 +62,9 @@ function validate(cpf) {
         }
 
         var digs = cpf.split('-')[1],
-            nums = cpf.split('-')[0]
-                .match(/\d/g);
+            nums = cpf.split('-')[0].match(/\d/g);
 
-        if (dv(nums) === digs) {
-            return true;
-        } else {
-            return false;
-        }
+        return dv(nums) === digs
     } else {
         return false;
     }
