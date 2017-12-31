@@ -1,11 +1,5 @@
 "use strict";
 
-var format = require("./lib/format.js");
-var generate = require("./lib/generate.js");
-var validate = require("./lib/validate.js");
+const DIR = "./lib/";
 
-module.exports = {
-  format: format,
-  generate: generate,
-  validate: validate
-};
+const calcDv = require(DIR + "calc-dev");
