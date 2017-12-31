@@ -3,23 +3,9 @@
   "version": "0.1.5",
   "description": "Format, generate or validate CPF numbers.",
   "main": "index.js",
-  "keywords": [
-    "cpf",
-    "brazil",
-    "brasil"
-  ],
-  "dependencies": {
-    "shuffle-list": "^1.0.0"
-  },
   "repository": {
     "type": "git",
     "url": "git://github.com/theuves/cpf.git"
-  },
-  "devDependencies": {
-    "mocha": "^2.5.3"
-  },
-  "scripts": {
-    "test": "mocha test.js --colors"
   },
   "author": {
     "name": "Matheus Alves",

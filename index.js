@@ -1,5 +1,17 @@
 "use strict";
 
-const DIR = "./lib/";
+const calcDv = require("./lib/calc-dv");
+const clear = require("./lib/clear");
+const format = require("./lib/format");
+const generate = require("./lib/generate");
+const isValid = require("./lib/is-valid");
 
-const calcDv = require(DIR + "calc-dev");
+const CPF = {
+  calcDv: calcDv,
+  clear: clear,
+  format: format,
+  generate: generate,
+  isValid: isValid
+};
+
+module.exports = CPF;
