@@ -11,5 +11,8 @@
     "name": "Matheus Alves",
     "email": "theuves@gmail.com"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "jasmine": "^2.8.0"
+  }
 }
