@@ -53,7 +53,7 @@ Retorna uma *Array* contendo os dígitos verificadores.
 
 ### `CPF.clear(cpf)` ([view source](https://git.io/vbxGD))
 
-> Remover tudo o que não é dígito numa *string*.
+> Desformatar um número de CPF.
 
 #### Exemplos
 
