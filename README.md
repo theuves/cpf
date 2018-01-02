@@ -96,7 +96,7 @@ Retorna uma *String* com o CPF formatado.
 
 Retorna uma *String* com o número de CPF gerado.
 
-### `CPF.isValid(cpf[, length])` ([view source](https://git.io/vbxDM))
+### `CPF.isValid(cpf[, byLength])` ([view source](https://git.io/vbxDM))
 
 > Verificar se um número de CPF é válido.
 
@@ -111,12 +111,15 @@ CPF.isValid("111.444.777-42");
 
 CPF.isValid("111.444.777-42", true);
 // true
+
+CPF.isValid("111.444.777", true);
+// false
 ```
 
 #### Parâmetros
 
 - `cpf=""` (*String*) - um número de CPF para ser verificado
-- `length=false` (*Boolean*) - não validar o dígito verificador, somente o comprimento
+- `byLength=false` (*Boolean*) - não validar o dígito verificador, somente o comprimento
 
 Retorna uma valor booleano informando se o CPF é válido ou não.
 
