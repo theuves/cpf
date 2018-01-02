@@ -20,7 +20,7 @@ CPF;
 //   clear: [Function: clear],
 //   format: [Function: format],
 //   generate: [Function: generate],
-//   isValid: [Function: clear] }
+//   isValid: [Function: isValid] }
 ```
 
 ### Funções
