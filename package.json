@@ -7,12 +7,15 @@
     "type": "git",
     "url": "git://github.com/theuves/cpf.git"
   },
+  "devDependencies": {
+    "jasmine": "^2.8.0"
+  },
+  "scripts": {
+    "test": "jasmine"
+  },
   "author": {
     "name": "Matheus Alves",
     "email": "theuves@gmail.com"
   },
-  "license": "MIT",
-  "devDependencies": {
-    "jasmine": "^2.8.0"
-  }
+  "license": "MIT"
 }
