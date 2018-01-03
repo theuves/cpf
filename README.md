@@ -29,7 +29,7 @@ CPF;
 - [`CPF.clear(cpf)`](#cpfclearcpf-view-source)
 - [`CPF.format(cpf)`](#cpfformatcpf-view-source)
 - [`CPF.generate([formatted][, invalid])`](#cpfgenerateformatted-invalid-view-source)
-- [`CPF.isValid(cpf[, length])`](#cpfisvalidcpf-length-view-source)
+- [`CPF.isValid(cpf[, length])`](#cpfisvalidcpf-bylength-view-source)
 
 ### `CPF.calcDev(digits)` ([view source](https://git.io/vbxGi))
 
