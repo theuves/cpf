@@ -1,7 +1,7 @@
 {
   "name": "cpf",
   "version": "0.1.5",
-  "description": "Format, generate or validate CPF numbers.",
+  "description": "Funções p/ manipular números de CPFs.",
   "main": "index.js",
   "repository": {
     "type": "git",
