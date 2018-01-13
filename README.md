@@ -25,11 +25,11 @@ CPF;
 
 ### Funções
 
-- [`CPF.calcDev(digits)`](#cpfcalcdevdigits-view-source)
-- [`CPF.clear(cpf)`](#cpfclearcpf-view-source)
-- [`CPF.format(cpf)`](#cpfformatcpf-view-source)
-- [`CPF.generate([formatted][, invalid])`](#cpfgenerateformatted-invalid-view-source)
-- [`CPF.isValid(cpf[, length])`](#cpfisvalidcpf-bylength-view-source)
+- [`CPF.calcDev(digits)`](#cpfcalcdevdigits)
+- [`CPF.clear(cpf)`](#cpfclearcpf)
+- [`CPF.format(cpf)`](#cpfformatcpf)
+- [`CPF.generate([formatted][, invalid])`](#cpfgenerateformatted-invalid)
+- [`CPF.isValid(cpf[, length])`](#cpfisvalidcpf-bylength)
 
 ### `CPF.calcDev(digits)` ([view source](https://git.io/vbxGi))
 
@@ -51,7 +51,9 @@ CPF.calcDev("111444777");
 
 Retorna uma *Array* contendo os dígitos verificadores.
 
-### `CPF.clear(cpf)` ([view source](https://git.io/vbxGD))
+### `CPF.clear(cpf)`
+
+([view source](https://git.io/vbxGD))
 
 > Desformatar um número de CPF.
 
@@ -68,7 +70,9 @@ CPF.clear("111.444.777-35");
 
 Retorna uma *String* somente com os dígitos do número de CPF.
 
-### `CPF.format(cpf)` ([view source](https://git.io/vbxGd))
+### `CPF.format(cpf)`
+
+([view source](https://git.io/vbxGd))
 
 > Formatar um número de CPF.
 
@@ -85,7 +89,9 @@ CPF.format("11144477735");
 
 Retorna uma *String* com o CPF formatado.
 
-### `CPF.generate([formatted][, invalid])` ([view source](https://git.io/vbxMR))
+### `CPF.generate([formatted][, invalid])`
+
+([view source](https://git.io/vbxMR))
 
 > Gerar um número de CPF aleatório.
 
@@ -96,7 +102,9 @@ Retorna uma *String* com o CPF formatado.
 
 Retorna uma *String* com o número de CPF gerado.
 
-### `CPF.isValid(cpf[, byLength])` ([view source](https://git.io/vbxDM))
+### `CPF.isValid(cpf[, byLength])`
+
+([view source](https://git.io/vbxDM))
 
 > Verificar se um número de CPF é válido.
 
