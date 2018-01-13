@@ -1,6 +1,6 @@
 {
   "name": "cpf",
-  "version": "0.1.5",
+  "version": "1.0.0",
   "description": "Funções p/ manipular números de CPFs.",
   "main": "index.js",
   "repository": {
