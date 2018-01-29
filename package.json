@@ -11,7 +11,7 @@
     "jasmine": "^2.8.0"
   },
   "scripts": {
-    "test": "jasmine --stop-on-failure"
+    "test": "jasmine --stop-on-failure=true"
   },
   "author": {
     "name": "Matheus Alves",
