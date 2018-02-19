@@ -25,23 +25,23 @@ CPF;
 
 ### Funções
 
-- [`CPF.calcDev(digits)`](#cpfcalcdevdigits)
+- [`CPF.calcDv(digits)`](#cpfcalcdvdigits)
 - [`CPF.clear(cpf)`](#cpfclearcpf)
 - [`CPF.format(cpf)`](#cpfformatcpf)
 - [`CPF.generate([formatted][, invalid])`](#cpfgenerateformatted-invalid)
 - [`CPF.isValid(cpf[, length])`](#cpfisvalidcpf-bylength)
 
-### `CPF.calcDev(digits)`
+### `CPF.calcDv(digits)`
 
 > Obter os dígitos verificadores dum número de CPF.
 
 #### Exemplos
 
 ```js
-CPF.calcDev([1, 1, 1, 4, 4, 4, 7, 7, 7]);
+CPF.calcDv([1, 1, 1, 4, 4, 4, 7, 7, 7]);
 // [3, 5]
 
-CPF.calcDev("111444777");
+CPF.calcDv("111444777");
 // [3, 5]
 ```
 
