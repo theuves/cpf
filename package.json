@@ -1,7 +1,7 @@
 {
   "name": "cpf",
   "version": "1.0.0",
-  "description": "Funções p/ manipular números de CPFs.",
+  "description": "Funções p/ manipular números de CPF.",
   "main": "index.js",
   "repository": {
     "type": "git",

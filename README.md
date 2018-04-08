@@ -1,6 +1,6 @@
 # `cpf`
 
-> Funções p/ manipular números de CPFs.
+> Funções p/ manipular números de CPF.
 
 ![Status](https://travis-ci.org/theuves/cpf.svg?branch=master)
 
