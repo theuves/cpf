@@ -2,6 +2,8 @@
 
 > Funções p/ manipular números de CPFs.
 
+![Status](https://travis-ci.org/theuves/cpf.svg?branch=master)
+
 ## Instalação
 
 Com `npm`:
