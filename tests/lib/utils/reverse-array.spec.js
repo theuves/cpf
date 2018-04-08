@@ -1,6 +1,6 @@
 "use strict";
 
-const reverseArray = require("../../lib/utils/reverse-array");
+const reverseArray = require("../../../lib/utils/reverse-array");
 
 describe("reverseArray:", () => {
   it("deve inverter uma array", () => {

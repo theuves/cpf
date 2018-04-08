@@ -1,6 +1,6 @@
 "use strict";
 
-const isString = require("../../lib/utils/is-string");
+const isString = require("../../../lib/utils/is-string");
 
 describe("isString:", () => {
   it("deve verificar se um valor é uma string", () => {

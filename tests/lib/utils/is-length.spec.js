@@ -1,6 +1,6 @@
 "use strict";
 
-const isLength = require("../../lib/utils/is-length");
+const isLength = require("../../../lib/utils/is-length");
 
 describe("isLength:", () => {
   it("deve verificar o tamanho de um valor", () => {

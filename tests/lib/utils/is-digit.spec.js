@@ -1,6 +1,6 @@
 "use strict";
 
-const isDigit = require("../../lib/utils/is-digit");
+const isDigit = require("../../../lib/utils/is-digit");
 
 describe("isDigit:", () => {
   it("deve verificar se um valor é um dígito", () => {

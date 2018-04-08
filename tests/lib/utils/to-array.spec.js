@@ -1,6 +1,6 @@
 "use strict";
 
-const toArray = require("../../lib/utils/to-array");
+const toArray = require("../../../lib/utils/to-array");
 
 describe("toArray:", () => {
   it("deve converter valores em array", () => {

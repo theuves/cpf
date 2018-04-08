@@ -1,6 +1,6 @@
 "use strict";
 
-const clear = require("../lib/clear");
+const clear = require("../../lib/clear");
 
 describe("clear:", () => {
   it("deve desformatar um número de cpf", () => {

@@ -1,7 +1,7 @@
 "use strict";
 
-const randomArray = require("../../lib/utils/random-array");
-const isLength = require("../../lib/utils/is-length");
+const randomArray = require("../../../lib/utils/random-array");
+const isLength = require("../../../lib/utils/is-length");
 
 describe("randomArray:", () => {
   it("deve gerar um array com dígitos aleatórios", () => {

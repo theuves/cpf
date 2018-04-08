@@ -1,6 +1,6 @@
 "use strict";
 
-const calcDv = require("../lib/calc-dv");
+const calcDv = require("../../lib/calc-dv");
 
 describe("calcDv:", () => {
   it("deve obter os dígitos verificadores dum número de cpf.", () => {

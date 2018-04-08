@@ -1,6 +1,6 @@
 "use strict";
 
-const sum = require("../../lib/utils/sum");
+const sum = require("../../../lib/utils/sum");
 
 describe("sum:", () => {
   it("deve somar dois valores númericos", () => {

@@ -1,6 +1,6 @@
 "use strict";
 
-const isValid = require("../lib/is-valid");
+const isValid = require("../../lib/is-valid");
 
 describe("isValid:", () => {
   it("deve verificar se um número de cpf é válido", () => {

@@ -1,6 +1,6 @@
 "use strict";
 
-const format = require("../lib/format");
+const format = require("../../lib/format");
 
 describe("format:", () => {
   it("deve formatar um número de cpf", () => {

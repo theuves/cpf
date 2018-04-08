@@ -1,7 +1,7 @@
 "use strict";
 
-const generate = require("../lib/generate");
-const isValid = require("../lib/is-valid");
+const generate = require("../../lib/generate");
+const isValid = require("../../lib/is-valid");
 
 describe("generate:", () => {
   var regex;

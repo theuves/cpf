@@ -1,6 +1,6 @@
 "use strict";
 
-const isRepeated = require("../../lib/utils/is-repeated");
+const isRepeated = require("../../../lib/utils/is-repeated");
 
 describe("isRepeated:", () => {
   it("deve verificar se uma string tem todos os caracteres iguais", () => {
