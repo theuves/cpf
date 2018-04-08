@@ -1,6 +1,6 @@
 # `cpf`
 
-> :busts_in_silhouette::brazil: Funções p/ manipular números de CPFs.
+> Funções p/ manipular números de CPFs.
 
 ## Instalação
 
@@ -22,14 +22,6 @@ CPF;
 //   generate: [Function: generate],
 //   isValid: [Function: isValid] }
 ```
-
-### Funções
-
-- [`CPF.calcDv(digits)`](#cpfcalcdvdigits)
-- [`CPF.clear(cpf)`](#cpfclearcpf)
-- [`CPF.format(cpf)`](#cpfformatcpf)
-- [`CPF.generate([formatted][, invalid])`](#cpfgenerateformatted-invalid)
-- [`CPF.isValid(cpf[, length])`](#cpfisvalidcpf-bylength)
 
 ### `CPF.calcDv(digits)`
 
