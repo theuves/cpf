@@ -2,7 +2,7 @@
   "name": "cpf",
   "version": "1.0.2",
   "description": "Funções p/ manipular números de CPF.",
-  "main": "./build/piii.min.js",
+  "main": "./dist/piii.min.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/theuves/cpf.git"

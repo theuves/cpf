@@ -12,7 +12,7 @@ module.exports = {
     "piii.min": "./index.js"
   },
   output: {
-    path: path.resolve(__dirname, "build"),
+    path: path.resolve(__dirname, "dist"),
     filename: "[name].js",
     library: "CPF",
     libraryTarget: "umd",
