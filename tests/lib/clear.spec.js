@@ -1,6 +1,6 @@
 "use strict";
-
-const clear = require("../../lib/clear");
+const Cpf = require('../../build/index');
+const clear = Cpf.clear;
 
 describe("clear:", () => {
   it("deve desformatar um número de cpf", () => {
