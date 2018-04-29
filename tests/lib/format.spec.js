@@ -1,6 +1,5 @@
 "use strict";
-const Cpf = require('../../build/index');
-const format = Cpf.format;
+const format = require("../../lib/format");
 
 describe("format:", () => {
   it("deve formatar um número de cpf", () => {

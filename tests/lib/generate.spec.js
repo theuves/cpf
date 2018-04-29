@@ -1,7 +1,6 @@
 "use strict";
-const Cpf = require('../../build/index');
-const generate = Cpf.generate;
-const isValid = Cpf.isValid;
+const generate = require("../../lib/generate");
+const isValid = require("../../lib/is-valid");
 
 describe("generate:", () => {
   var regex;

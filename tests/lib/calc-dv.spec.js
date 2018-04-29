@@ -1,7 +1,5 @@
 "use strict";
-
-const Cpf = require('../../build/index');
-const calcDv = Cpf.calcDv;
+const calcDv = require("../../lib/calc-dv");
 
 describe("calcDv:", () => {
   it("deve obter os dígitos verificadores dum número de cpf.", () => {
