@@ -1,6 +1,6 @@
 {
   "name": "cpf",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Funções p/ manipular números de CPF.",
   "main": "./build/piii.min.js",
   "repository": {
