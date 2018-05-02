@@ -8,8 +8,8 @@ const banner = `${name} v${version} | (c) ${year} by ${author}`;
 
 module.exports = {
   entry: {
-    "piii": "./index.js",
-    "piii.min": "./index.js"
+    "cpf": "./index.js",
+    "cpf.min": "./index.js"
   },
   output: {
     path: path.resolve(__dirname, "dist"),
