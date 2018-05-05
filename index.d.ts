@@ -3,8 +3,8 @@ declare module 'cpf' {
   export function calcDv(cpf: string[]): string[]
 
   export function clear(cpf: string): string
-  export function format(cpf: string): string
 
+  export function format(cpf: string): string
   export function format(cpf: string): string
 
   export function generate(): string
