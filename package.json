@@ -1,6 +1,6 @@
 {
   "name": "cpf",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Funções p/ manipular números de CPF.",
   "main": "./dist/cpf.min.js",
   "files": [
