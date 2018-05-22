@@ -4,7 +4,8 @@
   "description": "Funções p/ manipular números de CPF.",
   "main": "./dist/cpf.min.js",
   "files": [
-    "dist"
+    "dist",
+    "index.d.ts"
   ],
   "repository": {
     "type": "git",
