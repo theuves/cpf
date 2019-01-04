@@ -15,7 +15,7 @@ Try:
 
 ## Usage
 
-```
+```js
 const CPF = require('cpf');
 ```
 
@@ -31,7 +31,7 @@ Now, `CPF` is a object with some functions:
 
 #### Example
 
-```
+```js
 CPF.format('11144477735');
 //=> '111.444.777-35'
 ```
@@ -59,7 +59,7 @@ Returns a CPF number.
 
 #### Example
 
-```
+```js
 CPF.isValid('111.444.777-35');
 // true
 
