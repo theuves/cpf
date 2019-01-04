@@ -14,7 +14,10 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js',
     library: 'CPF',
-    libraryTarget: 'umd'
+    libraryTarget: 'umd',
+
+    // To solve a problem with Webpack 4 (webpack#6522).
+    globalObject: `typeof self !== 'undefined' ? self : this`
   },
   module: {
     rules: [{
