@@ -1,10 +1,9 @@
-'use strict'
 const path = require('path')
-const webpack = require('webpack')
-const pkg = require('./package.json')
-const { name, version, author } = pkg
-const year = (new Date()).getFullYear()
-const banner = `${name} v${version} | (c) ${year} by ${author}`
+const UglifyjsPlugin = require('uglifyjs-webpack-plugin')
+const BannerPlugin = require('webpack').BannerPlugin
+const { name, version, author } = require('./package.json')
+
+const banner = `${name} v${version} | (c) 2015-${(new Date()).getFullYear()} by ${author}`
 
 module.exports = {
   entry: {
@@ -18,21 +17,29 @@ module.exports = {
     libraryTarget: 'umd'
   },
   module: {
-    rules: [
-      {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['env']
-        }
+    rules: [{
+      test: /\.js$/,
+      loader: 'babel-loader',
+      query: {
+        presets: [
+          'env'
+        ]
       }
-    ]
+    }]
+  },
+  optimization: {
+    minimize: false
   },
   plugins: [
-    new webpack.optimize.UglifyJsPlugin({
-      include: /\.min\.js$/
+    new UglifyjsPlugin({
+      include: /\.min\.js$/,
+      uglifyOptions: {
+        output: {
+          comments: false,
+        }
+      }
     }),
-    new webpack.BannerPlugin(banner)
+    new BannerPlugin(banner)
   ],
   stats: {
     colors: true
