@@ -1,6 +1,6 @@
 {
   "name": "cpf",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Functions to handle brazilian CPF numbers.",
   "main": "./dist/cpf.min.js",
   "files": [
