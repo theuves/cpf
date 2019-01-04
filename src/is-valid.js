@@ -16,14 +16,14 @@ const isRepeated = (string) => {
 /**
  * Check if a number is a CPF valid.
  *
- * @param {string} cpf CPF number.
+ * @param {string} cpfNumber CPF number.
  * @param {boolean} byLength To check only by the length.
  * @returns {boolean} Check result.
  */
-module.exports = (cpf, byLength = false) => {
-  if (typeof cpf !== 'string') return false
+module.exports = (cpfNumber, byLength = false) => {
+  if (typeof cpfNumber !== 'string') return false
 
-  const unformattedCpf = cpf.replace(/\D/g, '')
+  const unformattedCpf = cpfNumber.replace(/\D/g, '')
 
   if (!unformattedCpf) return false
   if (isRepeated(unformattedCpf)) return false

@@ -16,9 +16,9 @@ module.exports = (formatted = true, invalid = false) => {
     ? randomArray(0, 9).oned(2, { round: true })
     : getCd(digits)
 
-  const cpf = [...digits, ...dv].join('')
+  const cpfNumber = [...digits, ...dv].join('')
 
     return formatted
-      ? format(cpf)
-      : cpf
+      ? format(cpfNumber)
+      : cpfNumber
 }

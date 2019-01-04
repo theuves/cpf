@@ -4,12 +4,12 @@
  * @param {string} cpf Unformatted CPF number.
  * @returns {string} Formatted CPF number.
  */
-module.exports = (cpf) => {
-  if (typeof cpf !== 'string') {
+module.exports = (cpfNumber) => {
+  if (typeof cpfNumber !== 'string') {
     throw new Error('Invalid CPF number')
   }
 
-  const unformattedCpf = cpf.replace(/\D/g, '')
+  const unformattedCpf = cpfNumber.replace(/\D/g, '')
 
   if (unformattedCpf.length !== 11) {
     throw new Error('Invalid CPF number')
