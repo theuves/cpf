@@ -1,8 +1,7 @@
-'use strict'
-const isValid = require('../../lib/is-valid')
+const isValid = require('../').isValid
 
-describe('isValid:', () => {
-  it('deve verificar se um número de cpf é válido', () => {
+describe('CPF.isValid()', () => {
+  it('should check if CPF number is valid', () => {
     expect(isValid('111.444.777-35')).toBeTruthy()
     expect(isValid('11144477735')).toBeTruthy()
     expect(isValid('111.444.777')).toBeFalsy()
@@ -11,7 +10,7 @@ describe('isValid:', () => {
     expect(isValid('')).toBeFalsy()
     expect(isValid('string')).toBeFalsy()
   })
-  it('deve verificar se um número de cpf é tem um tamanho válido', () => {
+  it('should check if a CPF number has a valid length', () => {
     expect(isValid('111.444.777-35', true)).toBeTruthy()
     expect(isValid('111.444.777', true)).toBeFalsy()
   })
