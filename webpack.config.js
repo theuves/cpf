@@ -1,29 +1,29 @@
-"use strict";
-const path = require("path");
-const webpack = require("webpack");
-const pkg = require("./package.json");
-const {name, version, author} = pkg;
-const year = (new Date()).getFullYear();
-const banner = `${name} v${version} | (c) ${year} by ${author}`;
+'use strict'
+const path = require('path')
+const webpack = require('webpack')
+const pkg = require('./package.json')
+const { name, version, author } = pkg
+const year = (new Date()).getFullYear()
+const banner = `${name} v${version} | (c) ${year} by ${author}`
 
 module.exports = {
   entry: {
-    "cpf": "./index.js",
-    "cpf.min": "./index.js"
+    'cpf': './index.js',
+    'cpf.min': './index.js'
   },
   output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "[name].js",
-    library: "CPF",
-    libraryTarget: "umd",
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].js',
+    library: 'CPF',
+    libraryTarget: 'umd'
   },
   module: {
     rules: [
       {
         test: /\.js$/,
-        loader: "babel-loader",
+        loader: 'babel-loader',
         query: {
-          presets: ["env"]
+          presets: ['env']
         }
       }
     ]
@@ -37,4 +37,4 @@ module.exports = {
   stats: {
     colors: true
   }
-};
+}
