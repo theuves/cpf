@@ -1,5 +1,5 @@
-module.exports.format = require('./lib/format')
+module.exports.format = require('./src/format')
 
-module.exports.generate = require('./lib/generate')
+module.exports.generate = require('./src/generate')
 
-module.exports.isValid = require('./lib/is-valid')
+module.exports.isValid = require('./src/is-valid')

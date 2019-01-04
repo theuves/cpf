@@ -1,4 +1,4 @@
-const calcCd = require('./calc-cd')
+const getCd = require('./get-cd')
 
 /**
  * Check if a string has only the same character.
@@ -6,7 +6,7 @@ const calcCd = require('./calc-cd')
  * @param {string} string String to check.
  * @returns {boolean} Check result.
  */
-function isRepeated = (string) => {
+const isRepeated = (string) => {
   const firstChar = string.charAt(0)
   const regex = RegExp(`^${firstChar}+$`)
 
@@ -25,12 +25,13 @@ module.exports = (cpf, byLength = false) => {
 
   const unformattedCpf = cpf.replace(/\D/g, '')
 
+  if (!unformattedCpf) return false
   if (isRepeated(unformattedCpf)) return false
-  if (unformattedCpf.lenght !== 11) return false
+  if (unformattedCpf.length !== 11) return false
   if (byLength && unformattedCpf.length === 11) return true
 
   const [, number, dv] = unformattedCpf.match(/^(\d{9})(\d{2})$/)
-  const trueDv = calcCd(number).join('')
+  const trueDv = getCd(number).join('')
 
   return dv === trueDv
 }

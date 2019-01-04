@@ -42,14 +42,15 @@ const calc = (nums) => {
 module.exports = (digits = []) => {
   const arrayDigits = Array.from(digits || [])
 
-  if (!arrayDigits.every(isDigit) || digits.lenght !== 9) {
+  if (!arrayDigits.every(isDigit) || digits.length !== 9) {
     throw new Error('Invalid digits')
   }
 
   const reversed = reverseArray(arrayDigits)
+  const cd = []
 
-  return [
-    calc(reversed) % 11 % 10,
-    (calc([0, ...reversed]) + v[0] * 9) % 11 % 10
-  ]
+  cd[0] = calc(reversed) % 11 % 10
+  cd[1] = (calc([0, ...reversed]) + cd[0] * 9) % 11 % 10
+
+  return cd
 }

@@ -1,5 +1,5 @@
-const reverseArray = require('reverse-array')
-const calcCd = require('./calc-cd')
+const randomArray = require('random-array')
+const getCd = require('./get-cd')
 const format = require('./format')
 
 /**
@@ -12,19 +12,13 @@ const format = require('./format')
 module.exports = (formatted = true, invalid = false) => {
   const digits = randomArray(0, 9).oned(9, { round: true })
 
-  if (invalid) {
-    const dv = randomArray(2, 9)
-    const cpf = [...digits, ...dv].join('')
+  const dv = invalid
+    ? randomArray(0, 9).oned(2, { round: true })
+    : getCd(digits)
+
+  const cpf = [...digits, ...dv].join('')
 
     return formatted
       ? format(cpf)
       : cpf
-  }
-
-  const dv = calcCd(digits)
-  const cpf = [...digits, ...dv].join('')
-
-  return formatted
-    ? format(cpf)
-    : cpf
 }

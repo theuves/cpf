@@ -1,4 +1,4 @@
-const isValid = require('../').isValid
+const isValid = require('../index').isValid
 
 describe('CPF.isValid()', () => {
   it('should check if CPF number is valid', () => {

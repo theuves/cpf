@@ -1,4 +1,4 @@
-const format = require('../').format
+const format = require('../index').format
 
 describe('CPF.format()', () => {
   it('should format a CPF number', () => {

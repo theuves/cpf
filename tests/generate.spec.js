@@ -1,5 +1,5 @@
-const generate = require('../').generate
-const isValid = require('../').isValid
+const generate = require('../index').generate
+const isValid = require('../index').isValid
 
 describe('CPF.generate()', () => {
   var regex
