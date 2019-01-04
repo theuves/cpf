@@ -8,4 +8,3 @@ declare module 'cpf' {
   export function isValid(cpfNumber: string): boolean
   export function isValid(cpfNumber: string, byLength: boolean): boolean
 }
-
