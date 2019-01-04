@@ -1,122 +1,85 @@
 # `cpf`
 
-> Funções p/ manipular números de CPF.
+> Functions to handle brazilian CPF numbers
 
 ![Status](https://travis-ci.org/theuves/cpf.svg?branch=master)
 
-## Instalação
+## Installation
 
-Com `npm`:
+You can install it with *npm* or *yarn*.
+
+Try:
+
+- *npm*: `npm install cpf`
+- *yarn*: `yarn add cpf`
+
+## Usage
 
 ```
-npm install --save cpf
+const CPF = require('cpf');
 ```
 
-## Uso
+Now, `CPF` is a object with some functions:
 
-```js
-const CPF = require("cpf");
-
-CPF;
-// { calcDv: [Function: calcDv],
-//   clear: [Function: clear],
-//   format: [Function: format],
-//   generate: [Function: generate],
-//   isValid: [Function: isValid] }
-```
-
-### `CPF.calcDv(digits)`
-
-> Obter os dígitos verificadores dum número de CPF.
-
-#### Exemplos
-
-```js
-CPF.calcDv([1, 1, 1, 4, 4, 4, 7, 7, 7]);
-// [3, 5]
-
-CPF.calcDv("111444777");
-// [3, 5]
-```
-
-#### Parâmetros
-
-- `digits=[]` (*Array* ou *String*) - nove dígitos base para obter-se os dígitos verificadores
-
-Retorna uma *Array* contendo os dígitos verificadores.
-
-### `CPF.clear(cpf)`
-
-> Desformatar um número de CPF.
-
-#### Exemplos
-
-```js
-CPF.clear("111.444.777-35");
-// "11144477735"
-```
-
-#### Parâmetros
-
-- `cpf=""` (*String*) - um número de CPF formatado
-
-Retorna uma *String* somente com os dígitos do número de CPF.
+- `format`
+- `generate`
+- `isValid`
 
 ### `CPF.format(cpf)`
 
-> Formatar um número de CPF.
+> Format a CPF number.
 
-#### Exemplos
+#### Example
 
-```js
-CPF.format("11144477735");
-// "111.444.777-35"
+```
+CPF.format('11144477735');
+//=> '111.444.777-35'
 ```
 
-#### Parâmetros
+#### Parameters
 
-- `cpf=""` (*String*) - um número de CPF, desformatado ou não, para formatar
+- `cpf` {*string*} A CPF number.
 
-Retorna uma *String* com o CPF formatado.
+Returns a string with the formatted CPF number.
 
-### `CPF.generate([formatted][, invalid])`
+### `CPF.generate(formatted, invalid)`
 
-> Gerar um número de CPF aleatório.
+> Generate a random CPF number.
 
-#### Parâmetros
+#### Parameters
 
-- `formatted=true` (*Boolean*) - retornar um número de CPF formatado
-- `invalid=false` (*Boolean*) - retornar um número de CPF inválido
+- `formatted` (*boolean*) `true` by default. It will generate a formatted CPF number.
+- `invalid` (*Boolean*) `false` by default. It will generate a invalid CPF number.
 
-Retorna uma *String* com o número de CPF gerado.
+Returns a CPF number.
 
-### `CPF.isValid(cpf[, byLength])`
+### `CPF.isValid(cpf, byLength)`
 
-> Verificar se um número de CPF é válido.
+> Check if a CPF number is valid.
 
-#### Exemplos
+#### Example
 
-```js
-CPF.isValid("111.444.777-35");
+```
+CPF.isValid('111.444.777-35');
 // true
 
-CPF.isValid("111.444.777-42");
+CPF.isValid('111.444.777-42');
 // false
 
-CPF.isValid("111.444.777-42", true);
+CPF.isValid('111.444.777-42', true);
 // true
 
-CPF.isValid("111.444.777", true);
+CPF.isValid('111.444.777', true);
 // false
 ```
 
-#### Parâmetros
+#### Parameters
 
-- `cpf=""` (*String*) - um número de CPF para ser verificado
-- `byLength=false` (*Boolean*) - não validar o dígito verificador, somente o comprimento
+- `cpf` (*string*) Check if the CPF number is valid.
+- `byLength` (*boolean*) `false` by default. Check only if the length is valid.
 
-Retorna uma valor booleano informando se o CPF é válido ou não.
+Returns the check result.
 
-## Licença
+## License
 
-[MIT](https://git.io/vbpk4)
+MIT &copy; Matheus Alves
