@@ -48,8 +48,8 @@ Returns a string with the formatted CPF number.
 
 #### Parameters
 
-- `formatted` (*boolean*) `true` by default. It will generate a formatted CPF number.
-- `invalid` (*Boolean*) `false` by default. It will generate a invalid CPF number.
+- `formatted` {*boolean*} `true` by default. It will generate a formatted CPF number.
+- `invalid` {*boolean*} `false` by default. It will generate a invalid CPF number.
 
 Returns a CPF number.
 
@@ -75,8 +75,8 @@ CPF.isValid('111.444.777', true);
 
 #### Parameters
 
-- `cpf` (*string*) Check if the CPF number is valid.
-- `byLength` (*boolean*) `false` by default. Check only if the length is valid.
+- `cpf` {*string*} Check if the CPF number is valid.
+- `byLength` {*boolean*} `false` by default. Check only if the length is valid.
 
 Returns the check result.
 
