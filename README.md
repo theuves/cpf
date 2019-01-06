@@ -1,6 +1,6 @@
 # `cpf`
 
-> Functions to handle brazilian CPF numbers
+> Functions to handle Brazilian CPF numbers
 
 ![Status](https://travis-ci.org/theuves/cpf.svg?branch=master)
 
