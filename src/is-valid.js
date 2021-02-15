@@ -1,37 +1,30 @@
-const getCd = require('./get-cd')
+const areEqual = require('./utils/are-equal')
+const areIdentical = require('./utils/are-identical')
+const getCheckDigits = require('./core/get-check-digits')
 
 /**
- * Check if a string has only the same character.
- *
- * @param {string} string String to check.
- * @returns {boolean} Check result.
+ * Check if CPF number is valid
+ * @param {string} cpf A CPF number to validate
+ * @param {object} options Options
+ * @example
+ * isValid('111.444.777-35')
+ * //-> true
+ * isValid('111.444.777-42', { byLength: true })
+ * //-> true
  */
-const isRepeated = (string) => {
-  const firstChar = string.charAt(0)
-  const regex = RegExp(`^${firstChar}+$`)
+function isValid(cpf, options) {
+  if (typeof cpf !== 'string') throw new TypeError('Must be a string')
+  const digits = cpf.replace(/\D/g, '') // Only digits
 
-  return regex.test(string)
-}
+  // Must have 11 digits
+  if (digits.length !== 11) return false
+  // Check if all digits are the same (ignore CPFs like '111.111.111-11')
+  if (areIdentical(digits)) return false
+  // Check if has 11 digits
+  if (options.byLength) return true
 
-/**
- * Check if a number is a CPF valid.
- *
- * @param {string} cpfNumber CPF number.
- * @param {boolean} byLength To check only by the length.
- * @returns {boolean} Check result.
- */
-module.exports = (cpfNumber, byLength = false) => {
-  if (typeof cpfNumber !== 'string') return false
-
-  const unformattedCpf = cpfNumber.replace(/\D/g, '')
-
-  if (!unformattedCpf) return false
-  if (isRepeated(unformattedCpf)) return false
-  if (unformattedCpf.length !== 11) return false
-  if (byLength && unformattedCpf.length === 11) return true
-
-  const [, number, dv] = unformattedCpf.match(/^(\d{9})(\d{2})$/)
-  const trueDv = getCd(number).join('')
-
-  return dv === trueDv
+  const digitsArray = digits.split('')
+  const baseDigits = digitsArray.slice(0, 9)
+  const checkDigits = digitsArray.slice(9, 11)
+  return areEqual(checkDigits, getCheckDigits(baseDigits))
 }

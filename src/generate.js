@@ -1,24 +1,17 @@
-const randomArray = require('random-array')
-const getCd = require('./get-cd')
+const getCheckDigits = require('./utils/get-check-digits')
+const random = require('./utils/random')
 const format = require('./format')
 
-/**
- * Generate a random CPF number.
- *
- * @param {boolean} [formatted=true] To get a formatted number.
- * @param {boolean} [invalid=false] To get invalid number.
- * @returns {string} CPF number.
- */
-module.exports = (formatted = true, invalid = false) => {
-  const digits = randomArray(0, 9).oned(9, { round: true })
-
-  const dv = invalid
-    ? randomArray(0, 9).oned(2, { round: true })
-    : getCd(digits)
-
-  const cpfNumber = [...digits, ...dv].join('')
-
-    return formatted
-      ? format(cpfNumber)
-      : cpfNumber
+function generate({
+  valid = true,
+  formatted = true,
+}) {
+  const digits = [...Array(9)].map(() => random(9))
+  const checkDigits = options.valid
+    ? getCheckDigits(digits)
+    : [...Array(2)].map(() => random(9))
+  const cpf = [...digits, ...checkDigits].join('')
+  return options.formatted
+    ? format(cpf)
+    : cpf
 }
