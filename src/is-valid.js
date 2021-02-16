@@ -4,7 +4,7 @@ import getCheckDigits from './core/get-check-digits'
 
 /**
  * Check if CPF number is valid
- * @param {string} cpf A CPF number to validate
+ * @param {string} cpf CPF number
  * @param {object} options Options
  * @example
  * isValid('111.444.777-35')

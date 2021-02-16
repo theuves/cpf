@@ -1,5 +1,10 @@
 /**
- * Format CPF numbers
+ * Format a CPF number
+ * @param {string} cpf CPF number
+ * @return Formatted CPF number
+ * @example
+ * format('11144477725')
+ * //-> '111.444.777-35'
  */
 export default function format(cpf) {
   if (typeof cpf !== 'string') throw new TypeError('Must be a string')

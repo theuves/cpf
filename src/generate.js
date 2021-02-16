@@ -1,17 +1,19 @@
 import getCheckDigits from './core/get-check-digits'
-import random from './utils/random'
+import randomInts from './utils/random-ints'
 import format from './format'
 
+/**
+ * Generate a random CPF number
+ * @param {object} options Options
+ * @return {number} Random CPF number
+ */
 export default function generate(options = {
   valid: true,
   formatted: true,
 }) {
-  const digits = Array.from(Array(9)).map(() => random(9))
-  const checkDigits = options.valid
-    ? getCheckDigits(digits)
-    : Array.from(Array(2)).map(() => random(9))
+  const { valid, formatted } = options
+  const digits = randomInts(9, 9)
+  const checkDigits = valid ? getCheckDigits(digits) : randomInts(2, 9)
   const cpf = [...digits, ...checkDigits].join('')
-  return options.formatted
-    ? format(cpf)
-    : cpf
+  return formatted ? format(cpf) : cpf
 }
