@@ -1,9 +1,7 @@
-import format from './src/format'
-import generate from './src/generate'
-import isValid from './src/is-valid'
+import { format, isValid, generate } from './lib/cpf'
 
 export default {
   format,
-  generate,
   isValid,
+  generate
 }
