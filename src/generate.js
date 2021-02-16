@@ -1,10 +1,10 @@
-const getCheckDigits = require('./utils/get-check-digits')
+const getCheckDigits = require('./core/get-check-digits')
 const random = require('./utils/random')
 const format = require('./format')
 
-function generate({
-  valid = true,
-  formatted = true,
+function generate(options = {
+  valid: true,
+  formatted: true,
 }) {
   const digits = [...Array(9)].map(() => random(9))
   const checkDigits = options.valid
@@ -15,3 +15,5 @@ function generate({
     ? format(cpf)
     : cpf
 }
+
+module.exports = generate

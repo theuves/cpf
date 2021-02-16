@@ -12,9 +12,11 @@ const getCheckDigits = require('./core/get-check-digits')
  * isValid('111.444.777-42', { byLength: true })
  * //-> true
  */
-function isValid(cpf, options) {
+function isValid(cpf, options = {
+  byLength: false
+}) {
   if (typeof cpf !== 'string') throw new TypeError('Must be a string')
-  const digits = cpf.replace(/\D/g, '') // Only digits
+  const digits = [...cpf.replace(/\D/g, '')].map(Number)
 
   // Must have 11 digits
   if (digits.length !== 11) return false
@@ -23,8 +25,9 @@ function isValid(cpf, options) {
   // Check if has 11 digits
   if (options.byLength) return true
 
-  const digitsArray = digits.split('')
-  const baseDigits = digitsArray.slice(0, 9)
-  const checkDigits = digitsArray.slice(9, 11)
+  const baseDigits = digits.slice(0, 9)
+  const checkDigits = digits.slice(9)
   return areEqual(checkDigits, getCheckDigits(baseDigits))
 }
+
+module.exports = isValid
