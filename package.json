@@ -25,7 +25,7 @@
     "webpack-cli": "^3.2.0"
   },
   "scripts": {
-    "build": "webpack --mode production",
+    "build": "microbundle build index.js --name CPF --no-sourcemap --strict -f umd,cjs",
     "test": "ava",
     "prepublish": "npm run build",
     "standard": "standard --fix"
@@ -36,5 +36,8 @@
     ]
   },
   "author": "Matheus Alves",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "microbundle": "^0.13.0"
+  }
 }
