@@ -1,7 +1,7 @@
 /**
  * Format CPF numbers
  */
-function format(cpf) {
+export default function format(cpf) {
   if (typeof cpf !== 'string') throw new TypeError('Must be a string')
   const digits = cpf.replace(/\D/g, '')
 
@@ -12,5 +12,3 @@ function format(cpf) {
   const mask = '$1.$2.$3-$4'
   return digits.replace(regex, mask)
 }
-
-module.exports = format

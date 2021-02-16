@@ -1,6 +1,6 @@
-const areEqual = require('./utils/are-equal')
-const areIdentical = require('./utils/are-identical')
-const getCheckDigits = require('./core/get-check-digits')
+import areEqual from './utils/are-equal'
+import areIdentical from './utils/are-identical'
+import getCheckDigits from './core/get-check-digits'
 
 /**
  * Check if CPF number is valid
@@ -12,11 +12,13 @@ const getCheckDigits = require('./core/get-check-digits')
  * isValid('111.444.777-42', { byLength: true })
  * //-> true
  */
-function isValid(cpf, options = {
+export default function isValid(cpf, options = {
   byLength: false
 }) {
   if (typeof cpf !== 'string') throw new TypeError('Must be a string')
-  const digits = [...cpf.replace(/\D/g, '')].map(Number)
+  const digits = Array
+    .from(cpf.replace(/\D/g, ''))
+    .map(Number)
 
   // Must have 11 digits
   if (digits.length !== 11) return false
@@ -29,5 +31,3 @@ function isValid(cpf, options = {
   const checkDigits = digits.slice(9)
   return areEqual(checkDigits, getCheckDigits(baseDigits))
 }
-
-module.exports = isValid

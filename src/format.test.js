@@ -1,5 +1,5 @@
-const test = require('ava')
-const format = require('./format')
+import test from 'ava'
+import format from './format'
 
 test('Should format CPF numbers', t => {
   t.is(format('11144477735'), '111.444.777-35')

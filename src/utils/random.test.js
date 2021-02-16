@@ -1,5 +1,5 @@
-const test = require('ava')
-const random = require('./random')
+import test from 'ava'
+import random from './random'
 
 test('Should generate a random number', t => {
   t.true(random(10) <= 10)

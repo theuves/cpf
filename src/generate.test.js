@@ -1,5 +1,5 @@
-const test = require('ava')
-const generate = require('./generate')
+import test from 'ava'
+import generate from './generate'
 
 test('Should generate formatted CPF numbers', t => {
   t.true(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(generate()))

@@ -1,5 +1,5 @@
-const test = require('ava')
-const isValid = require('./is-valid')
+import test from 'ava'
+import isValid from './is-valid'
 
 test('Should validate CPF numbers', t => {
   t.true(isValid('111.444.777-35'))

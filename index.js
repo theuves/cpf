@@ -1,3 +1,9 @@
-module.exports.format = require('./src/format')
-module.exports.generate = require('./src/generate')
-module.exports.isValid = require('./src/is-valid')
+import format from './src/format'
+import generate from './src/generate'
+import isValid from './src/is-valid'
+
+export default {
+  format,
+  generate,
+  isValid,
+}

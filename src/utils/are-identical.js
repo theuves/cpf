@@ -6,7 +6,7 @@
  * areIdentical([1, 1, 1])
  * //-> true
  */
-function areIdentical(array) {
+export default function areIdentical(array) {
   return array.every((value, index, self) => {
     // Ignore the first item
     if (index === 0) return true
@@ -16,5 +16,3 @@ function areIdentical(array) {
     return current === previous
   })
 }
-
-module.exports = areIdentical
