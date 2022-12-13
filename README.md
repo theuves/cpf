@@ -4,6 +4,10 @@
 
 ![Status](https://travis-ci.org/theuves/cpf.svg?branch=master)
 
+***
+**Precisando de um desenvolvedor? Entre em contato: theuves@gmail.com**
+***
+
 ## Installation
 
 You can install it with *npm* or *yarn*.
