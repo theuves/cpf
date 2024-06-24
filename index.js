@@ -1,5 +1,7 @@
-module.exports.format = require('./src/format')
+import { format, isValid, generate } from './lib/cpf'
 
-module.exports.generate = require('./src/generate')
-
-module.exports.isValid = require('./src/is-valid')
+export default {
+  format,
+  isValid,
+  generate
+}
