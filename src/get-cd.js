@@ -1,5 +1,3 @@
-const reverseArray = require('reverse-array')
-
 /**
  * Check if a value is a digit.
  *
@@ -46,7 +44,7 @@ module.exports = (digits = []) => {
     throw new Error('Invalid digits')
   }
 
-  const reversed = reverseArray(arrayDigits)
+  const reversed = [...arrayDigits].reverse()
   const cd = []
 
   cd[0] = calc(reversed) % 11 % 10

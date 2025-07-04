@@ -11,10 +11,6 @@
     "type": "git",
     "url": "git://github.com/theuves/cpf.git"
   },
-  "devDependencies": {
-    "random-array": "0.0.2",
-    "reverse-array": "^1.0.0"
-  },
   "scripts": {},
   "author": "Matheus Alves",
   "license": "MIT"
