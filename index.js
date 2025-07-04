@@ -1,5 +1,9 @@
-module.exports.format = require('./src/format')
+// CommonJS entry point for backward compatibility
+const { format, generate, isValid, getCD } = require('./dist/cpf.min.js');
 
-module.exports.generate = require('./src/generate')
-
-module.exports.isValid = require('./src/is-valid')
+module.exports = {
+  format,
+  generate,
+  isValid,
+  getCD
+};

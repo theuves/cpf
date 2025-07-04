@@ -1,5 +1,5 @@
 const mask = {
-  cpf(val) {
+  cpf(val: string): string {
     return val
       .replace(/(\d{11})\d/, '$1')
       .replace(/(\d{3})(\d)/, '$1.$2')
@@ -8,18 +8,17 @@ const mask = {
   },
 };
 
-
-const onlyDigits = val => {
+const onlyDigits = (val: string): string => {
   return val.replace(/\D/g, '');
 };
 
 /**
  * Format a CPF number.
  *
- * @param {string} cpf Unformatted CPF number.
- * @returns {string} Formatted CPF number.
+ * @param cpfNumber - Unformatted CPF number.
+ * @returns Formatted CPF number.
  */
-module.exports = (cpfNumber) => {
+export function format(cpfNumber: string): string {
   const digits = onlyDigits(cpfNumber);
   return mask.cpf(digits);
-}
+} 
