@@ -1,4 +1,4 @@
-> **Nota:** Esta documentação está em desenvolvimento. Para uma versão mais atualizada, consulte o [README [v2.0.1]](https://github.com/theuves/cpf/tree/2.0.1).
+> **Nota:** Esta documentação está em desenvolvimento.<br/>Para uma versão mais atualizada, consulte o [README [v2.0.1]](https://github.com/theuves/cpf/tree/2.0.1).
 
 ***
 
