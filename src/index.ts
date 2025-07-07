@@ -11,4 +11,4 @@ export interface CPFGeneratorOptions {
 
 export interface CPFValidatorOptions {
   byLength?: boolean;
-} 
+}

@@ -35,8 +35,8 @@ export function isValid(cpfNumber: string, byLength = false): boolean {
 
   const [, number, dv] = match;
   if (!number || !dv) return false;
-  
+
   const trueDv = getCD(Array.from(number, Number)).join('');
 
   return dv === trueDv;
-} 
+}

@@ -30,13 +30,9 @@ const randomDigits = (length: number): number[] => {
 export function generate(formatted = true, invalid = false): string {
   const digits = randomDigits(9);
 
-  const dv = invalid
-    ? randomDigits(2)
-    : getCD(digits);
+  const dv = invalid ? randomDigits(2) : getCD(digits);
 
   const cpfNumber = [...digits, ...dv].join('');
 
-  return formatted
-    ? format(cpfNumber)
-    : cpfNumber;
-} 
+  return formatted ? format(cpfNumber) : cpfNumber;
+}

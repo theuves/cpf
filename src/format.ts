@@ -21,4 +21,4 @@ const onlyDigits = (val: string): string => {
 export function format(cpfNumber: string): string {
   const digits = onlyDigits(cpfNumber);
   return mask.cpf(digits);
-} 
+}
