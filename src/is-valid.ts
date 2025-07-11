@@ -26,9 +26,9 @@ export function isValid(cpfNumber: string, byLength = false): boolean {
   const unformattedCpf = cpfNumber.replace(/\D/g, '');
 
   if (!unformattedCpf) return false;
-  if (isRepeated(unformattedCpf)) return false;
   if (unformattedCpf.length !== 11) return false;
   if (byLength && unformattedCpf.length === 11) return true;
+  if (isRepeated(unformattedCpf)) return false;
 
   const match = unformattedCpf.match(/^(\d{9})(\d{2})$/);
   if (!match) return false;

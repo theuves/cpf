@@ -1,7 +1,7 @@
 export default {
   files: ['src/**/*.test.ts', 'test/**/*.ts'],
   extensions: ['ts'],
-  require: ['tsx/register'],
+  require: ['tsx'],
   timeout: '2m',
   concurrency: 4,
   failFast: true,
