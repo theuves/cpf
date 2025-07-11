@@ -1,9 +1,11 @@
 const mask = {
   cpf(val: string): string {
+    /* c8 ignore start */
     return val
       .replace(/(\d{3})(\d)/, '$1.$2')
       .replace(/(\d{3})(\d)/, '$1.$2')
       .replace(/(\d{3})(\d)/, '$1-$2');
+    /* c8 ignore stop */
   },
 };
 

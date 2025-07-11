@@ -25,3 +25,9 @@ test('format should handle CPF with less than 11 digits', t => {
 test('format should handle CPF with more than 11 digits', t => {
   t.is(format('123456789012345'), '123.456.789-01');
 });
+
+test('format should handle empty or non-digit inputs', t => {
+  t.is(format(''), '');
+  t.is(format('abc'), '');
+  t.is(format('...---'), '');
+});

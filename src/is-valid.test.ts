@@ -30,3 +30,9 @@ test('isValid should validate by length only when byLength is true', t => {
   t.true(isValid('111.111.111-11', true));
   t.false(isValid('123.456.789-0', true));
 });
+
+test('isValid should reject empty or non-digit inputs', t => {
+  t.false(isValid(''));
+  t.false(isValid('abc'));
+  t.false(isValid('...---'));
+});

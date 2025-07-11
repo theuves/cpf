@@ -23,6 +23,7 @@
     "format": "prettier --write src/**/*.ts",
     "format:check": "prettier --check src/**/*.ts",
     "test": "ava",
+    "test:coverage": "c8 --check-coverage --100 ava --colors",
     "test:watch": "ava --watch",
     "prepublishOnly": "npm run build && npm run build:esm && npm run build:types"
   },

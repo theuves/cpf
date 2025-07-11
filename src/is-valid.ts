@@ -27,14 +27,11 @@ export function isValid(cpfNumber: string, byLength = false): boolean {
 
   if (!unformattedCpf) return false;
   if (unformattedCpf.length !== 11) return false;
-  if (byLength && unformattedCpf.length === 11) return true;
+  if (byLength) return true;
   if (isRepeated(unformattedCpf)) return false;
 
-  const match = unformattedCpf.match(/^(\d{9})(\d{2})$/);
-  if (!match) return false;
-
-  const [, number, dv] = match;
-  if (!number || !dv) return false;
+  const number = unformattedCpf.substring(0,9);
+  const dv = unformattedCpf.substring(9);
 
   const trueDv = getCD(Array.from(number, Number)).join('');
 

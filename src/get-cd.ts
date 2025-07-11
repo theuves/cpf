@@ -28,10 +28,10 @@ const calc = (nums: number[]): number => {
 export function getCD(digits: number[] = []): number[] {
   const arrayDigits = Array.from(digits || []);
 
-  if (
-    arrayDigits.length !== 9 ||
-    !arrayDigits.every(digit => digit >= 0 && digit <= 9)
-  ) {
+  if (arrayDigits.length !== 9) {
+    throw new Error('Invalid digits');
+  }
+  if (!arrayDigits.every(digit => digit >= 0 && digit <= 9)) {
     throw new Error('Invalid digits');
   }
 
