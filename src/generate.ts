@@ -1,4 +1,4 @@
-import calc from '../core/calc';
+import calc from './calc';
 import format from './format';
 
 interface GenerateOptions {
