@@ -1,7 +1,7 @@
 import test from 'ava';
 import { parser } from '../parser';
 
-test('parser should correctly parse a valid CPF', t => {
+test('should correctly parse a valid CPF', t => {
   const cpf = '123.456.789-09';
   const result = parser(cpf);
 
@@ -14,7 +14,7 @@ test('parser should correctly parse a valid CPF', t => {
   t.deepEqual(result.verifiers, [0, 9]);
 });
 
-test('parser should handle CPF with less than 11 digits', t => {
+test('should handle CPF with less than 11 digits', t => {
   const cpf = '123.45';
   const result = parser(cpf);
 
@@ -27,7 +27,7 @@ test('parser should handle CPF with less than 11 digits', t => {
   t.deepEqual(result.verifiers, []);
 });
 
-test('parser should handle CPF with non-digit characters', t => {
+test('should handle CPF with non-digit characters', t => {
   const cpf = 'abc.123.456-xyz';
   const result = parser(cpf);
 
