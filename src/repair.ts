@@ -28,7 +28,7 @@ export default function repair(cpfBroken: string): string[] {
 function repairSingleX(cpf: string): string[] {
   const xPosition = cpf.indexOf('X');
   
-  // Se X está nos dígitos verificadores, calcular diretamente
+  // If X is in the verifier digits, calculate directly
   if (xPosition === 9) {
     const body = cpf.slice(0, 9).split('').map(d => parseInt(d));
     const verifiers = calc(body);
@@ -41,12 +41,11 @@ function repairSingleX(cpf: string): string[] {
     const body = cpf.slice(0, 9).split('').map(d => parseInt(d));
     const verifiers = calc(body);
     if (verifiers[0] === undefined || verifiers[1] === undefined) return [];
-    const cpfWithFirstVerifier = cpf.replace('X', verifiers[0].toString());
-    const result = cpfWithFirstVerifier.replace('X', verifiers[1].toString());
+    const result = cpf.replace('X', verifiers[1].toString());
     return validate(result) ? [result] : [];
   }
   
-  // Se X está nos dígitos base, testar apenas 10 possibilidades
+  // If X is in the base digits, test only 10 possibilities
   const validCpfs: string[] = [];
   for (let digit = 0; digit <= 9; digit++) {
     const testCpf = cpf.replace('X', digit.toString());
