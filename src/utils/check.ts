@@ -10,9 +10,9 @@ export function check(cpf: string, strict: boolean = true): boolean {
       return false;
     }
     const patterns = [
-      /^\d{3}\.\d{1,3}$/,
-      /^\d{3}\.\d{3}\.\d{1,3}$/,
-      /^\d{3}\.\d{3}\.\d{3}-\d{0,2}$/
+      /^\d{3}\.?\d{0,3}$/,
+      /^\d{3}\.\d{3}\.?\d{0,3}$/,
+      /^\d{3}\.\d{3}\.\d{3}-?\d{0,2}$/
     ];
     return patterns.some(p => p.test(cpf));
   }

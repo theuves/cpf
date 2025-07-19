@@ -20,6 +20,15 @@ test('should return true for partially valid CPF in non-strict mode', t => {
   t.true(check(cpf3, false));
 });
 
+test('should return true for partially valid CPF in non-strict mode ending with separators', t => {
+  const cpf1 = '123.';
+  const cpf2 = '123.456.';
+  const cpf3 = '123.456.789-';
+  t.true(check(cpf1, false));
+  t.true(check(cpf2, false));
+  t.true(check(cpf3, false));
+});
+
 test('should return false for invalid CPF in non-strict mode', t => {
   const cpf1 = '123456.789-0';
   const cpf2 = '123.456.789-000';
