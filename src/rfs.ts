@@ -1,4 +1,4 @@
-import parser from './parser';
+import parser from './core/parser';
 
 /* 
  * RF (Região Fiscal) é uma divisão da Receita Federal para gerenciar
