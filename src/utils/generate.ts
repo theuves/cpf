@@ -20,7 +20,7 @@ export function generate(options: GenerateOptions = {}) {
   const generateSingle = (): string => {
     const body: number[] = [];
     
-    // Gera 9 dígitos aleatórios para o corpo do CPF
+    // Generates 9 random digits for the CPF body
     for (let i = 0; i < 9; i++) {
       body.push(Math.floor(Math.random() * 10));
     }
@@ -30,7 +30,7 @@ export function generate(options: GenerateOptions = {}) {
       const digits = calc(body);
       cpf = body.join('') + digits[0]?.toString() + digits[1]?.toString();
     } else {
-      // Para CPFs inválidos, gera dígitos verificadores aleatórios
+      // For invalid CPFs, generate random check digits
       const dv1 = Math.floor(Math.random() * 10);
       const dv2 = Math.floor(Math.random() * 10);
       cpf = body.join('') + dv1.toString() + dv2.toString();
