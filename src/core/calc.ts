@@ -1,4 +1,4 @@
-export function calc(body: number[]): number[] {
+export default function calc(body: number[]): number[] {
   if (body.length !== 9) {
     throw new Error('Input must be exactly 9 digits');
   }

@@ -1,5 +1,5 @@
 import test from 'ava';
-import { unformat } from '../unformat';
+import unformat from '../unformat';
 
 // Strict mode tests
 test('should unformat complete CPF correctly in strict mode', t => {

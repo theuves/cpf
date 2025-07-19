@@ -1,4 +1,4 @@
-export function unformat(cpf: string, strict: boolean = true): string {
+export default function unformat(cpf: string, strict: boolean = true): string {
   // Validate input type - only accept strings
   if (typeof cpf !== 'string') {
     throw new Error('Input must be a string');

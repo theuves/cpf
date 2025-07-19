@@ -1,4 +1,4 @@
-export function format(cpf: string | number, strict: boolean = true): string {
+export default function format(cpf: string | number, strict: boolean = true): string {
   // Handle number input in non-strict mode
   if (typeof cpf === 'number') {
     if (strict) {

@@ -1,5 +1,5 @@
-import { calc } from '../core/calc';
-import { format } from './format';
+import calc from '../core/calc';
+import format from './format';
 
 interface GenerateOptions {
   valid?: boolean;

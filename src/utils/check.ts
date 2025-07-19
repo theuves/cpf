@@ -1,4 +1,4 @@
-export function check(cpf: string, strict: boolean = true): boolean {
+export default function check(cpf: string, strict: boolean = true): boolean {
   if (typeof cpf !== 'string') {
     return false;
   }
