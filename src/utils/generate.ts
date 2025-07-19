@@ -1,6 +1,18 @@
 import { calc } from '../core/calc';
+import { format } from './format';
 
-export function generate(valid: boolean = true, count: number = 1): string | string[] {
+interface GenerateOptions {
+  valid?: boolean;
+  count?: number;
+  formatted?: boolean;
+}
+
+// Function overloads for better type inference
+export function generate(options?: GenerateOptions & { count?: 1 }): string;
+export function generate(options?: GenerateOptions & { count: number }): string[];
+export function generate(options: GenerateOptions = {}) {
+  const { valid = true, count = 1, formatted = true } = options;
+  
   if (count < 1) {
     throw new Error('Count must be at least 1');
   }
@@ -13,15 +25,18 @@ export function generate(valid: boolean = true, count: number = 1): string | str
       body.push(Math.floor(Math.random() * 10));
     }
 
+    let cpf: string;
     if (valid) {
       const digits = calc(body);
-      return body.join('') + digits[0]?.toString() + digits[1]?.toString();
+      cpf = body.join('') + digits[0]?.toString() + digits[1]?.toString();
     } else {
       // Para CPFs inválidos, gera dígitos verificadores aleatórios
       const dv1 = Math.floor(Math.random() * 10);
       const dv2 = Math.floor(Math.random() * 10);
-      return body.join('') + dv1.toString() + dv2.toString();
+      cpf = body.join('') + dv1.toString() + dv2.toString();
     }
+
+    return formatted ? format(cpf) : cpf;
   };
 
   if (count === 1) {
