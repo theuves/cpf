@@ -3,6 +3,23 @@ import calc from './calc';
 
 export default function validate(cpf: string): boolean {
   try {
+    // Check if input is a string
+    if (typeof cpf !== 'string') {
+      return false;
+    }
+    
+    // Check if string contains only valid CPF characters (digits, dots, dash, spaces)
+    const validChars = /^[\d.\-\s]+$/;
+    if (!validChars.test(cpf)) {
+      return false;
+    }
+    
+    // Extract digits and check if more than 11
+    const digits = cpf.replace(/\D/g, '');
+    if (digits.length > 11) {
+      return false;
+    }
+    
     const parsed = parser(cpf);
     
     // Check if we have enough digits (at least 11)
