@@ -8,9 +8,9 @@ interface GenerateOptions {
 }
 
 // Function overloads for better type inference
-export function generate(options?: GenerateOptions & { count?: 1 }): string;
-export function generate(options?: GenerateOptions & { count: number }): string[];
-export function generate(options: GenerateOptions = {}) {
+export default function generate(options?: GenerateOptions & { count?: 1 }): string;
+export default function generate(options?: GenerateOptions & { count: number }): string[];
+export default function generate(options: GenerateOptions = {}) {
   const { valid = true, count = 1, formatted = true } = options;
   
   if (count < 1) {
