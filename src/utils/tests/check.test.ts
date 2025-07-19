@@ -58,3 +58,21 @@ test('should return true for CPF with only valid characters in non-strict mode',
   t.true(check(cpf2, false));
   t.true(check(cpf3, false));
 });
+
+test('should return false if the input is not a string', t => {
+  const cpf1 = 12345678900;
+  const cpf2 = null;
+  const cpf3 = undefined;
+  const cpf4 = {};
+  const cpf5 = [];
+  // @ts-ignore
+  t.false(check(cpf1, false));
+  // @ts-ignore
+  t.false(check(cpf2, false));
+  // @ts-ignore
+  t.false(check(cpf3, false));
+  // @ts-ignore
+  t.false(check(cpf4, false));
+  // @ts-ignore
+  t.false(check(cpf5, false));
+});

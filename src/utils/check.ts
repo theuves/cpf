@@ -1,4 +1,7 @@
 export function check(cpf: string, strict: boolean = true): boolean {
+  if (typeof cpf !== 'string') {
+    return false;
+  }
   if (strict) {
     const pattern = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
     return pattern.test(cpf);
