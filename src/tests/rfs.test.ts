@@ -57,14 +57,14 @@ test('should return empty array for CPF with less than 11 digits', t => {
 })
 
 test('should return empty array for non-string input', t => {
-  // @ts-ignore
+  // @ts-expect-error invalid type
   t.deepEqual(rfs(12345678900), [])
-  // @ts-ignore
+  // @ts-expect-error invalid type
   t.deepEqual(rfs(null), [])
-  // @ts-ignore
+  // @ts-expect-error invalid type
   t.deepEqual(rfs(undefined), [])
-  // @ts-ignore
+  // @ts-expect-error invalid type
   t.deepEqual(rfs({}), [])
-  // @ts-ignore
+  // @ts-expect-error invalid type
   t.deepEqual(rfs([]), [])
 })

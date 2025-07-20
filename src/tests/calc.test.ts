@@ -33,7 +33,7 @@ test('should throw error for body with non-integer values', t => {
   const body = [1, 2, 3, 4, 5, 6, 7, 8, 'a']
   const error = t.throws(
     () => {
-      // @ts-ignore
+      // @ts-expect-error invalid type
       calc(body)
     },
     { instanceOf: Error }

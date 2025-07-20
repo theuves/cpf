@@ -65,14 +65,14 @@ test('should return false if the input is not a string', t => {
   const cpf3 = undefined
   const cpf4 = {}
   const cpf5 = []
-  // @ts-ignore
+  // @ts-expect-error invalid type
   t.false(check(cpf1, false))
-  // @ts-ignore
+  // @ts-expect-error invalid type
   t.false(check(cpf2, false))
-  // @ts-ignore
+  // @ts-expect-error invalid type
   t.false(check(cpf3, false))
-  // @ts-ignore
+  // @ts-expect-error invalid type
   t.false(check(cpf4, false))
-  // @ts-ignore
+  // @ts-expect-error invalid type
   t.false(check(cpf5, false))
 })

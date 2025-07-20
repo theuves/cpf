@@ -34,15 +34,15 @@ test('should throw error for more than 11 digits in strict mode', t => {
 })
 
 test('should throw error for non-string input in strict mode', t => {
-  // @ts-ignore
+  // @ts-expect-error invalid type
   t.throws(() => unformat(12345678900), { message: 'Input must be a string' })
-  // @ts-ignore
+  // @ts-expect-error invalid type
   t.throws(() => unformat(null), { message: 'Input must be a string' })
-  // @ts-ignore
+  // @ts-expect-error invalid type
   t.throws(() => unformat(undefined), { message: 'Input must be a string' })
-  // @ts-ignore
+  // @ts-expect-error invalid type
   t.throws(() => unformat({}), { message: 'Input must be a string' })
-  // @ts-ignore
+  // @ts-expect-error invalid type
   t.throws(() => unformat([]), { message: 'Input must be a string' })
 })
 

@@ -52,15 +52,15 @@ test('should throw error for number input in strict mode', t => {
 })
 
 test('should throw error for non-string/non-number input in strict mode', t => {
-  // @ts-ignore
+  // @ts-expect-error invalid type
   t.throws(() => format(null), { message: 'Input must be a string or number' })
-  // @ts-ignore
+  // @ts-expect-error invalid type
   t.throws(() => format(undefined), {
     message: 'Input must be a string or number',
   })
-  // @ts-ignore
+  // @ts-expect-error invalid type
   t.throws(() => format({}), { message: 'Input must be a string or number' })
-  // @ts-ignore
+  // @ts-expect-error invalid type
   t.throws(() => format([]), { message: 'Input must be a string or number' })
 })
 

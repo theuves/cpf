@@ -67,15 +67,15 @@ test('should return false for string with mixed digits and letters', t => {
 })
 
 test('should return false for non-string input', t => {
-  // @ts-ignore
+  // @ts-expect-error invalid type
   t.false(validate(52998224725))
-  // @ts-ignore
+  // @ts-expect-error invalid type
   t.false(validate(null))
-  // @ts-ignore
+  // @ts-expect-error invalid type
   t.false(validate(undefined))
-  // @ts-ignore
+  // @ts-expect-error invalid type
   t.false(validate({}))
-  // @ts-ignore
+  // @ts-expect-error invalid type
   t.false(validate([]))
 })
 

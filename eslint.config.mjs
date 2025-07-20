@@ -27,6 +27,12 @@ export default tseslint.config(
         },
     },
     {
-        ignores: ['dist/**', 'node_modules/**', '**/*.test.ts', '**/*.spec.ts'],
+        files: ['src/**/*.test.ts'],
+        rules: {
+            '@typescript-eslint/no-unused-vars': ['error', { 'argsIgnorePattern': '^t$' }],
+        },
+    },
+    {
+        ignores: ['dist/**', 'node_modules/**'],
     }
 ); 

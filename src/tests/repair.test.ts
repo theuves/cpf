@@ -87,19 +87,19 @@ test('should return array with valid CPF for string with special characters', t 
 })
 
 test('should return empty array for null', t => {
-  // @ts-ignore
+  // @ts-expect-error invalid type
   const result = repair(null)
   t.deepEqual(result, [])
 })
 
 test('should return empty array for undefined', t => {
-  // @ts-ignore
+  // @ts-expect-error invalid type
   const result = repair(undefined)
   t.deepEqual(result, [])
 })
 
 test('should return empty array for number', t => {
-  // @ts-ignore
+  // @ts-expect-error invalid type
   const result = repair(12345678901)
   t.deepEqual(result, [])
 })
