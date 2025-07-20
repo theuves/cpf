@@ -1,6 +1,6 @@
 <div align="center">
 
-    Documentação em progresso. Leia [esse README](https://github.com/theuves/cpf/tree/2.0.1) para a versão mais atualizada.
+  Documentação em progresso. Leia [esse README](https://github.com/theuves/cpf/tree/2.0.1) para a versão mais atualizada.
 
 </div>
 
