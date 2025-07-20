@@ -4,10 +4,8 @@
   "description": "Functions to handle Brazilian CPF numbers.",
   "main": "./dist/cpf.min.js",
   "module": "./dist/cpf.esm.js",
-  "types": "./dist/index.d.ts",
   "files": [
-    "dist",
-    "index.d.ts"
+    "dist"
   ],
   "repository": {
     "type": "git",
