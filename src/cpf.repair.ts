@@ -1,5 +1,5 @@
-import validate from './validate'
-import calc from './calc'
+import validate from './cpf.validate'
+import calc from './cpf.calc'
 
 export default function repair(cpfBroken: string): string[] {
   if (typeof cpfBroken !== 'string') return []

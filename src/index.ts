@@ -1,10 +1,10 @@
 
 // cpf
-export * from './calc'
-export * from './check'
-export * from './format'
-export * from './generate'
-export * from './repair'
-export * from './rfs'
-export * from './unformat'
-export * from './validate'
+export * from './cpf.calc'
+export * from './cpf.check'
+export * from './cpf.format'
+export * from './cpf.generate'
+export * from './cpf.repair'
+export * from './cpf.rfs'
+export * from './cpf.unformat'
+export * from './cpf.validate'

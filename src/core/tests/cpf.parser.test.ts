@@ -1,5 +1,5 @@
 import test from 'ava'
-import parser from '../parser'
+import parser from '../cpf.parser'
 
 test('should correctly parse a valid CPF', t => {
   const cpf = '123.456.789-09'

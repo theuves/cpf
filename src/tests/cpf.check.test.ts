@@ -1,5 +1,5 @@
 import test from 'ava'
-import check from '../check'
+import check from '../cpf.check'
 
 test('should return true for valid CPF in strict mode', t => {
   const cpf = '123.456.789-00'
