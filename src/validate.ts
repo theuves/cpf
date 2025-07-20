@@ -1,49 +1,51 @@
-import parser from './core/parser';
-import calc from './calc';
+import parser from './core/parser'
+import calc from './calc'
 
 export default function validate(cpf: string): boolean {
   try {
     // Check if input is a string
     if (typeof cpf !== 'string') {
-      return false;
+      return false
     }
-    
+
     // Check if string contains only valid CPF characters (digits, dots, dash, spaces)
-    const validChars = /^[\d.\-\s]+$/;
+    const validChars = /^[\d.\-\s]+$/
     if (!validChars.test(cpf)) {
-      return false;
+      return false
     }
-    
+
     // Extract digits and check if more than 11
-    const digits = cpf.replace(/\D/g, '');
+    const digits = cpf.replace(/\D/g, '')
     if (digits.length > 11) {
-      return false;
+      return false
     }
-    
-    const parsed = parser(cpf);
-    
+
+    const parsed = parser(cpf)
+
     // Check if we have enough digits (at least 11)
     if (parsed.digits.length < 11) {
-      return false;
+      return false
     }
-    
+
     // Check if we have exactly 11 digits
     if (parsed.digits.length !== 11) {
-      return false;
+      return false
     }
-    
+
     // Check if all digits are the same (invalid CPF)
     if (parsed.digits.every(digit => digit === parsed.digits[0])) {
-      return false;
+      return false
     }
-    
+
     // Calculate expected verifiers
-    const expectedVerifiers = calc(parsed.fullBody);
-    
+    const expectedVerifiers = calc(parsed.fullBody)
+
     // Compare with actual verifiers
-    return expectedVerifiers[0] === parsed.verifiers[0] && 
-           expectedVerifiers[1] === parsed.verifiers[1];
+    return (
+      expectedVerifiers[0] === parsed.verifiers[0] &&
+      expectedVerifiers[1] === parsed.verifiers[1]
+    )
   } catch {
-    return false;
+    return false
   }
 }

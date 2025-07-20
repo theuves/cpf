@@ -1,27 +1,27 @@
-import parser from './core/parser';
+import parser from './core/parser'
 
-/* 
+/*
  * RF (Região Fiscal) é uma divisão da Receita Federal para gerenciar
  * impostos e fiscalização em regiões do Brasil.
- * 
+ *
  * Mais detalhes em:
  * https://www.gov.br/receitafederal/pt-br/assuntos/educacao-fiscal/educacao_fiscal/folhetos-orientativos/cadastros-dig.pdf
  */
 
 export default function rfs(cpf: string): string[] {
   if (typeof cpf !== 'string') {
-    return [];
+    return []
   }
 
-  const parsed = parser(cpf);
+  const parsed = parser(cpf)
   if (parsed.digits.length !== 11) {
-    return [];
+    return []
   }
 
-  const lastBodyDigit = parsed.lastBodyDigit;
+  const lastBodyDigit = parsed.lastBodyDigit
 
   if (lastBodyDigit === null) {
-    throw new Error('Invalid CPF: last body digit is null');
+    throw new Error('Invalid CPF: last body digit is null')
   }
 
   const rfMap: { [key: number]: string[] } = {
@@ -34,8 +34,8 @@ export default function rfs(cpf: string): string[] {
     6: ['MG'],
     7: ['ES', 'RJ'],
     8: ['SP'],
-    9: ['PR', 'SC']
-  };
+    9: ['PR', 'SC'],
+  }
 
-  return rfMap[lastBodyDigit as number] || [];
+  return rfMap[lastBodyDigit as number] || []
 }
