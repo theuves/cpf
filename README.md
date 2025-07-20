@@ -2,6 +2,8 @@
   Documentação em progresso. Leia [esse README](https://github.com/theuves/cpf/tree/2.0.1) para a versão mais atualizada.
 </div>
 
+***
+
 <div align="center">
   <h1>cpf</h1>
   Uma biblioteca completa para manipulação de CPF e CNPJ brasileiros.
