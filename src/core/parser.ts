@@ -1,6 +1,9 @@
 export default function parser(cpf: string) {
   const digitStr = cpf.replace(/\D/g, '');
-  const digits = digitStr.slice(0, 11).split('').map(d => parseInt(d));
+  const digits = digitStr
+    .slice(0, 11)
+    .split('')
+    .map(d => parseInt(d));
   const len = digits.length;
   const fullBodyLen = Math.min(9, len);
   const fullBody = digits.slice(0, fullBodyLen);
@@ -15,9 +18,9 @@ export default function parser(cpf: string) {
     bodyParts: {
       part1,
       part2,
-      part3
+      part3,
     },
     lastBodyDigit,
-    verifiers
+    verifiers,
   };
 }

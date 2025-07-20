@@ -13,14 +13,24 @@ test('should unformat CPF with separators in strict mode', t => {
 });
 
 test('should throw error for invalid characters in strict mode', t => {
-  t.throws(() => unformat('123abc456def789ghi00'), { message: 'Invalid characters in CPF input' });
-  t.throws(() => unformat('123.456.789-0a'), { message: 'Invalid characters in CPF input' });
-  t.throws(() => unformat('123.456.789-0#'), { message: 'Invalid characters in CPF input' });
+  t.throws(() => unformat('123abc456def789ghi00'), {
+    message: 'Invalid characters in CPF input',
+  });
+  t.throws(() => unformat('123.456.789-0a'), {
+    message: 'Invalid characters in CPF input',
+  });
+  t.throws(() => unformat('123.456.789-0#'), {
+    message: 'Invalid characters in CPF input',
+  });
 });
 
 test('should throw error for more than 11 digits in strict mode', t => {
-  t.throws(() => unformat('123456789012'), { message: 'CPF cannot have more than 11 digits' });
-  t.throws(() => unformat('123.456.789-001'), { message: 'CPF cannot have more than 11 digits' });
+  t.throws(() => unformat('123456789012'), {
+    message: 'CPF cannot have more than 11 digits',
+  });
+  t.throws(() => unformat('123.456.789-001'), {
+    message: 'CPF cannot have more than 11 digits',
+  });
 });
 
 test('should throw error for non-string input in strict mode', t => {

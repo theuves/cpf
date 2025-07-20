@@ -25,25 +25,39 @@ test('should format partial CPF in strict mode', t => {
 });
 
 test('should throw error for invalid characters in strict mode', t => {
-  t.throws(() => format('123abc456def789ghi00'), { message: 'Invalid characters in CPF input' });
-  t.throws(() => format('123.456.789-0a'), { message: 'Invalid characters in CPF input' });
-  t.throws(() => format('123.456.789-0#'), { message: 'Invalid characters in CPF input' });
+  t.throws(() => format('123abc456def789ghi00'), {
+    message: 'Invalid characters in CPF input',
+  });
+  t.throws(() => format('123.456.789-0a'), {
+    message: 'Invalid characters in CPF input',
+  });
+  t.throws(() => format('123.456.789-0#'), {
+    message: 'Invalid characters in CPF input',
+  });
 });
 
 test('should throw error for more than 11 digits in strict mode', t => {
-  t.throws(() => format('123456789012'), { message: 'CPF cannot have more than 11 digits' });
-  t.throws(() => format('123.456.789-001'), { message: 'CPF cannot have more than 11 digits' });
+  t.throws(() => format('123456789012'), {
+    message: 'CPF cannot have more than 11 digits',
+  });
+  t.throws(() => format('123.456.789-001'), {
+    message: 'CPF cannot have more than 11 digits',
+  });
 });
 
 test('should throw error for number input in strict mode', t => {
-  t.throws(() => format(12345678900), { message: 'Number input is only allowed when strict=false' });
+  t.throws(() => format(12345678900), {
+    message: 'Number input is only allowed when strict=false',
+  });
 });
 
 test('should throw error for non-string/non-number input in strict mode', t => {
   // @ts-ignore
   t.throws(() => format(null), { message: 'Input must be a string or number' });
   // @ts-ignore
-  t.throws(() => format(undefined), { message: 'Input must be a string or number' });
+  t.throws(() => format(undefined), {
+    message: 'Input must be a string or number',
+  });
   // @ts-ignore
   t.throws(() => format({}), { message: 'Input must be a string or number' });
   // @ts-ignore
