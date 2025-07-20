@@ -1,11 +1,11 @@
 <div align="center">
-  Documentação em progresso. Leia [esse README](https://github.com/theuves/cpf/tree/2.0.1) para a versão mais atualizada.
+  <i><b>Documentação em progresso. <a href="https://github.com/theuves/cpf/tree/2.0.1">Leia esse README</a> para a versão mais atualizada.</b></i>
 </div>
 
 ***
 
 <div align="center">
-  <h1>cpf</h1>
+  <h1>CPF</h1>
   Uma biblioteca completa para manipulação de CPF e CNPJ brasileiros.
   <br />
   <br />
@@ -17,7 +17,7 @@
 
 ***
 
-O projeto CPF.js foi criado com o objetivo de fornecer uma solução simples e eficiente para a manipulação de CPF e CNPJ brasileiros.
+O projeto CPF foi criado com o objetivo de fornecer uma solução simples e eficiente para a manipulação de CPF e CNPJ brasileiros.
 
 A motivação por trás deste projeto é atender a uma necessidade comum em diversas aplicações brasileiras, onde é frequentemente necessário validar, formatar e gerar CPFs e CNPJs para fins de documentação, formulários, testes e outros documentos formais.
 
@@ -26,13 +26,13 @@ Nossa ambição com o CPF.js é tornar esta biblioteca uma referência para dese
 ## Funcionalidades
 
 - [x] **Validação** de CPF e CNPJ com algoritmo oficial brasileiro
-- [x] **Formatação** de CPF e CNPJ nos padrões brasileiros (XXX.XXX.XXX-XX / XX.XXX.XXX/XXXX-XX)
+- [x] **Formatação** de CPF e CNPJ nos padrões brasileiros
 - [x] **Geração** de CPFs e CNPJs válidos e inválidos para testes
 - [x] **Desformatação** de CPF e CNPJ (remoção de caracteres especiais)
 - [x] **Verificação** de formato de CPF e CNPJ
 - [x] **Cálculo** de dígitos verificadores de CPF e CNPJ
-- [x] **Reparo** de CPFs com dígitos desconhecidos (representados por X) [`experimental`]
-- [x] **Identificação de RF** (Região Fiscal) baseada no CPF [`experimental`]
+- [x] **Reparo** de CPFs com dígitos desconhecidos (representados por X) *`experimental`*
+- [x] **Identificação de RF** (Região Fiscal) baseada no CPF *`experimental`*
 
 _**NOTA**: As funcionalidades experimentais podem ter comportamento instável e estão sujeitas a mudanças._
 
@@ -244,15 +244,6 @@ import { calc as cnpjCalc } from 'cpf'
 cnpjCalc([1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2])
 //=> [3, 4]
 ```
-
-## Características Técnicas
-
-- **Zero dependências** - Biblioteca totalmente independente
-- **TypeScript** - Tipagem completa para melhor experiência de desenvolvimento
-- **Algoritmo oficial** - Implementação fiel ao algoritmo da Receita Federal
-- **Flexibilidade** - Suporte a diferentes formatos de entrada
-- **Performance** - Otimizada para uso em produção
-- **Testes completos** - Cobertura de 100% dos casos de uso
 
 ## Contribuições
 
