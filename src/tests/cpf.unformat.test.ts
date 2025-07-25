@@ -49,21 +49,21 @@ test('should throw error for non-string input in strict mode', t => {
 // Non-strict mode tests
 test('should unformat complete CPF correctly in non-strict mode', t => {
   const cpf = '123.456.789-00'
-  t.is(unformat(cpf, false), '12345678900')
+  t.is(unformat(cpf, { strict: false }), '12345678900')
 })
 
 test('should unformat CPF with separators in non-strict mode', t => {
   const cpf = '123.456.789-00'
-  t.is(unformat(cpf, false), '12345678900')
+  t.is(unformat(cpf, { strict: false }), '12345678900')
 })
 
 test('should unformat CPF with extra characters in non-strict mode', t => {
-  t.is(unformat('123abc456def789ghi00', false), '12345678900')
-  t.is(unformat('123.456.789-0a', false), '1234567890')
-  t.is(unformat('123.456.789-0#', false), '1234567890')
+  t.is(unformat('123abc456def789ghi00', { strict: false }), '12345678900')
+  t.is(unformat('123.456.789-0a', { strict: false }), '1234567890')
+  t.is(unformat('123.456.789-0#', { strict: false }), '1234567890')
 })
 
 test('should truncate CPF with more than 11 digits in non-strict mode', t => {
-  t.is(unformat('123456789012', false), '12345678901')
-  t.is(unformat('123.456.789-001', false), '12345678900')
+  t.is(unformat('123456789012', { strict: false }), '12345678901')
+  t.is(unformat('123.456.789-001', { strict: false }), '12345678900')
 })
