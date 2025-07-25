@@ -1,5 +1,5 @@
 import test from 'ava'
-import parser from '../cnpj.parser'
+import parser from '../parser'
 
 test('should correctly parse a valid CNPJ', t => {
   const cnpj = '12.345.678/0001-95'

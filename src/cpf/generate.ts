@@ -1,5 +1,5 @@
-import calc from './cpf.calc'
-import format from './cpf.format'
+import calc from './calc'
+import format from './format'
 
 interface GenerateOptions {
   valid?: boolean

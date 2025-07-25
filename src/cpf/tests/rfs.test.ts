@@ -1,5 +1,5 @@
 import test from 'ava'
-import rfs from '../cpf.rfs'
+import rfs from '../rfs'
 
 test('should return correct RF for valid CPF with 9th digit 0', t => {
   const cpf = '123.456.780-00'

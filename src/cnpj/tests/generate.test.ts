@@ -1,5 +1,5 @@
 import test from 'ava'
-import generate from '../cnpj.generate'
+import generate from '../generate'
 
 test('should generate a single formatted CNPJ by default', t => {
   const cnpj = generate()

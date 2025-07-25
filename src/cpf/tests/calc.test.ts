@@ -1,5 +1,5 @@
 import test from 'ava'
-import calc from '../cpf.calc'
+import calc from '../calc'
 
 test('should return correct verifiers for valid body', t => {
   const body = [1, 2, 3, 4, 5, 6, 7, 8, 9]

@@ -1,5 +1,5 @@
-import validate from './cnpj.validate'
-import calc from './cnpj.calc'
+import validate from './validate'
+import calc from './calc'
 
 export default function repair(cnpjBroken: string): string[] {
   if (typeof cnpjBroken !== 'string') return []

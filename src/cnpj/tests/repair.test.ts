@@ -1,5 +1,5 @@
 import test from 'ava'
-import repair from '../cnpj.repair'
+import repair from '../repair'
 
 test('should return empty array for non-string input', (t) => {
   t.deepEqual(repair(null as any), [])

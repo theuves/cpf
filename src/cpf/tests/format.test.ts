@@ -1,5 +1,5 @@
 import test from 'ava'
-import format from '../cpf.format'
+import format from '../format'
 
 // Strict mode tests
 test('should format complete CPF correctly in strict mode', t => {

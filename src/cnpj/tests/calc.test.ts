@@ -1,5 +1,5 @@
 import test from 'ava'
-import calc from '../cnpj.calc'
+import calc from '../calc'
 
 test('should return correct verifiers for valid body', t => {
   const body = [1, 1, 2, 2, 2, 3, 3, 3, 0, 0, 0, 1]

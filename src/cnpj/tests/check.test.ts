@@ -1,5 +1,5 @@
 import test from 'ava'
-import check from '../cnpj.check'
+import check from '../check'
 
 test('should return true for valid CNPJ in strict mode', t => {
   const cnpj = '12.345.678/0001-95'

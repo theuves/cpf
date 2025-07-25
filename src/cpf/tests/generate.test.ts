@@ -1,5 +1,5 @@
 import test from 'ava'
-import generate from '../cpf.generate'
+import generate from '../generate'
 
 test('should generate a single formatted CPF by default', t => {
   const cpf = generate()

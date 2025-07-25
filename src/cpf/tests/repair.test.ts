@@ -1,5 +1,5 @@
 import test from 'ava'
-import repair from '../cpf.repair'
+import repair from '../repair'
 
 test('should return array with valid CPF when X is at the beginning', t => {
   const result = repair('X7552060107')

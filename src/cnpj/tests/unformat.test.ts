@@ -1,5 +1,5 @@
 import test from 'ava'
-import unformat from '../cnpj.unformat'
+import unformat from '../unformat'
 
 // Strict mode tests
 test('should unformat complete CNPJ correctly in strict mode', t => {

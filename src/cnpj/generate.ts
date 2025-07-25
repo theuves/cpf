@@ -1,5 +1,5 @@
-import calc from './cnpj.calc'
-import format from './cnpj.format'
+import calc from './calc'
+import format from './format'
 
 interface GenerateOptions {
   valid?: boolean
