@@ -79,13 +79,14 @@ cpf.validate('123.456.789-10')
 //=> false
 ```
 
-### `cpf.format(cpf[, strict])` [*string*, *boolean*]
+### `cpf.format(cpf[, options])` [*string*, *object*]
 
 > Formata um CPF no padrão brasileiro (XXX.XXX.XXX-XX).
 
 **Parâmetros:**
 - `cpf` [*string* | *number*] - O CPF a ser formatado
-- `strict` [*boolean*] - Se `true` (padrão), valida caracteres permitidos
+- `options` [*object*] - Opções de formatação
+  - `strict` [*boolean*] - Se `true` (padrão), valida caracteres permitidos
 
 **Retorna:** [*string*] - CPF formatado
 
@@ -95,7 +96,7 @@ cpf.validate('123.456.789-10')
 cpf.format('12345678909')
 //=> '123.456.789-09'
 
-cpf.format('12345678909', false)
+cpf.format('12345678909', { strict: false })
 //=> '123.456.789-09'
 
 cpf.format('123456789')
@@ -133,13 +134,14 @@ cpf.generate({ count: 3 })
 //=> ['123.456.789-09', '987.654.321-00', '456.789.123-45']
 ```
 
-### `cpf.unformat(cpf[, strict])` [*string*, *boolean*]
+### `cpf.unformat(cpf[, options])` [*string*, *object*]
 
 > Remove a formatação de um CPF, retornando apenas os dígitos.
 
 **Parâmetros:**
 - `cpf` [*string*] - O CPF a ser desformatado
-- `strict` [*boolean*] - Se `true` (padrão), valida caracteres permitidos
+- `options` [*object*] - Opções de desformatação
+  - `strict` [*boolean*] - Se `true` (padrão), valida caracteres permitidos
 
 **Retorna:** [*string*] - CPF sem formatação
 
@@ -149,17 +151,18 @@ cpf.generate({ count: 3 })
 cpf.unformat('123.456.789-09')
 //=> '12345678909'
 
-cpf.unformat('123.456.789-09', false)
+cpf.unformat('123.456.789-09', { strict: false })
 //=> '12345678909'
 ```
 
-### `cpf.check(cpf[, strict])` [*string*, *boolean*]
+### `cpf.check(cpf[, options])` [*string*, *object*]
 
 > Verifica se um CPF está no formato correto.
 
 **Parâmetros:**
 - `cpf` [*string*] - O CPF a ser verificado
-- `strict` [*boolean*] - Se `true` (padrão), verifica formato completo
+- `options` [*object*] - Opções de verificação
+  - `strict` [*boolean*] - Se `true` (padrão), verifica formato completo
 
 **Retorna:** [*boolean*] - `true` se o formato estiver correto
 
@@ -169,13 +172,13 @@ cpf.unformat('123.456.789-09', false)
 cpf.check('123.456.789-09')
 //=> true
 
-cpf.check('12345678909', false)
+cpf.check('12345678909', { strict: false })
 //=> true
 
 cpf.check('123.456.789')
 //=> false
 
-cpf.check('123.456.789', false)
+cpf.check('123.456.789', { strict: false })
 //=> true
 ```
 
