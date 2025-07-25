@@ -1,4 +1,5 @@
-export default function unformat(cpf: string, strict: boolean = true): string {
+export default function unformat(cpf: string, options: { strict?: boolean } = {}): string {
+  const { strict = true } = options
   // Validate input type - only accept strings
   if (typeof cpf !== 'string') {
     throw new Error('Input must be a string')

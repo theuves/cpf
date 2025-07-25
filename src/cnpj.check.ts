@@ -1,4 +1,5 @@
-export default function check(cnpj: string, strict: boolean = true): boolean {
+export default function check(cnpj: string, options: { strict?: boolean } = {}): boolean {
+  const { strict = true } = options
   if (typeof cnpj !== 'string') {
     return false
   }

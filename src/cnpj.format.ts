@@ -1,7 +1,8 @@
 export default function format(
   cnpj: string | number,
-  strict: boolean = true
+  options: { strict?: boolean } = {}
 ): string {
+  const { strict = true } = options
   // Handle number input in non-strict mode
   if (typeof cnpj === 'number') {
     if (strict) {

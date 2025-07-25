@@ -1,4 +1,5 @@
-export default function check(cpf: string, strict: boolean = true): boolean {
+export default function check(cpf: string, options: { strict?: boolean } = {}): boolean {
+  const { strict = true } = options
   if (typeof cpf !== 'string') {
     return false
   }

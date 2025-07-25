@@ -1,4 +1,5 @@
-export default function unformat(cnpj: string, strict: boolean = true): string {
+export default function unformat(cnpj: string, options: { strict?: boolean } = {}): string {
+  const { strict = true } = options
   // Validate input type - only accept strings
   if (typeof cnpj !== 'string') {
     throw new Error('Input must be a string')
