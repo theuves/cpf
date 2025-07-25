@@ -1,4 +1,4 @@
-import parser from './core/cnpj.parser'
+import parser from './cnpj.parser'
 import calc from './cnpj.calc'
 
 export default function validate(cnpj: string): boolean {

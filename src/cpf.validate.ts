@@ -1,4 +1,4 @@
-import parser from './core/cpf.parser'
+import parser from './cpf.parser'
 import calc from './cpf.calc'
 
 export default function validate(cpf: string): boolean {
