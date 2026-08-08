@@ -13,7 +13,6 @@ export type GenerateResult<Count extends number> = number extends Count
     ? string
     : string[]
 
-// Function overloads for better type inference
 export default function generate(
   options?: GenerateOptions & { count?: 1 }
 ): string

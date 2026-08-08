@@ -6,10 +6,18 @@ on:
   pull_request:
     branches: [ main, master ]
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   quality:
     name: Quality and package
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
     - uses: actions/checkout@v4
@@ -37,8 +45,10 @@ jobs:
     name: Runtime compatibility (Node.js ${{ matrix.node-version }})
     needs: quality
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     strategy:
+      fail-fast: false
       matrix:
         node-version: [16.x, 18.x, 20.x, 22.x, 24.x]
 

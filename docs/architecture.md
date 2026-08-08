@@ -46,3 +46,17 @@ o artefato entregue ao consumidor, e não somente os fontes do repositório.
 - Extensões específicas, como regiões fiscais, não são generalizadas artificialmente.
 - Alterações incompatíveis são reservadas para uma versão major e acompanhadas de
   um guia de migração.
+
+## Decisões e limites
+
+Os motivos e alternativas das decisões ficam em `docs/adr`. A arquitetura não
+deve ser ampliada somente para antecipar documentos ou ambientes hipotéticos.
+Uma mudança estrutural precisa identificar qual risco reduz, qual contrato afeta
+e como será verificada no tarball entregue.
+
+- `ADR 001`: núcleo compartilhado orientado por especificação;
+- `ADR 002`: formatos ESM, CommonJS e IIFE;
+- `ADR 003`: modos estrito e não estrito;
+- `ADR 004`: retorno condicional de geração;
+- `ADR 005`: tratamento público de erros.
+- `ADR 006`: CNPJ alfanumérico como mudança coerente de versão major.

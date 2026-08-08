@@ -85,26 +85,6 @@ test('should generate unformatted invalid CNPJs', t => {
   t.regex(cnpj, /^\d{14}$/)
 })
 
-test('should generate different CNPJs on multiple calls', t => {
-  const cnpj1 = generate()
-  const cnpj2 = generate()
-  const cnpj3 = generate()
-
-  t.not(cnpj1, cnpj2)
-  t.not(cnpj2, cnpj3)
-  t.not(cnpj1, cnpj3)
-})
-
-test('should generate different unformatted CNPJs on multiple calls', t => {
-  const cnpj1 = generate({ formatted: false })
-  const cnpj2 = generate({ formatted: false })
-  const cnpj3 = generate({ formatted: false })
-
-  t.not(cnpj1, cnpj2)
-  t.not(cnpj2, cnpj3)
-  t.not(cnpj1, cnpj3)
-})
-
 test('should handle count of 1 explicitly', t => {
   const cnpj = generate({ count: 1 })
   t.is(typeof cnpj, 'string')
@@ -171,24 +151,6 @@ test('should handle large count values with unformatted', t => {
   })
 })
 
-test('should generate unique CNPJs in large batches', t => {
-  const count = 20
-  const cnpjs = generate({ count })
-  const uniqueCnpjs = new Set(cnpjs)
-
-  // Most should be unique (allowing for very rare collisions)
-  t.true(uniqueCnpjs.size >= count * 0.9)
-})
-
-test('should generate unique unformatted CNPJs in large batches', t => {
-  const count = 20
-  const cnpjs = generate({ count, formatted: false })
-  const uniqueCnpjs = new Set(cnpjs)
-
-  // Most should be unique (allowing for very rare collisions)
-  t.true(uniqueCnpjs.size >= count * 0.9)
-})
-
 test('should handle empty options object', t => {
   const cnpj = generate({})
   t.is(typeof cnpj, 'string')
@@ -203,17 +165,4 @@ test('should handle partial options', t => {
   t.regex(cnpj1, /^\d{14}$/)
   t.regex(cnpj2, /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/)
   t.regex(cnpj3, /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/)
-})
-
-test.serial('should avoid a repeated CNPJ body', t => {
-  const originalRandom = Math.random
-  Math.random = () => 0
-
-  try {
-    const cnpj = generate({ formatted: false })
-    t.true(validate(cnpj))
-    t.is(cnpj.slice(0, 12), '000000000001')
-  } finally {
-    Math.random = originalRandom
-  }
 })

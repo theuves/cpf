@@ -18,13 +18,65 @@ function run(command, args, cwd = temporaryDirectory) {
   execFileSync(command, args, { cwd, stdio: 'inherit' })
 }
 
+function assert(condition, message) {
+  if (!condition) throw new Error(message)
+}
+
+function assertCommandFails(command, args, expectedText) {
+  try {
+    execFileSync(command, args, {
+      cwd: temporaryDirectory,
+      encoding: 'utf8',
+      stdio: 'pipe',
+    })
+  } catch (error) {
+    const output = `${error.stdout ?? ''}${error.stderr ?? ''}`
+    assert(
+      output.includes(expectedText),
+      `Expected failure containing ${expectedText}`
+    )
+    return
+  }
+  throw new Error(
+    `Command unexpectedly succeeded: ${command} ${args.join(' ')}`
+  )
+}
+
 try {
   const packOutput = execFileSync(
     'npm',
     ['pack', '--json', '--pack-destination', temporaryDirectory],
     { cwd: projectRoot, encoding: 'utf8' }
   )
-  const [{ filename }] = JSON.parse(packOutput)
+  const [pack] = JSON.parse(packOutput)
+  const { filename, files } = pack
+  const packedPaths = new Set(files.map(file => file.path))
+  const requiredPaths = [
+    'CHANGELOG.md',
+    'LICENSE',
+    'README.md',
+    'package.json',
+    'dist/cpf.cjs',
+    'dist/cpf.mjs',
+    'dist/cpf.min.js',
+    'dist/index.d.ts',
+    'dist/index.d.mts',
+    'dist/index.d.cts',
+    'dist/cpf/index.cjs',
+    'dist/cpf/index.mjs',
+    'dist/cnpj/index.cjs',
+    'dist/cnpj/index.mjs',
+  ]
+  for (const path of requiredPaths) {
+    assert(packedPaths.has(path), `Required package file is missing: ${path}`)
+  }
+  const forbiddenPrefixes = ['src/', 'scripts/', '.github/', 'coverage/']
+  for (const { path } of files) {
+    assert(
+      !forbiddenPrefixes.some(prefix => path.startsWith(prefix)),
+      `Internal file leaked into package: ${path}`
+    )
+  }
   const tarball = join(temporaryDirectory, basename(filename))
 
   writeFileSync(
@@ -68,6 +120,12 @@ try {
     `
   )
   run(process.execPath, ['commonjs.cjs'])
+
+  assertCommandFails(
+    process.execPath,
+    ['--input-type=module', '--eval', "await import('cpf/core/document')"],
+    'ERR_PACKAGE_PATH_NOT_EXPORTED'
+  )
 
   mkdirSync(join(temporaryDirectory, 'browser'))
   const browserBundle = readFileSync(
@@ -137,8 +195,24 @@ try {
     'consumer.cts',
   ])
 
+  const installedRoot = join(temporaryDirectory, 'node_modules/cpf')
+  for (const mapPath of [
+    'dist/cpf.cjs.map',
+    'dist/cpf.mjs.map',
+    'dist/cpf.min.js.map',
+  ]) {
+    const sourceMap = JSON.parse(
+      readFileSync(join(installedRoot, mapPath), 'utf8')
+    )
+    assert(sourceMap.sources.length > 0, `Sourcemap has no sources: ${mapPath}`)
+    assert(
+      sourceMap.sourcesContent?.every(source => typeof source === 'string'),
+      `Sourcemap has incomplete sourcesContent: ${mapPath}`
+    )
+  }
+
   process.stdout.write(
-    'Package tarball passed ESM, CommonJS, browser and TypeScript checks.\n'
+    'Package tarball passed contents, exports, sourcemaps, runtimes and TypeScript checks.\n'
   )
 } finally {
   rmSync(temporaryDirectory, { recursive: true, force: true })

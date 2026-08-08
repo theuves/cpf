@@ -2,6 +2,12 @@
 
 Biblioteca TypeScript/JavaScript para validar, formatar, gerar e reparar números brasileiros de CPF e CNPJ.
 
+> **Escopo de CNPJ:** a série 2.x suporta o formato numérico preexistente. Ela
+> ainda não aceita as novas inscrições alfanuméricas implantadas pela Receita
+> Federal em julho de 2026. CNPJs numéricos existentes continuam válidos. A
+> adaptação completa exige resolver contratos incompatíveis de parsing, cálculo e
+> reparo e está planejada para a 3.x.
+
 ## Instalação
 
 ```bash
@@ -189,6 +195,11 @@ A biblioteca suporta Node.js 16, 18, 20, 22 e 24. O pacote final é testado em C
 
 As ferramentas de desenvolvimento exigem Node.js 18.18 ou superior.
 
+Consulte a [política de suporte](docs/support-policy.md) para garantias de runtime,
+tipos e manutenção. Validação confirma estrutura e dígitos verificadores; não
+confirma identidade, emissão ou situação cadastral. A geração não oferece
+unicidade nem aleatoriedade criptográfica.
+
 ## Desenvolvimento
 
 ```bash
@@ -201,6 +212,13 @@ ESM, CommonJS, navegador e TypeScript.
 
 As decisões internas estão descritas em [Arquitetura](docs/architecture.md), e o
 comportamento compatível da versão atual em [Contrato da API 2.x](docs/api-contract.md).
+As regras implementadas ficam em [Regras de domínio](docs/domain-rules.md), com
+evolução planejada no [Roadmap](ROADMAP.md) e no
+[guia preliminar da versão 3](docs/migration-v3.md).
+
+Contribuições seguem [CONTRIBUTING.md](CONTRIBUTING.md). Vulnerabilidades devem
+ser relatadas pelo processo privado descrito em [SECURITY.md](SECURITY.md).
+O procedimento dos mantenedores está em [Processo de release](docs/releasing.md).
 
 ## Licença
 

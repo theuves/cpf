@@ -1,7 +1,7 @@
 {
   "name": "cpf",
   "version": "2.0.1",
-  "description": "Functions to validate, format, generate and repair Brazilian CPF and CNPJ numbers.",
+  "description": "Functions to validate, format, generate and repair Brazilian CPF and numeric CNPJ values.",
   "main": "./dist/cpf.cjs",
   "module": "./dist/cpf.mjs",
   "browser": "./dist/cpf.min.js",
@@ -42,6 +42,7 @@
     }
   },
   "files": [
+    "CHANGELOG.md",
     "dist/cpf.cjs",
     "dist/cpf.cjs.map",
     "dist/cpf.mjs",

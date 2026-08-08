@@ -29,6 +29,8 @@ compatibilidade, mas pode perder zeros à esquerda e precisão numérica.
 - `count` deve ser um inteiro positivo.
 - `valid: false` gera deliberadamente um documento com verificador inválido.
 - A geração não oferece garantia contratual de unicidade ou uso criptográfico.
+- O lote é materializado em memória. A série 2.x não define limite máximo além de
+  exigir um inteiro positivo; consumidores devem limitar entradas não confiáveis.
 
 ## Parsing e reparo
 
@@ -45,3 +47,12 @@ compatibilidade, mas pode perder zeros à esquerda e precisão numérica.
 - CNPJ continua disponível como export nomeado e pelo subpath `cpf/cnpj`.
 - `isValid`, `clear` e `getCD` permanecem aliases depreciados de CPF.
 - ESM, CommonJS e o bundle global de navegador fazem parte do contrato publicado.
+
+## Falhas
+
+- `check` e `validate` representam entrada inválida com `false`.
+- `repair` representa entrada sem solução com uma lista vazia.
+- Transformações e cálculo podem lançar `Error` para tipo, caractere, comprimento
+  ou opção inválida.
+- Mensagens são destinadas a diagnóstico humano e não são códigos estáveis.
+  Consumidores 2.x não devem decidir fluxo fazendo parsing da mensagem.

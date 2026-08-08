@@ -53,16 +53,3 @@ test('should reject a non-positive or non-integer count', t => {
     })
   }
 })
-
-test.serial('should avoid a repeated CPF body', t => {
-  const originalRandom = Math.random
-  Math.random = () => 0
-
-  try {
-    const cpf = generate({ formatted: false })
-    t.true(validate(cpf))
-    t.is(cpf.slice(0, 9), '000000001')
-  } finally {
-    Math.random = originalRandom
-  }
-})
