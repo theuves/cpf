@@ -8,7 +8,8 @@
 
 ## Compatibilidade e risco
 
-- [ ] Preserva o contrato da série 2.x ou está explicitamente destinado à 3.x.
+- [ ] Preserva o contrato público da série 3.x ou propõe explicitamente uma
+      versão major futura com migração documentada.
 - [ ] Avaliei ESM, CommonJS, navegador, subpaths e declarações TypeScript.
 - [ ] Documentei migração, rollback e impacto operacional quando aplicável.
 

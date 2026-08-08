@@ -12,7 +12,7 @@ body:
   id: version
   attributes:
     label: Versão
-    placeholder: 2.0.1
+    placeholder: 3.0.0
   validations:
     required: true
 

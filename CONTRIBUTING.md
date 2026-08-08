@@ -4,7 +4,7 @@
 
 Abra uma issue para mudanças de API, regras de domínio ou compatibilidade. A
 proposta deve explicar o problema do consumidor, alternativas, impacto na série
-2.x e como a decisão será testada. Correções pequenas e inequivocamente
+3.x e como a decisão será testada. Correções pequenas e inequivocamente
 compatíveis podem ir diretamente para um pull request.
 
 Não altere uma regra de CPF ou CNPJ apenas com base em exemplos de terceiros.
@@ -27,7 +27,8 @@ dependências e análise estática de segurança.
 
 ## Critérios de pull request
 
-- Preserve a API 2.x ou marque claramente a proposta como destinada à 3.x.
+- Preserve o contrato público da série 3.x ou proponha explicitamente uma versão
+  major futura com migração documentada.
 - Adicione teste de regressão ou propriedade para toda mudança comportamental.
 - Prefira uma invariável compartilhada a listas extensas de exemplos repetidos.
 - Atualize contrato, ADR, README e changelog quando forem afetados.
