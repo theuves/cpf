@@ -17,12 +17,26 @@ test('covers invalid canonical options and random sources', t => {
     t.throws(() => document.generate({ output: 'x' as never }))
   }
   t.throws(() => cnpj.generate({ kind: 'x' as never }))
+  t.throws(() =>
+    cnpj.findValidRepairs('12ABC34501DE3?', { kind: 'x' as never })
+  )
   for (const sample of [-1, 1, Number.NaN]) {
     t.throws(() => cpf.generate({ randomSource: () => sample }))
     t.throws(() => cnpj.generate({ randomSource: () => sample }))
   }
   t.throws(() => cpf.generateMany(0))
   t.throws(() => cnpj.generateMany(0))
+
+  for (const invalidNumber of [-1, 1.2, Number.NaN, Number.POSITIVE_INFINITY]) {
+    t.throws(() => cpf.format(invalidNumber, { strict: false }), {
+      message: 'Number input must be a non-negative safe integer',
+    })
+    t.throws(() => cnpj.format(invalidNumber, { strict: false }), {
+      message: 'Number input must be a non-negative safe integer',
+    })
+  }
+  t.throws(() => cpf.format(Number.MAX_SAFE_INTEGER + 1, { strict: false }))
+  t.throws(() => cnpj.format(Number.MAX_SAFE_INTEGER + 1, { strict: false }))
 })
 
 test('covers normalization, repair and shared-core rejection paths', t => {
@@ -58,6 +72,7 @@ test('covers normalization, repair and shared-core rejection paths', t => {
   t.deepEqual(cnpj.findValidRepairs(null as never), [])
   t.throws(() => cnpj.findValidRepairs('12ABC34501DE35', { placeholder: 'X' }))
   t.deepEqual(cnpj.findValidRepairs('12ABC34501DE3'), [])
+  t.deepEqual(cnpj.findValidRepairs('1'.repeat(1_000_000)), [])
   t.deepEqual(cnpj.findValidRepairs('12ABC34501DE???'), [])
   t.deepEqual(cnpj.findValidRepairs('?2ABC34501DE3?'), [])
   t.deepEqual(cnpj.findValidRepairs('12ABC34501DE35'), ['12ABC34501DE35'])
@@ -67,10 +82,15 @@ test('covers normalization, repair and shared-core rejection paths', t => {
   t.deepEqual(cnpj.findValidRepairs('000000000000??'), [])
   t.true(cnpj.findValidRepairs('?2ABC34501DE35').includes('12ABC34501DE35'))
   t.true(cnpj.findValidRepairs('?1222333000181').length > 0)
-  t.true(
-    cnpj
-      .findValidRepairs('?2ABC34501DE35', { kind: 'numeric' })
-      .includes('12ABC34501DE35')
+  t.deepEqual(
+    cnpj.findValidRepairs('?1222333000181', { kind: 'alphanumeric' }),
+    ['G1222333000181', 'R1222333000181']
+  )
+  t.deepEqual(cnpj.findValidRepairs('?2ABC34501DE35', { kind: 'numeric' }), [])
+  t.deepEqual(cnpj.findValidRepairs('12ABC34501DE3?', { kind: 'numeric' }), [])
+  t.deepEqual(
+    cnpj.findValidRepairs('11222333000181', { kind: 'alphanumeric' }),
+    []
   )
   t.deepEqual(cnpj.findValidRepairs('12ABC34501DE3_', { placeholder: '_' }), [
     '12ABC34501DE35',
@@ -83,6 +103,16 @@ test('covers normalization, repair and shared-core rejection paths', t => {
   t.false(cnpj.matchesFormat('12.ABC', { completeness: 'complete' }))
   t.false(cnpj.matchesFormat('abc', { completeness: 'partial' }))
   t.true(cnpj.matchesFormat('12.ABC', { completeness: 'partial' }))
+  for (const partial of ['', '1']) {
+    t.true(cnpj.matchesFormat(partial, { completeness: 'partial' }))
+  }
+  for (const partial of ['', '1', '12']) {
+    t.true(cpf.matchesFormat(partial, { completeness: 'partial' }))
+  }
+  t.deepEqual(cpf.findValidRepairs('529!982!247!2X'), [])
+  t.deepEqual(cpf.findValidRepairs('529.982.247-25!'), [])
+  t.deepEqual(cnpj.findValidRepairs('12!ABC!345!01DE!3?'), [])
+  t.deepEqual(cnpj.findValidRepairs('12.ABC.345/01DE-35!'), [])
   t.is(
     cnpj
       .generate({

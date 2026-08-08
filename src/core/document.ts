@@ -44,6 +44,7 @@ export function checkDocument(
   if (strict) return spec.strictPattern.test(input)
 
   const trimmed = input.trim()
+  if (trimmed === '') return true
   if (!spec.validCharsPattern.test(trimmed)) return false
   return spec.partialPatterns.some(pattern => pattern.test(trimmed))
 }
@@ -57,6 +58,9 @@ export function formatDocument(
   if (typeof value === 'number') {
     if (strict) {
       throw new Error('Number input is only allowed when strict=false')
+    }
+    if (!Number.isSafeInteger(value) || value < 0) {
+      throw new Error('Number input must be a non-negative safe integer')
     }
     value = value.toString().padStart(spec.totalLength, '0')
   }
@@ -154,6 +158,7 @@ export function inspectDocument(
 
 export function repairDocument(spec: DocumentSpec, input: unknown): string[] {
   if (typeof input !== 'string') return []
+  if (!/^[0-9X.\-\s]+$/.test(input)) return []
 
   const clean = input.replace(/[^0-9X]/g, '')
   if (clean.length !== spec.totalLength) return []

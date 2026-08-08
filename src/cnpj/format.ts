@@ -15,6 +15,9 @@ export default function format(
     if (strict) {
       throw new Error('Number input is only allowed when strict=false')
     }
+    if (!Number.isSafeInteger(value) || value < 0) {
+      throw new Error('Number input must be a non-negative safe integer')
+    }
     value = value.toString().padStart(14, '0')
   }
   if (typeof value !== 'string') {

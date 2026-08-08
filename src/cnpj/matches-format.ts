@@ -3,6 +3,7 @@ const STRICT_PATTERN =
   /^[A-Z0-9]{2}\.[A-Z0-9]{3}\.[A-Z0-9]{3}\/[A-Z0-9]{4}-\d{2}$/
 const VALID_CHARACTERS = /^[A-Z0-9.\-/\s]+$/
 const PARTIAL_PATTERNS = [
+  /^[A-Z0-9]{0,1}$/,
   /^[A-Z0-9]{2}\.?[A-Z0-9]{0,3}$/,
   /^[A-Z0-9]{2}\.[A-Z0-9]{3}\.?[A-Z0-9]{0,3}$/,
   /^[A-Z0-9]{2}\.[A-Z0-9]{3}\.[A-Z0-9]{3}\/?[A-Z0-9]{0,4}$/,
@@ -25,6 +26,7 @@ export default function matchesFormat(
   if (completeness === 'complete') return STRICT_PATTERN.test(cnpj)
 
   const trimmed = cnpj.trim()
+  if (trimmed === '') return true
   if (!VALID_CHARACTERS.test(trimmed)) return false
   return PARTIAL_PATTERNS.some(pattern => pattern.test(trimmed))
 }

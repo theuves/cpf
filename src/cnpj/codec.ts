@@ -8,6 +8,7 @@ export type CnpjBody = string | readonly CnpjCharacter[]
 const ALPHANUMERIC = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 const NUMERIC = '0123456789'
 const STRICT_INPUT_PATTERN = /^[A-Z0-9.\-/\s]+$/
+const MAX_BODY_INPUT_LENGTH = 64
 
 export function hasValidCnpjCharacters(input: string): boolean {
   return input === '' || STRICT_INPUT_PATTERN.test(input)
@@ -67,12 +68,29 @@ export function getCnpjAlphabet(kind: CnpjKind): string {
 }
 
 function normalizeBody(body: CnpjBody): string[] {
-  const characters =
-    typeof body === 'string'
-      ? body.replace(/[.\-/\s]/g, '').split('')
-      : body.map(character =>
-          typeof character === 'number' ? character.toString() : character
-        )
+  let characters: string[]
+  if (typeof body === 'string') {
+    if (body.length > MAX_BODY_INPUT_LENGTH) {
+      throw new Error(
+        `Input must be exactly ${numericCnpjSpec.bodyLength} characters`
+      )
+    }
+    characters = []
+    for (const character of body) {
+      if (/^[.\-/\s]$/.test(character)) continue
+      characters.push(character)
+      if (characters.length > numericCnpjSpec.bodyLength) break
+    }
+  } else {
+    if (body.length !== numericCnpjSpec.bodyLength) {
+      throw new Error(
+        `Input must be exactly ${numericCnpjSpec.bodyLength} characters`
+      )
+    }
+    characters = body.map(character =>
+      typeof character === 'number' ? character.toString() : character
+    )
+  }
 
   if (characters.length !== numericCnpjSpec.bodyLength) {
     throw new Error(

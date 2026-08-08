@@ -3,6 +3,8 @@ import { calculateCnpjVerifiers, getCnpjAlphabet } from './codec'
 import type { CnpjKind } from './codec'
 import isValid from './is-valid'
 
+const MAX_REPAIR_INPUT_LENGTH = 64
+
 export interface RepairOptions {
   placeholder?: string
   kind?: CnpjKind
@@ -20,19 +22,33 @@ export default function findValidRepairs(
       'Placeholder must be one non-alphanumeric, non-separator character'
     )
   }
+  if (
+    options.kind !== undefined &&
+    options.kind !== 'numeric' &&
+    options.kind !== 'alphanumeric'
+  ) {
+    throw new Error('Kind must be numeric or alphanumeric')
+  }
+  if (cnpjBroken.length > MAX_REPAIR_INPUT_LENGTH) return []
 
-  const escapedPlaceholder = escapeRegExp(placeholder)
-  const clean = [...cnpjBroken]
-    .filter(
-      character => /^[A-Z0-9]$/.test(character) || character === placeholder
-    )
-    .join('')
+  let clean = ''
+  for (const character of cnpjBroken) {
+    if (/^[A-Z0-9]$/.test(character) || character === placeholder) {
+      clean += character
+      if (clean.length > 14) return []
+    } else if (!/^[.\-/\s]$/.test(character)) {
+      return []
+    }
+  }
   if (clean.length !== 14) return []
 
-  const positions = [
-    ...clean.matchAll(new RegExp(escapedPlaceholder, 'g')),
-  ].map(match => match.index)
-  if (positions.length === 0) return isValid(clean) ? [clean] : []
+  const positions: number[] = []
+  for (let index = 0; index < clean.length; index++) {
+    if (clean[index] === placeholder) positions.push(index)
+  }
+  if (positions.length === 0) {
+    return isValid(clean) && matchesKind(clean, options.kind) ? [clean] : []
+  }
   if (positions.length > 2) return []
   if (positions.length === 2 && !(positions[0] === 12 && positions[1] === 13)) {
     return []
@@ -40,7 +56,9 @@ export default function findValidRepairs(
 
   const position = positions[0] as number
   if (position >= 12) {
-    return repairVerifiers(clean, placeholder)
+    return matchesKind(clean, options.kind)
+      ? repairVerifiers(clean, placeholder)
+      : []
   }
 
   const inferredKind: CnpjKind = /[A-Z]/.test(clean)
@@ -50,9 +68,17 @@ export default function findValidRepairs(
   const repaired: string[] = []
   for (const character of alphabet) {
     const candidate = clean.replace(placeholder, character)
-    if (isValid(candidate)) repaired.push(candidate)
+    if (isValid(candidate) && matchesKind(candidate, options.kind)) {
+      repaired.push(candidate)
+    }
   }
   return repaired
+}
+
+function matchesKind(input: string, kind: CnpjKind | undefined): boolean {
+  if (kind === undefined) return true
+  const isAlphanumeric = /[A-Z]/.test(input.slice(0, 12))
+  return kind === 'alphanumeric' ? isAlphanumeric : !isAlphanumeric
 }
 
 function repairVerifiers(input: string, placeholder: string): string[] {
@@ -65,8 +91,4 @@ function repairVerifiers(input: string, placeholder: string): string[] {
     result = `${result.slice(0, 13)}${second}`
   }
   return isValid(result) ? [result] : []
-}
-
-function escapeRegExp(value: string): string {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }

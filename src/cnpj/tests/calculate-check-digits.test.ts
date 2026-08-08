@@ -38,6 +38,12 @@ test('should throw error for body with more than 12 digits', t => {
     { instanceOf: Error }
   )
   t.is(error.message, 'Input must be exactly 12 characters')
+  t.throws(() => calc('1234567890123'), {
+    message: 'Input must be exactly 12 characters',
+  })
+  t.throws(() => calc('1'.repeat(1_000_000)), {
+    message: 'Input must be exactly 12 characters',
+  })
 })
 
 test('should throw error for body with non-integer values', t => {

@@ -2,9 +2,10 @@
 
 ## Versões suportadas
 
-A versão mais recente da série 2.x recebe correções de segurança. Versões
-anteriores podem ser usadas para reproduzir um problema, mas não recebem garantia
-de correção. Consulte `docs/support-policy.md` para runtimes suportados.
+A série 3.x recebe correções de segurança. A última série 2.x recebe correções
+críticas conforme a capacidade dos mantenedores; versões anteriores podem ser
+usadas para reproduzir um problema, mas não recebem garantia de correção. Consulte
+`docs/support-policy.md` para runtimes suportados.
 
 ## Relatando uma vulnerabilidade
 

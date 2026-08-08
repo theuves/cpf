@@ -16,6 +16,7 @@ export const cpfSpec: DocumentSpec = {
   ],
   strictPattern: /^\d{3}\.\d{3}\.\d{3}-\d{2}$/,
   partialPatterns: [
+    /^\d{0,2}$/,
     /^\d{3}\.?\d{0,3}$/,
     /^\d{3}\.\d{3}\.?\d{0,3}$/,
     /^\d{3}\.\d{3}\.\d{3}-?\d{0,2}$/,

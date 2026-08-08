@@ -24,6 +24,8 @@ também oferece `getKind`.
   completa e caracteres estritos, mas não confirma os dígitos verificadores.
 - `matchesFormat` verifica somente a máscara com
   `completeness: 'complete' | 'partial'`.
+- Entradas numéricas de `format` são aceitas somente com `strict: false` e devem
+  ser inteiros seguros não negativos.
 - `normalize` devolve texto sem máscara, preservando zeros à esquerda; CNPJ
   converte letras minúsculas a maiúsculas.
 - `generate(options)` retorna sempre `string` e

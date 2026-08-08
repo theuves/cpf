@@ -136,8 +136,8 @@ cnpj.format('12ABC34501DE35') // '12.ABC.345/01DE-35'
 | -------- | --------- | ------ | ------------------------------------------------------------------------------------------------------ |
 | `strict` | `boolean` | `true` | Rejeita caracteres inválidos e valores maiores que o documento. Com `false`, limpa e limita a entrada. |
 
-Entradas numéricas são aceitas somente com `strict: false`. Prefira strings para
-preservar zeros à esquerda e evitar perda de precisão.
+Entradas numéricas são aceitas somente com `strict: false` e devem ser inteiros
+seguros não negativos. Prefira strings para preservar zeros à esquerda.
 
 ### `normalize(value)`
 
