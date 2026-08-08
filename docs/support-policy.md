@@ -2,7 +2,7 @@
 
 ## Runtime
 
-A série 2.x suporta Node.js 16, 18, 20, 22 e 24. O CI executa o artefato compilado
+A série 3.x suporta Node.js 16, 18, 20, 22 e 24. O CI executa o artefato compilado
 em ESM e CommonJS em cada versão. O bundle IIFE é verificado como artefato de
 navegador, mas o projeto não promete uma matriz nominal de navegadores sem uma
 suíte real nesses ambientes.
@@ -22,8 +22,8 @@ incompatível com `engines`, uma release major.
 
 ## Canais de manutenção
 
-- Última 2.x: correções compatíveis e de segurança.
-- 3.x futura: mudanças incompatíveis descritas em `docs/migration-v3.md`.
+- Série 3.x: correções compatíveis, de domínio e de segurança.
+- Última 2.x: correções críticas conforme capacidade dos mantenedores.
 - Releases antigas: disponíveis sem manutenção garantida.
 
 ## Processo de alteração

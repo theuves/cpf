@@ -1,13 +1,13 @@
 # ADR 006: adaptar CNPJ alfanumérico de forma coerente na 3.x
 
-- Status: aceito como direção; desenho da API pendente
+- Status: implementado na 3.0.0
 - Data da decisão: 2026-08-08
 
 ## Contexto
 
-A Receita Federal iniciou em julho de 2026 a implantação de novas inscrições de
-CNPJ com 12 posições alfanuméricas e dois verificadores numéricos. CNPJs numéricos
-existentes permanecem válidos.
+A Receita Federal iniciou em julho de 2026 a implantação progressiva de CNPJ com
+12 posições alfanuméricas e dois verificadores numéricos. Os formatos numérico e
+alfanumérico coexistem e devem ser aceitos em todos os processos.
 
 A API 2.x contém premissas incompatíveis com uma extensão superficial:
 
@@ -19,10 +19,14 @@ A API 2.x contém premissas incompatíveis com uma extensão superficial:
 
 ## Decisão
 
-Manter a série 2.x explicitamente limitada a CNPJ numérico e implementar suporte
-alfanumérico completo em uma versão major. A proposta deve cobrir todas as funções
-e preservar validação dos números existentes. Documentação e metadata devem
-declarar a limitação enquanto a major não existir.
+Implementar o suporte completo na 3.0.0 e preservar o caminho numérico existente:
+
+- cálculo aceita string ou array sem destruir a representação das letras;
+- parsing retorna números para dígitos e strings para letras;
+- geração permanece numérica por padrão e recebe um `mode` explícito;
+- reparo adota `?` e trata `X` como dado no corpo;
+- entrada estrita segue `A-Z`; entrada permissiva normaliza minúsculas;
+- vetores oficiais protegem o cálculo e a validação.
 
 ## Alternativas
 
@@ -35,9 +39,9 @@ declarar a limitação enquanto a major não existir.
 
 ## Consequências
 
-A 2.x continua útil para cadastros numéricos, mas retorna falso para inscrições
-alfanuméricas. A 3.x precisa de guia de migração, vetores oficiais, validação
-diferencial contra o simulador e decisão explícita sobre o marcador de reparo.
+A mudança exige versão major porque amplia os tipos de `parse` e altera a
+semântica de letras no modo permissivo e de `X` no reparo. Consumidores numéricos
+que não dependem desses três comportamentos mantêm o mesmo fluxo.
 
 ## Fontes
 

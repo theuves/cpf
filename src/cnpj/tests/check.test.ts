@@ -4,11 +4,14 @@ import check from '../check'
 test('should return true for valid CNPJ in strict mode', t => {
   const cnpj = '12.345.678/0001-95'
   t.true(check(cnpj))
+  t.true(check('12.ABC.345/01DE-35'))
 })
 
 test('should return false for invalid CNPJ in strict mode', t => {
   const cnpj = '12.345.678/0001-9'
   t.false(check(cnpj))
+  t.false(check('12.ABC.345/01DE-3A'))
+  t.false(check('12.ABc.345/01DE-35'))
 })
 
 test('should return true for partially valid CNPJ in non-strict mode', t => {
@@ -20,6 +23,8 @@ test('should return true for partially valid CNPJ in non-strict mode', t => {
   t.true(check(cnpj2, { strict: false }))
   t.true(check(cnpj3, { strict: false }))
   t.true(check(cnpj4, { strict: false }))
+  t.true(check('12.ABC.345/01D', { strict: false }))
+  t.true(check('12.ABC.345/01DE-3', { strict: false }))
 })
 
 test('should return true for CNPJ ending with separators in non-strict mode', t => {

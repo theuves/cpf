@@ -1,6 +1,6 @@
 # ADR 005: mensagens de erro não são códigos públicos na série 2.x
 
-- Status: aceito para 2.x; erros tipados propostos para 3.x
+- Status: aceito; erros tipados adiados para proposta futura
 
 ## Contexto
 

@@ -14,14 +14,14 @@ test('should return empty array for invalid length', t => {
   t.deepEqual(repair('123456789012'), []) // 12 digits
 })
 
-test('should return empty array for more than 2 X characters', t => {
-  t.deepEqual(repair('123456789012XXX'), []) // 3 X
-  t.deepEqual(repair('123456789012XXXX'), []) // 4 X
+test('should return empty array for more than 2 placeholders', t => {
+  t.deepEqual(repair('12345678901???'), [])
+  t.deepEqual(repair('1234567890????'), [])
 })
 
-test('should return empty array for 2 X not in verifier positions', t => {
-  t.deepEqual(repair('123456789012X1X'), []) // X in positions 12,14 (invalid)
-  t.deepEqual(repair('1234567890121XX'), []) // X in positions 13,14 (invalid)
+test('should return empty array for 2 placeholders outside verifier positions', t => {
+  t.deepEqual(repair('?12345678901?1'), [])
+  t.deepEqual(repair('12345678901??1'), [])
 })
 
 test('should return valid CNPJ when no X present', t => {
@@ -49,15 +49,15 @@ test('should repair single X in second verifier position', t => {
 })
 
 test('should repair single X in base digits', t => {
-  const cnpjWithX = 'X1222333000181'
-  const result = repair(cnpjWithX)
+  const cnpjWithUnknown = '?1222333000181'
+  const result = repair(cnpjWithUnknown)
   t.true(result.length > 0)
   t.true(result.every(cnpj => cnpj.length === 14))
   t.true(result.every(cnpj => !cnpj.includes('X')))
 })
 
 test('should repair two X in verifier positions', t => {
-  const cnpjWithXX = '112223330001XX'
+  const cnpjWithXX = '112223330001??'
   const expected = '11222333000181'
   const result = repair(cnpjWithXX)
   t.deepEqual(result, [expected])
@@ -71,16 +71,51 @@ test('should handle CNPJ with formatting', t => {
 })
 
 test('should return multiple valid CNPJs when X is in base digits', t => {
-  const cnpjWithX = '1X222333000181'
-  const result = repair(cnpjWithX)
+  const cnpjWithUnknown = '1?222333000181'
+  const result = repair(cnpjWithUnknown)
   t.true(result.length > 0)
   t.true(result.every(cnpj => cnpj.length === 14))
   t.true(result.every(cnpj => !cnpj.includes('X')))
 })
 
 test('should handle edge case with all same digits', t => {
-  const cnpjWithX = '111111111111X1'
-  const result = repair(cnpjWithX)
+  const cnpjWithUnknown = '111111111111?1'
+  const result = repair(cnpjWithUnknown)
   // Should return empty array because all same digits is invalid
   t.deepEqual(result, [])
+})
+
+test('should repair alphanumeric body and verifiers with an unambiguous placeholder', t => {
+  t.true(repair('12?BC34501DE35').includes('12ABC34501DE35'))
+  t.deepEqual(repair('12ABC34501DE??'), ['12ABC34501DE35'])
+  t.deepEqual(repair('12.ABC.345/01DE-3?'), ['12ABC34501DE35'])
+})
+
+test('should treat X as data in the body', t => {
+  t.deepEqual(repair('ABCDEFGHIJKL80'), ['ABCDEFGHIJKL80'])
+  t.deepEqual(repair('XBCDEFGHIJKL80'), [])
+})
+
+test('should allow explicit numeric or alphanumeric replacement alphabets', t => {
+  t.true(
+    repair('?2ABC34501DE35', { mode: 'alphanumeric' }).includes(
+      '12ABC34501DE35'
+    )
+  )
+  t.deepEqual(repair('?2ABC34501DE35', { mode: 'numeric' }), ['12ABC34501DE35'])
+})
+
+test('should support a custom non-conflicting placeholder', t => {
+  t.deepEqual(repair('12ABC34501DE3_', { placeholder: '_' }), [
+    '12ABC34501DE35',
+  ])
+})
+
+test('should reject ambiguous placeholders', t => {
+  for (const placeholder of ['X', '.', '/', '-', ' ', '??']) {
+    t.throws(() => repair('12ABC34501DE35', { placeholder }), {
+      message:
+        'Placeholder must be one non-alphanumeric, non-separator character',
+    })
+  }
 })

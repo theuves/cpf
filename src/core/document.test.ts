@@ -1,5 +1,5 @@
 import test from 'ava'
-import { cnpjSpec } from '../cnpj/spec'
+import { numericCnpjSpec } from '../cnpj/spec'
 import { cpfSpec } from '../cpf/spec'
 import {
   formatDocument,
@@ -10,7 +10,7 @@ import {
 } from './document'
 import type { DocumentSpec } from './types'
 
-const specs = [cpfSpec, cnpjSpec] as const
+const specs = [cpfSpec, numericCnpjSpec] as const
 
 function seededRandom(seed: number): () => number {
   let state = seed >>> 0
@@ -107,6 +107,8 @@ for (const spec of specs) {
   test(`${spec.name}: repeated bodies cannot be repaired with two verifiers`, t => {
     const unknownVerifiers = `${'0'.repeat(spec.bodyLength)}XX`
     t.deepEqual(repairDocument(spec, unknownVerifiers), [])
+    const unknownSecondVerifier = `${'0'.repeat(spec.bodyLength)}0X`
+    t.deepEqual(repairDocument(spec, unknownSecondVerifier), [])
   })
 
   test(`${spec.name}: generation uses its default random source`, t => {

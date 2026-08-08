@@ -49,9 +49,11 @@ export {
 }
 
 export type { CheckOptions as CnpjCheckOptions } from './cnpj/check'
+export type { CnpjBody, CnpjCharacter, CnpjMode } from './cnpj/codec'
 export type { FormatOptions as CnpjFormatOptions } from './cnpj/format'
 export type { GenerateOptions as CnpjGenerateOptions } from './cnpj/generate'
 export type { ParseResult as CnpjParseResult } from './cnpj/parser'
+export type { RepairOptions as CnpjRepairOptions } from './cnpj/repair'
 export type { UnformatOptions as CnpjUnformatOptions } from './cnpj/unformat'
 export type { CheckOptions as CpfCheckOptions } from './cpf/check'
 export type { FormatOptions as CpfFormatOptions } from './cpf/format'

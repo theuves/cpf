@@ -1,34 +1,31 @@
 /* c8 ignore next */
-import { parseDocument } from '../core/document'
-import { cnpjSpec } from './spec'
+import { extractCnpjCharacters } from './codec'
+import type { CnpjCharacter } from './codec'
 
 export interface ParseResult {
-  digits: number[]
-  fullBody: number[]
+  digits: CnpjCharacter[]
+  fullBody: CnpjCharacter[]
   bodyParts: {
-    part1: number[]
-    part2: number[]
-    part3: number[]
-    part4: number[]
+    part1: CnpjCharacter[]
+    part2: CnpjCharacter[]
+    part3: CnpjCharacter[]
+    part4: CnpjCharacter[]
   }
-  verifiers: number[]
+  verifiers: CnpjCharacter[]
 }
 
 export default function parser(cnpj: string): ParseResult {
-  const parsed = parseDocument(cnpjSpec, cnpj, [2, 3, 3, 4])
-  const part1 = parsed.bodyParts[0] as number[]
-  const part2 = parsed.bodyParts[1] as number[]
-  const part3 = parsed.bodyParts[2] as number[]
-  const part4 = parsed.bodyParts[3] as number[]
+  const digits = extractCnpjCharacters(cnpj)
+  const fullBody = digits.slice(0, Math.min(12, digits.length))
   return {
-    digits: parsed.digits,
-    fullBody: parsed.fullBody,
+    digits,
+    fullBody,
     bodyParts: {
-      part1,
-      part2,
-      part3,
-      part4,
+      part1: fullBody.slice(0, 2),
+      part2: fullBody.slice(2, 5),
+      part3: fullBody.slice(5, 8),
+      part4: fullBody.slice(8, 12),
     },
-    verifiers: parsed.verifiers,
+    verifiers: digits.slice(12),
   }
 }

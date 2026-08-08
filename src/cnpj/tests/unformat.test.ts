@@ -12,6 +12,10 @@ test('should unformat CNPJ with separators in strict mode', t => {
   t.is(unformat(cnpj), '12345678000195')
 })
 
+test('should unformat alphanumeric CNPJ in strict mode', t => {
+  t.is(unformat('12.ABC.345/01DE-35'), '12ABC34501DE35')
+})
+
 test('should throw error for invalid characters in strict mode', t => {
   t.throws(() => unformat('12abc345def678ghi0001jkl95'), {
     message: 'Invalid characters in CNPJ input',
@@ -26,10 +30,16 @@ test('should throw error for invalid characters in strict mode', t => {
 
 test('should throw error for more than 14 digits in strict mode', t => {
   t.throws(() => unformat('123456789012345'), {
-    message: 'CNPJ cannot have more than 14 digits',
+    message: 'CNPJ cannot have more than 14 characters',
   })
   t.throws(() => unformat('12.345.678/0001-950'), {
-    message: 'CNPJ cannot have more than 14 digits',
+    message: 'CNPJ cannot have more than 14 characters',
+  })
+})
+
+test('should reject letters in verifier positions in strict mode', t => {
+  t.throws(() => unformat('12.ABC.345/01DE-3A'), {
+    message: 'CNPJ verifier positions must contain digits',
   })
 })
 
@@ -62,10 +72,14 @@ test('should unformat CNPJ with separators in non-strict mode', t => {
 test('should unformat CNPJ with extra characters in non-strict mode', t => {
   t.is(
     unformat('12abc345def678ghi0001jkl95', { strict: false }),
-    '12345678000195'
+    '12ABC345DEF678'
   )
-  t.is(unformat('12.345.678/0001-9a', { strict: false }), '1234567800019')
+  t.is(unformat('12.345.678/0001-9a', { strict: false }), '1234567800019A')
   t.is(unformat('12.345.678/0001-9#', { strict: false }), '1234567800019')
+})
+
+test('should normalize lowercase in non-strict mode', t => {
+  t.is(unformat('12.abc.345/01de-35', { strict: false }), '12ABC34501DE35')
 })
 
 test('should truncate CNPJ with more than 14 digits in non-strict mode', t => {

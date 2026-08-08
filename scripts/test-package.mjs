@@ -100,9 +100,11 @@ try {
 
       if (!cpf.validate('529.982.247-25')) process.exit(1)
       if (!cnpj.validate('11.222.333/0001-81')) process.exit(1)
+      if (!cnpj.validate('12.ABC.345/01DE-35')) process.exit(1)
       if (!cpfParse('529.982.247-25')) process.exit(1)
       if (!cpfSubpath.validate('529.982.247-25')) process.exit(1)
       if (!cnpjSubpath.validate('11.222.333/0001-81')) process.exit(1)
+      if (!cnpjSubpath.validate('12.ABC.345/01DE-35')) process.exit(1)
     `
   )
   run(process.execPath, ['esm.mjs'])
@@ -117,6 +119,7 @@ try {
       if (!root.default.validate('529.982.247-25')) process.exit(1)
       if (!cpf.validate('529.982.247-25')) process.exit(1)
       if (!cnpj.validate('11.222.333/0001-81')) process.exit(1)
+      if (!cnpj.validate('12.ABC.345/01DE-35')) process.exit(1)
     `
   )
   run(process.execPath, ['commonjs.cjs'])
@@ -137,6 +140,7 @@ try {
     `${browserBundle}
       if (!globalThis.cpf.validate('529.982.247-25')) process.exit(1)
       if (!globalThis.cpf.cnpj.validate('11.222.333/0001-81')) process.exit(1)
+      if (!globalThis.cpf.cnpj.validate('12.ABC.345/01DE-35')) process.exit(1)
     `
   )
   run(process.execPath, ['browser/browser.cjs'])
@@ -152,11 +156,16 @@ try {
       const many: string[] = cpf.generate({ count: 2 })
       const dynamicCount: number = Date.now() % 2 === 0 ? 1 : 2
       const dynamic: string | string[] = cpf.generate({ count: dynamicCount })
+      const alphanumeric: string = cnpj.generate({ mode: 'alphanumeric' })
+      const body: (number | string)[] = cnpj.parse('12.ABC.345/01DE-35').fullBody
 
       cpfSubpath.validate(one)
       cnpjSubpath.validate(cnpj.generate())
+      cnpjSubpath.validate(alphanumeric)
+      cnpj.calc('12.ABC.345/01DE')
       void many
       void dynamic
+      void body
     `
   )
   run(resolve(projectRoot, 'node_modules/.bin/tsc'), [

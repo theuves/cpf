@@ -1,7 +1,7 @@
 /* c8 ignore next */
-import { calculateVerifiers } from '../core/document'
-import { cnpjSpec } from './spec'
+import { calculateCnpjVerifiers } from './codec'
+import type { CnpjBody } from './codec'
 
-export default function calc(body: readonly number[]): [number, number] {
-  return calculateVerifiers(cnpjSpec, body)
+export default function calc(body: CnpjBody): [number, number] {
+  return calculateCnpjVerifiers(body)
 }

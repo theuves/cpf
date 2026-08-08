@@ -2,7 +2,25 @@ import test from 'ava'
 import cpf from './cpf/index'
 import cnpj from './cnpj/index'
 
-const documents = [
+interface DocumentApi {
+  calc(body: readonly number[]): [number, number]
+  format(value: string): string
+  generate(options: {
+    count: number
+    formatted: boolean
+    valid?: boolean
+  }): string | string[]
+  repair(value: string): string[]
+  unformat(value: string): string
+  validate(value: string): boolean
+}
+
+const documents: readonly {
+  name: string
+  api: DocumentApi
+  body: readonly number[]
+  digits: string
+}[] = [
   {
     name: 'CPF',
     api: cpf,
@@ -32,6 +50,9 @@ for (const document of documents) {
       valid: false,
     })
 
+    t.true(Array.isArray(valid))
+    t.true(Array.isArray(invalid))
+    if (!Array.isArray(valid) || !Array.isArray(invalid)) return
     t.true(valid.every(value => document.api.validate(value)))
     t.true(invalid.every(value => !document.api.validate(value)))
   })

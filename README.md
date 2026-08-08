@@ -2,11 +2,9 @@
 
 Biblioteca TypeScript/JavaScript para validar, formatar, gerar e reparar números brasileiros de CPF e CNPJ.
 
-> **Escopo de CNPJ:** a série 2.x suporta o formato numérico preexistente. Ela
-> ainda não aceita as novas inscrições alfanuméricas implantadas pela Receita
-> Federal em julho de 2026. CNPJs numéricos existentes continuam válidos. A
-> adaptação completa exige resolver contratos incompatíveis de parsing, cálculo e
-> reparo e está planejada para a 3.x.
+Os formatos numérico e alfanumérico de CNPJ coexistem e são suportados pelo ciclo
+completo da API. As 12 posições do corpo aceitam `0-9` e `A-Z`; os dois
+verificadores permanecem numéricos.
 
 ## Instalação
 
@@ -32,6 +30,7 @@ A API de CNPJ está disponível como export nomeado:
 import { cnpj } from 'cpf'
 
 cnpj.validate('11.222.333/0001-81') // true
+cnpj.validate('12.ABC.345/01DE-35') // true
 cnpj.format('11222333000181') // '11.222.333/0001-81'
 cnpj.parse('11.222.333/0001-81').verifiers // [8, 1]
 ```
@@ -130,21 +129,39 @@ cpf.rfs('123.456.789-09') // ['PR', 'SC']
 
 ## API de CNPJ
 
-O objeto `cnpj` oferece as mesmas operações aplicáveis ao documento:
+O objeto `cnpj` opera nos formatos numérico e alfanumérico:
 
 - `cnpj.validate(value)`
 - `cnpj.format(value, options?)`
 - `cnpj.unformat(value, options?)`
 - `cnpj.check(value, options?)`
-- `cnpj.generate(options?)`
-- `cnpj.calc(body)` — recebe os 12 dígitos do corpo
+- `cnpj.generate(options?)` — gera numérico por padrão; use `mode: 'alphanumeric'`
+- `cnpj.calc(body)` — recebe string ou array com os 12 caracteres do corpo
 - `cnpj.parse(value)` — separa corpo, partes e verificadores
-- `cnpj.repair(value)` — usa `X` para dígitos desconhecidos
+- `cnpj.repair(value, options?)` — usa `?` como marcador não ambíguo
 
 ```js
 cnpj.calc([1, 1, 2, 2, 2, 3, 3, 3, 0, 0, 0, 1]) // [8, 1]
+cnpj.calc('12.ABC.345/01DE') // [3, 5]
+cnpj.format('12ABC34501DE35') // '12.ABC.345/01DE-35'
+cnpj.generate({ mode: 'alphanumeric' })
+cnpj.repair('12.ABC.345/01DE-3?') // ['12ABC34501DE35']
 cnpj.repair('11.222.333/0001-8X') // ['11222333000181']
 ```
+
+O modo estrito aceita apenas letras ASCII maiúsculas, como a especificação
+oficial. Com `{ strict: false }`, `format` e `unformat` convertem letras
+minúsculas para maiúsculas, removem caracteres externos ao identificador e
+truncam após 14 posições.
+
+`parse` preserva letras como strings e mantém dígitos como números. Por exemplo,
+o corpo de `12.ABC.345/01DE-35` é representado como
+`[1, 2, 'A', 'B', 'C', 3, 4, 5, 0, 1, 'D', 'E']`.
+
+No corpo, `X` é dado válido e nunca é inferido como lacuna. Por compatibilidade
+com a 2.x, `X` ainda é reconhecido automaticamente nas posições dos
+verificadores, nas quais letras não são permitidas. Novos códigos devem usar `?`
+ou configurar outro marcador não alfanumérico com `placeholder`.
 
 ## Imports modulares
 
@@ -156,7 +173,9 @@ import { cpfValidate, cpfGenerate, cnpjValidate, cnpjGenerate } from 'cpf'
 
 Os tipos `CpfGenerateOptions` e `CnpjGenerateOptions` são exportados para consumidores TypeScript.
 
-Também são exportados os tipos `CpfCheckOptions`, `CpfFormatOptions`, `CpfUnformatOptions`, `CpfParseResult` e seus equivalentes com prefixo `Cnpj`.
+Também são exportados os tipos `CpfCheckOptions`, `CpfFormatOptions`,
+`CpfUnformatOptions`, `CpfParseResult` e seus equivalentes com prefixo `Cnpj`,
+além de `CnpjBody`, `CnpjCharacter`, `CnpjMode` e `CnpjRepairOptions`.
 
 ## Entradas específicas
 
@@ -185,7 +204,7 @@ O bundle `dist/cpf.min.js` cria o global `cpf`. A API de CNPJ fica em `cpf.cnpj`
 <script src="cpf.min.js"></script>
 <script>
   cpf.validate('529.982.247-25')
-  cpf.cnpj.validate('11.222.333/0001-81')
+  cpf.cnpj.validate('12.ABC.345/01DE-35')
 </script>
 ```
 
@@ -211,10 +230,10 @@ instalação do tarball em um projeto temporário. O pacote instalado é verific
 ESM, CommonJS, navegador e TypeScript.
 
 As decisões internas estão descritas em [Arquitetura](docs/architecture.md), e o
-comportamento compatível da versão atual em [Contrato da API 2.x](docs/api-contract.md).
+comportamento compatível da versão atual em [Contrato da API 3.x](docs/api-contract.md).
 As regras implementadas ficam em [Regras de domínio](docs/domain-rules.md), com
 evolução planejada no [Roadmap](ROADMAP.md) e no
-[guia preliminar da versão 3](docs/migration-v3.md).
+[guia de migração para a versão 3](docs/migration-v3.md).
 
 Contribuições seguem [CONTRIBUTING.md](CONTRIBUTING.md). Vulnerabilidades devem
 ser relatadas pelo processo privado descrito em [SECURITY.md](SECURITY.md).

@@ -21,30 +21,30 @@ avaliados.
 - Aceitar automaticamente toda representação permissiva de entrada.
 - Criar uma abstração genérica para documentos que não fazem parte do pacote.
 
-## Série 2.x
+## Série 2.x concluída
 
 - Correções compatíveis e atualização das regras documentadas.
 - Testes de propriedades determinísticos e testes do tarball publicado.
 - Automação de manutenção, segurança e releases reproduzíveis.
 - Depreciações acompanhadas de substituição e documentação.
 
-## Prioridade da 3.x: CNPJ alfanumérico
+## Entregue na 3.0: CNPJ alfanumérico
 
 A Receita Federal iniciou novas inscrições alfanuméricas em julho de 2026. A API
 2.x é deliberadamente numérica: `calc` recebe números, `parse` devolve números e
 `repair` reserva `X` como marcador. Aceitar letras em apenas algumas funções
 criaria uma falsa compatibilidade.
 
-A primeira proposta da 3.x deve tratar o ciclo completo — tipos, cálculo,
-validação, formatação, parsing, geração e reparo — mantendo CNPJs numéricos
-existentes. Consulte `docs/adr/006-alphanumeric-cnpj.md`.
+A 3.0 trata o ciclo completo — tipos, cálculo, validação, formatação, parsing,
+geração e reparo — mantendo CNPJs numéricos existentes e a geração numérica como
+padrão. Consulte `docs/adr/006-alphanumeric-cnpj.md`.
 
-## Candidatos para 3.x
+## Candidatos futuros
 
 - Separar geração unitária, geração em lote e geração incremental.
 - Substituir o booleano `strict` por modos de entrada explícitos.
 - Remover entrada numérica, truncamento implícito e aliases depreciados.
 - Introduzir erros tipados e limites operacionais documentados.
 
-Esses candidatos precisam de proposta própria. A lista não autoriza uma quebra
+Esses candidatos precisam de proposta própria. A lista não autoriza outra quebra
 de compatibilidade sem ADR, guia de migração e release major.

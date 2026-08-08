@@ -1,6 +1,5 @@
 /* c8 ignore next */
-import { unformatDocument } from '../core/document'
-import { cnpjSpec } from './spec'
+import { cleanCnpj } from './codec'
 
 export interface UnformatOptions {
   strict?: boolean
@@ -10,5 +9,8 @@ export default function unformat(
   cnpj: string,
   options: UnformatOptions = {}
 ): string {
-  return unformatDocument(cnpjSpec, cnpj, options.strict ?? true)
+  if (typeof cnpj !== 'string') {
+    throw new Error('Input must be a string')
+  }
+  return cleanCnpj(cnpj, options.strict ?? true)
 }

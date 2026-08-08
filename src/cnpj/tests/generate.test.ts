@@ -166,3 +166,56 @@ test('should handle partial options', t => {
   t.regex(cnpj2, /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/)
   t.regex(cnpj3, /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/)
 })
+
+test('should generate valid alphanumeric CNPJs on demand', t => {
+  const generated = generate({ count: 100, mode: 'alphanumeric' })
+
+  t.true(
+    generated.every(cnpj =>
+      /^[A-Z0-9]{2}\.[A-Z0-9]{3}\.[A-Z0-9]{3}\/[A-Z0-9]{4}-\d{2}$/.test(cnpj)
+    )
+  )
+  t.true(generated.every(cnpj => /[A-Z]/.test(cnpj)))
+  t.true(generated.every(validate))
+})
+
+test('should generate invalid unformatted alphanumeric CNPJs on demand', t => {
+  const generated = generate({
+    count: 20,
+    formatted: false,
+    mode: 'alphanumeric',
+    valid: false,
+  })
+
+  t.true(generated.every(cnpj => /^[A-Z0-9]{12}\d{2}$/.test(cnpj)))
+  t.true(generated.every(cnpj => !validate(cnpj)))
+})
+
+test('should correct degenerate random bodies in both modes', t => {
+  const numeric = generate({ formatted: false, random: () => 0 })
+  const alphanumeric = generate({
+    formatted: false,
+    mode: 'alphanumeric',
+    random: () => 0,
+  })
+
+  t.is(numeric.slice(0, 12), '000000000001')
+  t.is(alphanumeric.slice(0, 12), '00000000000A')
+  t.true(validate(numeric))
+  t.true(validate(alphanumeric))
+})
+
+test('should reject invalid generation mode at runtime', t => {
+  // @ts-expect-error Runtime validation protects JavaScript consumers.
+  t.throws(() => generate({ mode: 'letters' }), {
+    message: 'Mode must be numeric or alphanumeric',
+  })
+})
+
+test('should reject random sources outside the documented interval', t => {
+  for (const sample of [-0.1, 1, Number.NaN, Number.POSITIVE_INFINITY]) {
+    t.throws(() => generate({ random: () => sample }), {
+      message: 'Random source must return a number from 0 up to 1',
+    })
+  }
+})

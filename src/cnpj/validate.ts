@@ -1,7 +1,12 @@
 /* c8 ignore next */
-import { validateDocument } from '../core/document'
-import { cnpjSpec } from './spec'
+import { calculateCnpjVerifiers, isStructurallyValidCnpj } from './codec'
 
 export default function validate(cnpj: string): boolean {
-  return validateDocument(cnpjSpec, cnpj)
+  if (!isStructurallyValidCnpj(cnpj)) return false
+
+  const characters = cnpj.replace(/[^A-Z0-9]/g, '')
+  if (/^(\d)\1{13}$/.test(characters)) return false
+
+  const [first, second] = calculateCnpjVerifiers(characters.slice(0, 12))
+  return characters.slice(12) === `${first}${second}`
 }

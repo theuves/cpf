@@ -2,16 +2,18 @@
 
 ## Objetivo
 
-A biblioteca mantém APIs públicas separadas para CPF e CNPJ, mas implementa as
-operações comuns em um núcleo orientado por configuração. Isso evita que correções
-de validação, formatação, geração e reparo precisem ser feitas duas vezes.
+A biblioteca mantém APIs públicas separadas para CPF e CNPJ. Operações realmente
+idênticas permanecem em um núcleo orientado por configuração; regras
+alfanuméricas ficam no domínio de CNPJ para não contaminar CPF com uma abstração
+mais ampla do que ele exige.
 
 ## Componentes
 
 - `src/core/types.ts` define a especificação de um documento.
 - `src/core/document.ts` contém algoritmos puros compartilhados.
-- `src/cpf/spec.ts` e `src/cnpj/spec.ts` descrevem comprimento, pesos, formato e
-  caracteres aceitos por cada documento.
+- `src/cpf/spec.ts` e `src/cnpj/spec.ts` descrevem comprimento, pesos e máscara.
+- `src/cnpj/codec.ts` centraliza alfabeto, normalização, representação e cálculo
+  ASCII−48 específicos do CNPJ coexistente.
 - `src/cpf` e `src/cnpj` são adaptadores públicos, responsáveis pelos tipos e
   formatos de retorno específicos de cada domínio.
 - `src/cpf/rfs.ts` permanece fora do núcleo porque regiões fiscais são uma regra
@@ -41,7 +43,7 @@ o artefato entregue ao consumidor, e não somente os fontes do repositório.
 ## Princípios
 
 - Funções públicas permanecem pequenas e orientadas ao domínio.
-- O comportamento da versão 2 é preservado durante refatorações internas.
+- O comportamento documentado da versão 3 é preservado durante refatorações.
 - Uma abstração só entra no núcleo quando é compartilhada pelos dois documentos.
 - Extensões específicas, como regiões fiscais, não são generalizadas artificialmente.
 - Alterações incompatíveis são reservadas para uma versão major e acompanhadas de
@@ -58,5 +60,5 @@ e como será verificada no tarball entregue.
 - `ADR 002`: formatos ESM, CommonJS e IIFE;
 - `ADR 003`: modos estrito e não estrito;
 - `ADR 004`: retorno condicional de geração;
-- `ADR 005`: tratamento público de erros.
+- `ADR 005`: tratamento público de erros;
 - `ADR 006`: CNPJ alfanumérico como mudança coerente de versão major.

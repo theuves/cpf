@@ -36,13 +36,12 @@ tabela versionada em `src/cpf/rfs.ts`; essa classificação não valida o CPF.
 
 ## CNPJ
 
-### Escopo da série 2.x
+### Formatos coexistentes
 
-A implementação atual cobre somente CNPJ numérico. Desde julho de 2026, novas
-inscrições podem usar 12 posições alfanuméricas seguidas de dois verificadores
-numéricos; CNPJs numéricos existentes permanecem válidos. Portanto, `validate`
-retornar `false` para um CNPJ alfanumérico é uma limitação conhecida da série 2.x,
-não uma declaração de inexistência cadastral.
+Desde julho de 2026, CNPJs numéricos e alfanuméricos coexistem. A implementação
+aceita 12 posições de corpo com `0-9` e `A-Z`, seguidas por dois verificadores
+exclusivamente numéricos. CNPJs existentes não são convertidos e novas inscrições
+podem ser implantadas progressivamente nas duas famílias.
 
 Fontes oficiais consultadas em 8 de agosto de 2026:
 
@@ -50,9 +49,8 @@ Fontes oficiais consultadas em 8 de agosto de 2026:
 - [manual oficial de cálculo do dígito verificador](https://www.gov.br/receitafederal/pt-br/centrais-de-conteudo/publicacoes/documentos-tecnicos/cnpj/manual-dv-cnpj.pdf);
 - [Instrução Normativa RFB nº 2.119 compilada](https://normas.receita.fazenda.gov.br/sijut2consulta/link.action?idAto=127567&naoPublicado=&visao=compilado).
 
-O novo cálculo mantém módulo 11 e converte cada caractere pelo código ASCII menos
-48. A API 2.x não deve receber suporte parcial: seus contratos numéricos de
-`calc`/`parse` e o uso de `X` por `repair` precisam ser redesenhados juntos.
+O cálculo mantém módulo 11 e converte cada caractere pelo código ASCII menos 48.
+Letras minúsculas são rejeitadas em modo estrito, conforme os vetores oficiais.
 
 ### Formato numérico preservado
 
@@ -64,23 +62,39 @@ O novo cálculo mantém módulo 11 e converte cada caractere pelo código ASCII 
 
 Sequências com todos os dígitos iguais também são rejeitadas.
 
+### Formato alfanumérico
+
+- Corpo: 12 caracteres `A-Z0-9`.
+- Total: 14 caracteres; os dois últimos são dígitos.
+- Pesos: os mesmos do formato numérico.
+- Formato canônico: `AA.AAA.AAA/AAAA-00`.
+- Conversão para cálculo: código ASCII do caractere menos 48.
+
+O exemplo oficial `12.ABC.345/01DE-35` é um vetor de regressão. Letras podem
+existir tanto na raiz quanto na ordem do estabelecimento.
+
 ## Normalização e parsing
 
 `validate` aceita somente strings e os caracteres permitidos pela especificação,
-remove separadores e exige o total exato de dígitos. `parse` é deliberadamente
-permissivo: extrai dígitos, trunca no tamanho total e não implica validação.
+remove separadores e exige 12 caracteres de corpo e dois dígitos verificadores.
+`parse` é deliberadamente permissivo: extrai `A-Z0-9`, trunca no tamanho total e
+não implica validação. Números permanecem números no resultado; letras permanecem
+strings.
 
-Os modos estrito e não estrito de `format`, `unformat` e `check` fazem parte da
-compatibilidade 2.x e estão detalhados em `docs/api-contract.md`.
+Os modos estrito e não estrito de `format`, `unformat` e `check` estão detalhados
+em `docs/api-contract.md`.
 
 ## Geração e reparo
 
-Geração produz um corpo pseudoaleatório, corrige corpos repetidos, calcula os
-verificadores e, com `valid: false`, altera o último verificador. Não há garantia
+Geração numérica é o padrão para preservar previsibilidade. O modo alfanumérico
+usa `A-Z0-9` e garante pelo menos uma letra no corpo. Ambos calculam os
+verificadores e, com `valid: false`, alteram o último verificador. Não há garantia
 de unicidade nem de segurança criptográfica.
 
-Reparo aceita um `X` em qualquer posição ou dois `X` apenas nas posições dos
-verificadores. Todo candidato é validado antes de ser retornado.
+Reparo aceita `?` em qualquer posição ou dois marcadores apenas nas posições dos
+verificadores. `X` é dado válido no corpo e só é inferido como marcador legado
+quando aparece exclusivamente nos verificadores. Todo candidato é validado antes
+de ser retornado.
 
 ## Checklist para mudar uma regra
 

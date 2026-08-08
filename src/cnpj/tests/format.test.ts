@@ -12,6 +12,11 @@ test('should format CNPJ with separators in strict mode', t => {
   t.is(format(cnpj), '12.345.678/0001-95')
 })
 
+test('should format alphanumeric CNPJ in strict mode', t => {
+  t.is(format('12ABC34501DE35'), '12.ABC.345/01DE-35')
+  t.is(format('12.ABC.345/01DE-35'), '12.ABC.345/01DE-35')
+})
+
 test('should format partial CNPJ in strict mode', t => {
   t.is(format('12'), '12')
   t.is(format('123'), '12.3')
@@ -42,10 +47,16 @@ test('should throw error for invalid characters in strict mode', t => {
 
 test('should throw error for more than 14 digits in strict mode', t => {
   t.throws(() => format('123456789012345'), {
-    message: 'CNPJ cannot have more than 14 digits',
+    message: 'CNPJ cannot have more than 14 characters',
   })
   t.throws(() => format('12.345.678/0001-950'), {
-    message: 'CNPJ cannot have more than 14 digits',
+    message: 'CNPJ cannot have more than 14 characters',
+  })
+})
+
+test('should reject letters in verifier positions in strict mode', t => {
+  t.throws(() => format('12ABC34501DE3A'), {
+    message: 'CNPJ verifier positions must contain digits',
   })
 })
 
@@ -72,6 +83,10 @@ test('should throw error for non-string/non-number input in strict mode', t => {
 test('should format complete CNPJ correctly in non-strict mode', t => {
   const cnpj = '12345678000195'
   t.is(format(cnpj, { strict: false }), '12.345.678/0001-95')
+})
+
+test('should normalize lowercase alphanumeric CNPJ in non-strict mode', t => {
+  t.is(format('12.abc.345/01de-35', { strict: false }), '12.ABC.345/01DE-35')
 })
 
 test('should format CNPJ with separators in non-strict mode', t => {
@@ -149,7 +164,7 @@ test('should handle empty string in non-strict mode', t => {
 })
 
 test('should handle string with only non-digits in non-strict mode', t => {
-  t.is(format('abc', { strict: false }), '')
+  t.is(format('abc', { strict: false }), 'AB.C')
   t.is(format('...', { strict: false }), '')
   t.is(format('---', { strict: false }), '')
   t.is(format('///', { strict: false }), '')
@@ -199,9 +214,9 @@ test('should handle CNPJ with different separator patterns', t => {
 test('should handle CNPJ with extra characters in non-strict mode', t => {
   t.is(
     format('12abc345def678ghi0001jkl95', { strict: false }),
-    '12.345.678/0001-95'
+    '12.ABC.345/DEF6-78'
   )
-  t.is(format('12.345.678/0001-9a', { strict: false }), '12.345.678/0001-9')
+  t.is(format('12.345.678/0001-9a', { strict: false }), '12.345.678/0001-9A')
   t.is(format('12.345.678/0001-9#', { strict: false }), '12.345.678/0001-9')
 })
 

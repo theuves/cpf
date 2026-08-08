@@ -1,8 +1,8 @@
 # Evolução de compatibilidade
 
-## Série 2.x
+## Série 3.x
 
-Alterações na série 2.x devem ser retrocompatíveis. São permitidos:
+Alterações na série 3.x devem ser retrocompatíveis. São permitidos:
 
 - correções internas que preservem entradas e saídas;
 - melhoria de inferência de tipos quando ela revela todos os retornos possíveis;
@@ -10,9 +10,15 @@ Alterações na série 2.x devem ser retrocompatíveis. São permitidos:
 - novos exports que não alterem os existentes;
 - avisos de depreciação.
 
-## Candidatos para uma versão 3
+## Entregue na versão 3
 
-As mudanças abaixo não devem ser introduzidas silenciosamente em uma versão 2.x:
+O suporte ao CNPJ alfanumérico foi entregue como major porque ampliou tipos de
+parsing, preservou letras no modo permissivo e tornou `X` um caractere válido do
+corpo. A equivalência está em `docs/migration-v3.md`.
+
+## Candidatos para uma versão futura
+
+As mudanças abaixo não devem ser introduzidas silenciosamente em uma minor 3.x:
 
 1. Separar `generate()` e `generateMany()` para eliminar retorno condicional.
 2. Remover entrada numérica de `format`, evitando perda de zeros e precisão.
@@ -23,5 +29,5 @@ As mudanças abaixo não devem ser introduzidas silenciosamente em uma versão 2
 7. Introduzir erros com códigos estáveis em lugar de interpretar mensagens.
 8. Definir geração incremental e limites explícitos para lotes grandes.
 
-Uma versão 3 deve incluir uma tabela de equivalência, exemplos antes/depois e um
-período em que a última versão 2.x permaneça disponível para correções críticas.
+Uma futura versão major deve incluir tabela de equivalência, exemplos
+antes/depois e período de suporte definido para a major anterior.

@@ -1,6 +1,8 @@
 import type { DocumentSpec } from '../core/types'
 
-export const cnpjSpec: DocumentSpec = {
+// Numeric-only adapter retained for shared-core regression tests and common
+// weights/format metadata. Public CNPJ operations use codec.ts.
+export const numericCnpjSpec: DocumentSpec = {
   name: 'CNPJ',
   bodyLength: 12,
   totalLength: 14,

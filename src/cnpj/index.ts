@@ -21,9 +21,11 @@ const cnpj = {
 export { calc, check, format, generate, parse, repair, unformat, validate }
 
 export type { CheckOptions } from './check'
+export type { CnpjBody, CnpjCharacter, CnpjMode } from './codec'
 export type { FormatOptions } from './format'
 export type { GenerateOptions } from './generate'
 export type { ParseResult } from './parser'
+export type { RepairOptions } from './repair'
 export type { UnformatOptions } from './unformat'
 
 export default cnpj

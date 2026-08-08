@@ -1,46 +1,52 @@
-# Migração para 3.x
+# Migração da 2.x para 3.x
 
-Este é um documento de planejamento. Não existe uma API 3.x publicada e nenhum
-exemplo abaixo deve ser tratado como disponível.
+A versão 3 adiciona suporte completo ao CNPJ alfanumérico sem remover o formato
+numérico. A Receita Federal mantém os dois formatos válidos em paralelo.
 
-## Objetivos candidatos
+## O que permanece igual
 
-| 2.x | Direção proposta para 3.x | Motivo |
+- CNPJs numéricos continuam válidos e com o mesmo cálculo.
+- `cnpj.generate()` continua gerando valores numéricos por padrão.
+- As funções e imports públicos continuam disponíveis.
+- O contrato de CPF não mudou.
+- `X` nas posições dos verificadores continua funcionando como marcador legado.
+
+## Mudanças necessárias
+
+| 2.x | 3.x | Ação do consumidor |
 | --- | --- | --- |
-| `generate({ count })` | `generate()` e `generateMany()` | remover retorno condicional |
-| lote materializado | `generateEach()` | controlar uso de memória |
-| `strict: boolean` | modo de entrada explícito | tornar intenção legível |
-| número em modo permissivo | somente string | preservar zeros e precisão |
-| truncamento implícito | opção explícita ou erro | evitar perda silenciosa |
-| `Error` por mensagem | erro com código estável | permitir tratamento programático |
-| aliases legados | funções canônicas | reduzir superfície pública |
-| CNPJ somente numérico | CNPJ numérico e alfanumérico | acompanhar o cadastro vigente |
-| `X` como desconhecido de CNPJ | marcador sem conflito ou API posicional | `X` é válido no novo CNPJ |
+| `calc(number[])` | string ou array alfanumérico | arrays numéricos continuam válidos |
+| `parse(...): number[]` | `(number \| string)[]` para campos de CNPJ | aceitar letras nos tipos |
+| letras descartadas em modo permissivo | letras preservadas e normalizadas | revisar sanitização dependente do descarte |
+| `X` desconhecido no corpo | `X` é dado válido | trocar a lacuna por `?` |
+| geração apenas numérica | `mode` seleciona a família | usar `mode: 'alphanumeric'` quando necessário |
 
-## CNPJ alfanumérico
+## Exemplos
 
-A migração precisa preservar CNPJs numéricos e adicionar o formato oficial como
-um fluxo completo. Antes da release, a proposta deve definir:
+```ts
+import { cnpj } from 'cpf'
 
-- tipo dos 12 caracteres do corpo e dos dois verificadores;
-- retorno de `calc` e `parse` sem conversões ambíguas;
-- marcador de reparo que não conflite com `A-Z`;
-- política de maiúsculas/minúsculas e formatação parcial;
-- geração numérica, alfanumérica ou explicitamente selecionada;
-- vetores oficiais e comparação com o simulador da Receita Federal.
+cnpj.validate('12.ABC.345/01DE-35') // true
+cnpj.calc('12.ABC.345/01DE') // [3, 5]
+cnpj.format('12ABC34501DE35') // '12.ABC.345/01DE-35'
+cnpj.unformat('12.ABC.345/01DE-35') // '12ABC34501DE35'
+cnpj.generate({ mode: 'alphanumeric' })
+cnpj.repair('12.ABC.345/01DE-3?') // ['12ABC34501DE35']
+```
 
-Consulte `docs/adr/006-alphanumeric-cnpj.md` para o motivo de não oferecer suporte
-parcial em uma minor da série 2.x.
+Para parsing, altere a suposição de `number[]`:
 
-## Processo antes da release
+```ts
+const parsed = cnpj.parse('12.ABC.345/01DE-35')
+// parsed.fullBody:
+// [1, 2, 'A', 'B', 'C', 3, 4, 5, 0, 1, 'D', 'E']
+```
 
-1. Validar cada mudança com casos reais de consumidores.
-2. Registrar decisão e alternativas em ADR próprio.
-3. Publicar tabela completa de antes/depois.
-4. Fornecer codemod ou exemplos mecânicos quando aplicável.
-5. Manter a última 2.x para correções críticas durante período anunciado.
+## Checklist de rollout
 
-## Compatibilidade
-
-Até uma release major, `docs/api-contract.md` continua sendo a autoridade para a
-série 2.x. Este documento não autoriza mudanças incompatíveis nessa série.
+1. Atualize tipos de banco e APIs para strings de 14 posições.
+2. Remova regexes que aceitem somente `\d{14}`.
+3. Confirme que comparações e índices preservam letras e zeros à esquerda.
+4. Atualize usos de `repair` no corpo para `?`.
+5. Execute testes com `12.ABC.345/01DE-35` e seus próprios contratos.
+6. Publique consumidores antes de começar a receber dados alfanuméricos.
