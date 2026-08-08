@@ -4,7 +4,7 @@ Alterações relevantes para consumidores são registradas neste arquivo. O form
 segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e o projeto usa
 [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
-## Não lançado
+## 3.0.0 - 2026-08-08
 
 ### Segurança
 
@@ -12,27 +12,6 @@ segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e o projeto us
   esgotamento de memória por alocação síncrona de lotes sem limite.
 - A busca de reparos de CPF rejeita entradas excessivamente longas antes de
   executar expressões regulares e normalização, alinhada ao limite do CNPJ.
-
-### Adicionado
-
-- `cpf.inspect` e `cnpj.inspect`, com resultado discriminado e códigos estáveis
-  para diagnosticar entradas inválidas.
-- `cnpj.getKind` para classificar estruturas completas como numéricas ou
-  alfanuméricas sem atestar os dígitos verificadores.
-- Tipos públicos `DocumentIssueCode`, `CpfInspectionResult` e
-  `CnpjInspectionResult`.
-- Tipos de opções e valores semânticos para formato e geração nos exports raiz e
-  subpaths.
-- `CpfIssueCode`, que exclui o diagnóstico exclusivo dos verificadores de CNPJ,
-  e tipos de caracteres ASCII aceitos em arrays de CNPJ.
-
-### Alterado
-
-- A tipagem de `cpf.inspect` não inclui mais
-  `INVALID_VERIFIER_CHARACTERS`, resultado impossível nesse domínio.
-- `generate` e `generateMany` compartilham o mesmo tipo público de opções.
-
-## 3.0.0 - 2026-08-08
 
 ### Adicionado
 
@@ -48,6 +27,16 @@ segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e o projeto us
   `calculateCheckDigits`, `findValidRepairs`, `generateMany` e, para CPF,
   `getFiscalRegions`.
 - Opções de geração: `validity`, `output`, `kind` e `randomSource`.
+- `cpf.inspect` e `cnpj.inspect`, com resultado discriminado e códigos estáveis
+  para diagnosticar entradas inválidas.
+- `cnpj.getKind` para classificar estruturas completas como numéricas ou
+  alfanuméricas sem atestar os dígitos verificadores.
+- Tipos públicos `DocumentIssueCode`, `CpfInspectionResult` e
+  `CnpjInspectionResult`.
+- Tipos de opções e valores semânticos para formato e geração nos exports raiz e
+  subpaths.
+- `CpfIssueCode`, que exclui o diagnóstico exclusivo dos verificadores de CNPJ,
+  e tipos de caracteres ASCII aceitos em arrays de CNPJ.
 
 ### Alterado
 
@@ -61,6 +50,9 @@ segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e o projeto us
 - `normalize` converte letras CNPJ a maiúsculas sem truncar valores inválidos.
 - Testes probabilísticos de geração foram substituídos por invariantes
   reproduzíveis.
+- A tipagem de `cpf.inspect` não inclui mais
+  `INVALID_VERIFIER_CHARACTERS`, resultado impossível nesse domínio.
+- `generate` e `generateMany` compartilham o mesmo tipo público de opções.
 
 ### Compatibilidade
 
