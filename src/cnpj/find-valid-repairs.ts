@@ -1,9 +1,8 @@
 /* c8 ignore next */
 import { calculateCnpjVerifiers, getCnpjAlphabet } from './codec'
+import { MAX_REPAIR_INPUT_LENGTH } from '../core/document'
 import type { CnpjKind } from './codec'
 import isValid from './is-valid'
-
-const MAX_REPAIR_INPUT_LENGTH = 64
 
 export interface RepairOptions {
   placeholder?: string

@@ -6,6 +6,13 @@ segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e o projeto us
 
 ## Não lançado
 
+### Segurança
+
+- `generateMany` agora rejeita contagens acima de 10.000 para impedir
+  esgotamento de memória por alocação síncrona de lotes sem limite.
+- A busca de reparos de CPF rejeita entradas excessivamente longas antes de
+  executar expressões regulares e normalização, alinhada ao limite do CNPJ.
+
 ### Adicionado
 
 - `cpf.inspect` e `cnpj.inspect`, com resultado discriminado e códigos estáveis

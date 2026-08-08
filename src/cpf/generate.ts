@@ -1,5 +1,5 @@
 /* c8 ignore next */
-import { generateDocument } from '../core/document'
+import { assertGenerationCount, generateDocument } from '../core/document'
 import { cpfSpec } from './spec'
 
 export interface GenerateOptions {
@@ -27,10 +27,8 @@ export function generateMany(
   count: number,
   options: GenerationOptions = {}
 ): string[] {
+  assertGenerationCount(count)
   const { isValid, isFormatted, random } = resolveGenerationOptions(options)
-  if (!Number.isInteger(count) || count < 1) {
-    throw new Error('Count must be a positive integer')
-  }
   return Array.from({ length: count }, () =>
     generateDocument(cpfSpec, { isValid, isFormatted }, random)
   )

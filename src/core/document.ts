@@ -5,6 +5,18 @@ import type {
   InspectionResult,
 } from './types'
 
+export const MAX_GENERATION_BATCH_SIZE = 10_000
+export const MAX_REPAIR_INPUT_LENGTH = 64
+
+export function assertGenerationCount(count: number): void {
+  if (!Number.isInteger(count) || count < 1) {
+    throw new Error('Count must be a positive integer')
+  }
+  if (count > MAX_GENERATION_BATCH_SIZE) {
+    throw new Error(`Count cannot exceed ${MAX_GENERATION_BATCH_SIZE}`)
+  }
+}
+
 export function calculateVerifiers(
   spec: DocumentSpec,
   body: readonly number[]
@@ -158,6 +170,7 @@ export function inspectDocument(
 
 export function repairDocument(spec: DocumentSpec, input: unknown): string[] {
   if (typeof input !== 'string') return []
+  if (input.length > MAX_REPAIR_INPUT_LENGTH) return []
   if (!/^[0-9X.\-\s]+$/.test(input)) return []
 
   const clean = input.replace(/[^0-9X]/g, '')

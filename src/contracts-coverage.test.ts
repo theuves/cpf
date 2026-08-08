@@ -5,6 +5,7 @@ import { cleanCnpj } from './cnpj/codec'
 import {
   checkDocument,
   generateDocument,
+  MAX_GENERATION_BATCH_SIZE,
   repairDocument,
   unformatDocument,
 } from './core/document'
@@ -26,6 +27,14 @@ test('covers invalid canonical options and random sources', t => {
   }
   t.throws(() => cpf.generateMany(0))
   t.throws(() => cnpj.generateMany(0))
+  for (const document of [cpf, cnpj]) {
+    t.throws(() => document.generateMany(1.5), {
+      message: 'Count must be a positive integer',
+    })
+    t.throws(() => document.generateMany(MAX_GENERATION_BATCH_SIZE + 1), {
+      message: `Count cannot exceed ${MAX_GENERATION_BATCH_SIZE}`,
+    })
+  }
 
   for (const invalidNumber of [-1, 1.2, Number.NaN, Number.POSITIVE_INFINITY]) {
     t.throws(() => cpf.format(invalidNumber, { strict: false }), {
@@ -111,6 +120,7 @@ test('covers normalization, repair and shared-core rejection paths', t => {
   }
   t.deepEqual(cpf.findValidRepairs('529!982!247!2X'), [])
   t.deepEqual(cpf.findValidRepairs('529.982.247-25!'), [])
+  t.deepEqual(cpf.findValidRepairs('1'.repeat(1_000_000)), [])
   t.deepEqual(cnpj.findValidRepairs('12!ABC!345!01DE!3?'), [])
   t.deepEqual(cnpj.findValidRepairs('12.ABC.345/01DE-35!'), [])
   t.is(

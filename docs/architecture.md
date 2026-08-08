@@ -69,3 +69,4 @@ e como será verificada no tarball entregue.
 - `ADR 006`: CNPJ alfanumérico como mudança coerente de versão major.
 - `ADR 007`: vocabulário semântico da API pública e migração major explícita.
 - `ADR 008`: diagnóstico de validade e classificação estrutural do CNPJ.
+- `ADR 009`: limite operacional para geração em lote e reparos.

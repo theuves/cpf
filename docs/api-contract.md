@@ -30,6 +30,8 @@ também oferece `getKind`.
   converte letras minúsculas a maiúsculas.
 - `generate(options)` retorna sempre `string` e
   `generateMany(count, options)` retorna sempre `string[]`.
+- `generateMany` aceita contagens inteiras entre 1 e 10.000. Volumes maiores
+  devem ser divididos pelo consumidor para manter o uso de memória limitado.
 - As opções de geração são `validity`, `output`, `randomSource` e, para CNPJ,
   `kind`. A fonte aleatória deve devolver um número em `[0, 1)`.
 - `parse` exige o tamanho completo e retorna somente campos semânticos em

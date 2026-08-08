@@ -46,14 +46,19 @@ padrão. Consulte `docs/adr/006-alphanumeric-cnpj.md`.
 - `cnpj.getKind` diferencia estruturas numéricas e alfanuméricas sem confundir
   classificação com validade matemática.
 
+## Entregue na série 3.x: limites operacionais
+
+- `generateMany` aceita no máximo 10.000 itens por chamada para impedir
+  esgotamento de memória por alocação síncrona sem limite.
+- Entradas excessivamente longas são descartadas antes da busca de reparos.
+
 ## Candidatos futuros
 
 - Separar geração unitária, geração em lote e geração incremental.
 - Substituir o booleano `strict` por modos de entrada explícitos.
 - Remover entrada numérica e truncamento implícito.
-- Introduzir erros lançados com tipos próprios e limites operacionais
-  documentados. Diagnósticos sem exceção já possuem códigos estáveis em
-  `inspect`.
+- Introduzir erros lançados com tipos próprios. Diagnósticos sem exceção já
+  possuem códigos estáveis em `inspect`.
 
 Esses candidatos precisam de proposta própria. A lista não autoriza outra quebra
 de compatibilidade sem ADR, guia de migração e release major.

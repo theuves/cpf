@@ -220,7 +220,8 @@ criptograficamente segura e não garante unicidade.
 ### `generateMany(count[, options])`
 
 Gera uma lista usando as mesmas opções de `generate`. `count` deve ser um
-inteiro positivo.
+inteiro entre 1 e 10.000. Divida volumes maiores em lotes menores para evitar
+reter todos os resultados em memória ao mesmo tempo.
 
 ```ts
 cpf.generateMany(3, { output: 'plain' })
@@ -261,7 +262,7 @@ transformam dados ou recebem opções explícitas rejeitam contratos incorretos.
 | `format`, `normalize`, `parse` | Lançam para tipos, caracteres ou tamanhos incompatíveis com o contrato.              |
 | `calculateCheckDigits`         | Lança para um corpo com tamanho ou caracteres inválidos.                             |
 | `findValidRepairs`             | Retorna `[]`; CNPJ lança se `placeholder` for inválido.                              |
-| `generate`, `generateMany`     | Lançam para opções inválidas, contagem inválida ou fonte aleatória fora de `[0, 1)`. |
+| `generate`, `generateMany`     | Lançam para opções inválidas, contagem fora de 1–10.000 ou fonte aleatória fora de `[0, 1)`. |
 
 ## Módulos e formatos
 

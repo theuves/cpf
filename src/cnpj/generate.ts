@@ -4,6 +4,7 @@ import {
   formatCnpjCharacters,
   getCnpjAlphabet,
 } from './codec'
+import { assertGenerationCount } from '../core/document'
 import type { CnpjKind } from './codec'
 
 export interface GenerateOptions {
@@ -33,9 +34,7 @@ export function generateMany(
   count: number,
   options: GenerationOptions = {}
 ): string[] {
-  if (!Number.isInteger(count) || count < 1) {
-    throw new Error('Count must be a positive integer')
-  }
+  assertGenerationCount(count)
   const resolved = resolveGenerationOptions(options)
   return Array.from({ length: count }, () => generateSingle(resolved))
 }

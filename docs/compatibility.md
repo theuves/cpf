@@ -29,6 +29,11 @@ corpo. A equivalência está em `docs/migration-v3.md`.
 Os exports aditivos `inspect` para CPF/CNPJ e `cnpj.getKind` ampliam a série 3.x
 sem alterar o comportamento de `isValid`, `parse` ou das demais operações.
 
+Por segurança operacional, `generateMany` limita cada chamada a 10.000 itens.
+O limite restringe apenas lotes que poderiam esgotar a memória do processo;
+consumidores que precisem de volumes maiores devem dividir a geração em chamadas
+menores. Consulte o ADR 009.
+
 ## Candidatos para uma versão futura
 
 As mudanças abaixo não devem ser introduzidas silenciosamente em uma minor 3.x:
@@ -38,7 +43,7 @@ As mudanças abaixo não devem ser introduzidas silenciosamente em uma minor 3.x
 3. Tornar truncamento uma opção explícita em vez de comportamento implícito.
 4. Introduzir tipos próprios para erros lançados, sem exigir interpretação de
    mensagens.
-5. Definir geração incremental e limites explícitos para lotes grandes.
+5. Adicionar geração incremental para volumes maiores que o limite por chamada.
 
 Uma futura versão major deve incluir tabela de equivalência, exemplos
 antes/depois e período de suporte definido para a major anterior.
