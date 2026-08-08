@@ -14,6 +14,7 @@ export type GenerationOutput = 'formatted' | 'plain'
 export interface GenerationOptions {
   validity?: GenerationValidity
   output?: GenerationOutput
+  randomSource?: () => number
 }
 
 export default function generate(options: GenerateOptions = {}): string {

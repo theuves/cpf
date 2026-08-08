@@ -2,7 +2,10 @@ import cpf, { cnpj } from '../src/index'
 import type { CnpjBody, CnpjKind, GenerationOptions } from '../src/cnpj/index'
 
 const cpfValue: string = cpf.generate({ output: 'plain' })
-const cpfValues: string[] = cpf.generateMany(2, { validity: 'invalid' })
+const cpfValues: string[] = cpf.generateMany(2, {
+  validity: 'invalid',
+  randomSource: Math.random,
+})
 const cnpjValue: string = cnpj.generate({ kind: 'alphanumeric' })
 const cnpjValues: string[] = cnpj.generateMany(2, { output: 'plain' })
 const kind: CnpjKind = 'alphanumeric'
