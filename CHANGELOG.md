@@ -4,6 +4,17 @@ Alterações relevantes para consumidores são registradas neste arquivo. O form
 segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e o projeto usa
 [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## Não lançado
+
+### Adicionado
+
+- `cpf.inspect` e `cnpj.inspect`, com resultado discriminado e códigos estáveis
+  para diagnosticar entradas inválidas.
+- `cnpj.getKind` para classificar estruturas completas como numéricas ou
+  alfanuméricas sem atestar os dígitos verificadores.
+- Tipos públicos `DocumentIssueCode`, `CpfInspectionResult` e
+  `CnpjInspectionResult`.
+
 ## 3.0.0 - 2026-08-08
 
 ### Adicionado
@@ -20,7 +31,6 @@ segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e o projeto us
   `calculateCheckDigits`, `findValidRepairs`, `generateMany` e, para CPF,
   `getFiscalRegions`.
 - Opções de geração: `validity`, `output`, `kind` e `randomSource`.
-- Tipo `CnpjKind`.
 
 ### Alterado
 

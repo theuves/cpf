@@ -18,3 +18,22 @@ export interface GenerateDocumentOptions {
   isValid: boolean
   isFormatted: boolean
 }
+
+export type DocumentIssueCode =
+  | 'INVALID_TYPE'
+  | 'INVALID_CHARACTERS'
+  | 'INVALID_LENGTH'
+  | 'INVALID_VERIFIER_CHARACTERS'
+  | 'REPEATED_CHARACTERS'
+  | 'INVALID_CHECK_DIGITS'
+
+export type InspectionResult =
+  | {
+      readonly valid: true
+      readonly normalized: string
+    }
+  | {
+      readonly valid: false
+      readonly normalized: string | null
+      readonly issue: DocumentIssueCode
+    }

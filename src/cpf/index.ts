@@ -7,9 +7,11 @@ import findValidRepairs from './find-valid-repairs'
 import getFiscalRegions from './get-fiscal-regions'
 import normalize from './normalize'
 import isValid from './is-valid'
+import inspect from './inspect'
 import type { FormatMatchOptions } from './matches-format'
 import type { GenerationOptions } from './generate'
 import type { ParseResult } from './parse'
+import type { DocumentIssueCode, InspectionResult } from './inspect'
 
 const cpf = {
   calculateCheckDigits,
@@ -19,6 +21,7 @@ const cpf = {
   generateMany,
   getFiscalRegions,
   isValid,
+  inspect,
   matchesFormat,
   normalize,
   parse,
@@ -32,9 +35,16 @@ export {
   generateMany,
   getFiscalRegions,
   isValid,
+  inspect,
   matchesFormat,
   normalize,
   parse,
 }
-export type { FormatMatchOptions, GenerationOptions, ParseResult }
+export type {
+  DocumentIssueCode,
+  FormatMatchOptions,
+  GenerationOptions,
+  InspectionResult,
+  ParseResult,
+}
 export default cpf

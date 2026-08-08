@@ -9,12 +9,14 @@ test('exposes only the canonical CPF operations', t => {
     'generate',
     'generateMany',
     'getFiscalRegions',
+    'inspect',
     'isValid',
     'matchesFormat',
     'normalize',
     'parse',
   ])
   t.true(cpf.isValid('529.982.247-25'))
+  t.true(cpf.inspect('529.982.247-25').valid)
   t.true(cpf.matchesFormat('529.982', { completeness: 'partial' }))
   t.is(cpf.normalize('529.982.247-25'), '52998224725')
   t.deepEqual(cpf.calculateCheckDigits([5, 2, 9, 9, 8, 2, 2, 4, 7]), [2, 5])
@@ -52,12 +54,16 @@ test('exposes canonical CNPJ operations and strict semantic parsing', t => {
     'format',
     'generate',
     'generateMany',
+    'getKind',
+    'inspect',
     'isValid',
     'matchesFormat',
     'normalize',
     'parse',
   ])
   t.true(cnpj.matchesFormat('12.ABC', { completeness: 'partial' }))
+  t.is(cnpj.getKind('12.ABC.345/01DE-35'), 'alphanumeric')
+  t.true(cnpj.inspect('12.ABC.345/01DE-35').valid)
   t.is(cnpj.normalize('12.abc.345/01de-35'), '12ABC34501DE35')
   t.deepEqual(cnpj.calculateCheckDigits('12ABC34501DE'), [3, 5])
   t.deepEqual(cnpj.findValidRepairs('12.ABC.345/01DE-3?'), ['12ABC34501DE35'])

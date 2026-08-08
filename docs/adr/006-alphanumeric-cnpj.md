@@ -22,15 +22,16 @@ A API 2.x contém premissas incompatíveis com uma extensão superficial:
 Implementar o suporte completo na 3.0.0 e preservar o caminho numérico existente:
 
 - cálculo aceita string ou array sem destruir a representação das letras;
-- parsing retorna números para dígitos e strings para letras;
-- geração permanece numérica por padrão e recebe um `mode` explícito;
+- parsing retorna campos semânticos sempre em strings, preservando letras e zeros
+  à esquerda;
+- geração permanece numérica por padrão e recebe um `kind` explícito;
 - reparo adota `?` e trata `X` como dado no corpo;
 - entrada estrita segue `A-Z`; entrada permissiva normaliza minúsculas;
 - vetores oficiais protegem o cálculo e a validação.
 
 ## Alternativas
 
-- Aceitar letras apenas em `validate`: rejeitada porque as demais operações
+- Aceitar letras apenas em `isValid`: rejeitada porque as demais operações
   continuariam incompatíveis sob a mesma API.
 - Converter letras em números no resultado de `parse`: rejeitada porque perde a
   representação original e surpreende consumidores.
@@ -39,9 +40,10 @@ Implementar o suporte completo na 3.0.0 e preservar o caminho numérico existent
 
 ## Consequências
 
-A mudança exige versão major porque amplia os tipos de `parse` e altera a
-semântica de letras no modo permissivo e de `X` no reparo. Consumidores numéricos
-que não dependem desses três comportamentos mantêm o mesmo fluxo.
+A mudança exige versão major porque substitui a representação numérica anterior
+de `parse`, amplia as entradas de cálculo e altera a semântica de letras no modo
+permissivo e de `X` no reparo. Consumidores numéricos que não dependem desses
+comportamentos mantêm o mesmo fluxo.
 
 ## Fontes
 

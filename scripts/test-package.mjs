@@ -102,6 +102,8 @@ try {
       if (!cnpj.isValid('11.222.333/0001-81')) process.exit(1)
       if (!cnpj.isValid('12.ABC.345/01DE-35')) process.exit(1)
       if (!cpf.parse('529.982.247-25')) process.exit(1)
+      if (!cpf.inspect('529.982.247-25').valid) process.exit(1)
+      if (cnpj.getKind('12.ABC.345/01DE-35') !== 'alphanumeric') process.exit(1)
       if (!cpfSubpath.isValid('529.982.247-25')) process.exit(1)
       if (!cnpjSubpath.isValid('11.222.333/0001-81')) process.exit(1)
       if (!cnpjSubpath.isValid('12.ABC.345/01DE-35')) process.exit(1)
@@ -120,6 +122,8 @@ try {
       if (!cpf.isValid('529.982.247-25')) process.exit(1)
       if (!cnpj.isValid('11.222.333/0001-81')) process.exit(1)
       if (!cnpj.isValid('12.ABC.345/01DE-35')) process.exit(1)
+      if (!cpf.inspect('529.982.247-25').valid) process.exit(1)
+      if (cnpj.getKind('11.222.333/0001-81') !== 'numeric') process.exit(1)
     `
   )
   run(process.execPath, ['commonjs.cjs'])
@@ -141,6 +145,8 @@ try {
       if (!globalThis.cpf.isValid('529.982.247-25')) process.exit(1)
       if (!globalThis.cpf.cnpj.isValid('11.222.333/0001-81')) process.exit(1)
       if (!globalThis.cpf.cnpj.isValid('12.ABC.345/01DE-35')) process.exit(1)
+      if (!globalThis.cpf.inspect('529.982.247-25').valid) process.exit(1)
+      if (globalThis.cpf.cnpj.getKind('12.ABC.345/01DE-35') !== 'alphanumeric') process.exit(1)
     `
   )
   run(process.execPath, ['browser/browser.cjs'])
@@ -156,6 +162,8 @@ try {
       const many: string[] = cpf.generateMany(2)
       const alphanumeric: string = cnpj.generate({ kind: 'alphanumeric' })
       const body: string = cnpj.parse('12.ABC.345/01DE-35').root
+      const inspected: boolean = cpf.inspect(one).valid
+      const kind = cnpj.getKind(alphanumeric)
 
       cpfSubpath.isValid(one)
       cnpjSubpath.isValid(cnpj.generate())
@@ -163,6 +171,8 @@ try {
       cnpj.calculateCheckDigits('12.ABC.345/01DE')
       void many
       void body
+      void inspected
+      void kind
     `
   )
   run(resolve(projectRoot, 'node_modules/.bin/tsc'), [

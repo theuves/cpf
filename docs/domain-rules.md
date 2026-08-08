@@ -75,10 +75,15 @@ existir tanto na raiz quanto na ordem do estabelecimento.
 
 ## Normalização e parsing
 
-`isValid` aceita somente strings e os caracteres permitidos pela especificação,
-remove separadores e exige 12 caracteres de corpo e dois dígitos verificadores.
-`parse` exige o documento completo, normaliza a máscara e não implica validação.
-Seus campos semânticos são sempre strings.
+`isValid` e `inspect` aceitam somente strings e os caracteres permitidos pela
+especificação, removem separadores e exigem o comprimento completo. `inspect`
+expõe a primeira causa de rejeição por meio de um código estável. `parse` exige o
+documento completo, normaliza a máscara e não implica validação. Seus campos
+semânticos são sempre strings.
+
+`cnpj.getKind` classifica uma estrutura completa pela presença de letras nas 12
+posições do corpo. A classificação é independente da validade dos verificadores;
+entrada incompleta, minúscula ou estruturalmente inválida produz `null`.
 
 `matchesFormat` usa `completeness: 'complete' | 'partial'`; o contrato completo
 está em `docs/api-contract.md`.

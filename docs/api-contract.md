@@ -1,16 +1,27 @@
-# Contrato da API 3.0.0
+# Contrato da API 3.x
 
 O export padrão é o namespace CPF e `cnpj` é um export nomeado. Os subpaths
 `cpf/cpf` e `cpf/cnpj` expõem os mesmos namespaces. O export raiz não contém
 aliases de funções.
 
-CPF expõe `isValid`, `matchesFormat`, `normalize`, `format`,
+CPF expõe `isValid`, `inspect`, `matchesFormat`, `normalize`, `format`,
 `calculateCheckDigits`, `findValidRepairs`, `generate`, `generateMany`, `parse`
-e `getFiscalRegions`. CNPJ expõe o mesmo conjunto, exceto
-`getFiscalRegions`.
+e `getFiscalRegions`. CNPJ expõe o mesmo conjunto, exceto `getFiscalRegions`, e
+também oferece `getKind`.
 
 - `isValid` retorna `false` para entradas inválidas e confirma estrutura e
   dígitos verificadores.
+- `inspect` confirma as mesmas regras de `isValid` e retorna um resultado
+  discriminado. Sucesso contém `{ valid: true, normalized }`; falha contém
+  `{ valid: false, normalized, issue }`.
+- `issue` pode ser `INVALID_TYPE`, `INVALID_CHARACTERS`, `INVALID_LENGTH`,
+  `INVALID_VERIFIER_CHARACTERS`, `REPEATED_CHARACTERS` ou
+  `INVALID_CHECK_DIGITS`. A primeira regra aplicável nessa ordem é retornada;
+  `INVALID_VERIFIER_CHARACTERS` existe apenas para CNPJ.
+- Em `inspect`, `normalized` é `null` quando a entrada não é string ou contém
+  caracteres inválidos. Nas demais falhas, preserva o conteúdo sem separadores.
+- `cnpj.getKind` retorna `numeric`, `alphanumeric` ou `null`. Ele exige estrutura
+  completa e caracteres estritos, mas não confirma os dígitos verificadores.
 - `matchesFormat` verifica somente a máscara com
   `completeness: 'complete' | 'partial'`.
 - `normalize` devolve texto sem máscara, preservando zeros à esquerda; CNPJ
@@ -25,4 +36,4 @@ e `getFiscalRegions`. CNPJ expõe o mesmo conjunto, exceto
 
 Os nomes `validate`, `check`, `unformat`, `calc`, `repair`, `rfs`, `clear` e
 `getCD`, bem como as opções `count`, `valid`, `formatted`, `mode` e `random`,
-não fazem parte da API 3.0.0.
+não fazem parte da API 3.x.

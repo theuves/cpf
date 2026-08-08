@@ -9,6 +9,10 @@ const ALPHANUMERIC = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 const NUMERIC = '0123456789'
 const STRICT_INPUT_PATTERN = /^[A-Z0-9.\-/\s]+$/
 
+export function hasValidCnpjCharacters(input: string): boolean {
+  return input === '' || STRICT_INPUT_PATTERN.test(input)
+}
+
 export function calculateCnpjVerifiers(body: CnpjBody): [number, number] {
   const characters = normalizeBody(body)
   const first = calculateVerifier(characters, numericCnpjSpec.weights[0])

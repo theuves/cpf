@@ -1,5 +1,9 @@
 /* c8 ignore next */
-import type { DocumentSpec, GenerateDocumentOptions } from './types'
+import type {
+  DocumentSpec,
+  GenerateDocumentOptions,
+  InspectionResult,
+} from './types'
 
 export function calculateVerifiers(
   spec: DocumentSpec,
@@ -117,18 +121,35 @@ function formatDigits(spec: DocumentSpec, digits: string): string {
 }
 
 export function validateDocument(spec: DocumentSpec, input: unknown): boolean {
-  if (typeof input !== 'string' || !spec.validCharsPattern.test(input)) {
-    return false
+  return inspectDocument(spec, input).valid
+}
+
+export function inspectDocument(
+  spec: DocumentSpec,
+  input: unknown
+): InspectionResult {
+  if (typeof input !== 'string') {
+    return { valid: false, normalized: null, issue: 'INVALID_TYPE' }
+  }
+  if (input !== '' && !spec.validCharsPattern.test(input)) {
+    return { valid: false, normalized: null, issue: 'INVALID_CHARACTERS' }
   }
 
   const digits = input.replace(/\D/g, '')
-  if (digits.length !== spec.totalLength) return false
-  if ([...digits].every(digit => digit === digits[0])) return false
+  if (digits.length !== spec.totalLength) {
+    return { valid: false, normalized: digits, issue: 'INVALID_LENGTH' }
+  }
+  if ([...digits].every(digit => digit === digits[0])) {
+    return { valid: false, normalized: digits, issue: 'REPEATED_CHARACTERS' }
+  }
 
   const body = [...digits.slice(0, spec.bodyLength)].map(Number)
   const actual = [...digits.slice(spec.bodyLength)].map(Number)
   const expected = calculateVerifiers(spec, body)
-  return expected[0] === actual[0] && expected[1] === actual[1]
+  if (expected[0] !== actual[0] || expected[1] !== actual[1]) {
+    return { valid: false, normalized: digits, issue: 'INVALID_CHECK_DIGITS' }
+  }
+  return { valid: true, normalized: digits }
 }
 
 export function repairDocument(spec: DocumentSpec, input: unknown): string[] {

@@ -39,12 +39,21 @@ A 3.0 trata o ciclo completo — tipos, cálculo, validação, formatação, par
 geração e reparo — mantendo CNPJs numéricos existentes e a geração numérica como
 padrão. Consulte `docs/adr/006-alphanumeric-cnpj.md`.
 
+## Entregue na série 3.x: diagnóstico e classificação
+
+- `inspect` informa validade, valor normalizado e um código estável para a
+  primeira causa de rejeição de CPF ou CNPJ.
+- `cnpj.getKind` diferencia estruturas numéricas e alfanuméricas sem confundir
+  classificação com validade matemática.
+
 ## Candidatos futuros
 
 - Separar geração unitária, geração em lote e geração incremental.
 - Substituir o booleano `strict` por modos de entrada explícitos.
-- Remover entrada numérica, truncamento implícito e aliases depreciados.
-- Introduzir erros tipados e limites operacionais documentados.
+- Remover entrada numérica e truncamento implícito.
+- Introduzir erros lançados com tipos próprios e limites operacionais
+  documentados. Diagnósticos sem exceção já possuem códigos estáveis em
+  `inspect`.
 
 Esses candidatos precisam de proposta própria. A lista não autoriza outra quebra
 de compatibilidade sem ADR, guia de migração e release major.
