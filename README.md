@@ -1,14 +1,26 @@
 # cpf
 
-Trabalhe com CPF e CNPJ — inclusive CNPJ alfanumérico — sem reimplementar
-máscaras, normalização, validação ou dígitos verificadores.
+Biblioteca JavaScript e TypeScript para validar, inspecionar, formatar, normalizar,
+gerar e reparar CPF e CNPJ. Suporta CNPJ numérico e alfanumérico.
 
-A biblioteca atende desde campos de formulário até validações de domínio e
-geração de dados para testes. Ela oferece ESM, CommonJS, tipos TypeScript e
-bundle para navegador.
+[![CI](https://github.com/theuves/cpf/actions/workflows/ci.yml/badge.svg)](https://github.com/theuves/cpf/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/theuves/cpf/actions/workflows/codeql.yml/badge.svg)](https://github.com/theuves/cpf/actions/workflows/codeql.yml)
 
-> A validação confirma estrutura e dígitos verificadores, não identidade,
-> titularidade ou situação cadastral.
+> A biblioteca confirma estrutura e dígitos verificadores. Ela não confirma
+> identidade, titularidade, emissão ou situação cadastral.
+
+## Funcionalidades
+
+- CPF e CNPJ com ou sem máscara;
+- CNPJ numérico e alfanumérico;
+- validação booleana ou diagnóstico detalhado;
+- formatação de valores completos e parciais;
+- normalização e parsing sem perda de zeros à esquerda;
+- cálculo de dígitos verificadores;
+- geração unitária ou em lote;
+- busca de candidatos para documentos incompletos;
+- ESM, CommonJS, TypeScript e bundle para navegador;
+- zero dependências de runtime.
 
 ## Instalação
 
@@ -16,119 +28,283 @@ bundle para navegador.
 npm install cpf
 ```
 
+## Uso
+
 ```ts
 import cpf, { cnpj } from 'cpf'
+
+cpf.isValid('529.982.247-25') // true
+cpf.format('5299822') // '529.982.2'
+
+cnpj.isValid('12.ABC.345/01DE-35') // true
+cnpj.getKind('12.ABC.345/01DE-35') // 'alphanumeric'
 ```
 
-## Casos de uso
+## API
 
-### Valide e explique o problema
+O export padrão contém as operações de CPF. O export nomeado `cnpj` contém as
+operações de CNPJ.
 
-Use `isValid` quando precisar apenas de uma resposta booleana. Quando a interface
-precisar informar por que o valor foi rejeitado, use `inspect`:
+| Operação                                             | CPF | CNPJ | Retorno               |
+| ---------------------------------------------------- | :-: | :--: | --------------------- |
+| [`isValid`](#isvalidvalue)                           |  ✓  |  ✓   | `boolean`             |
+| [`inspect`](#inspectvalue)                           |  ✓  |  ✓   | resultado de inspeção |
+| [`matchesFormat`](#matchesformatvalue-options)       |  ✓  |  ✓   | `boolean`             |
+| [`format`](#formatvalue-options)                     |  ✓  |  ✓   | `string`              |
+| [`normalize`](#normalizevalue)                       |  ✓  |  ✓   | `string`              |
+| [`parse`](#parsevalue)                               |  ✓  |  ✓   | partes semânticas     |
+| [`calculateCheckDigits`](#calculatecheckdigitsbody)  |  ✓  |  ✓   | `[number, number]`    |
+| [`findValidRepairs`](#findvalidrepairsvalue-options) |  ✓  |  ✓   | `string[]`            |
+| [`generate`](#generateoptions)                       |  ✓  |  ✓   | `string`              |
+| [`generateMany`](#generatemanycount-options)         |  ✓  |  ✓   | `string[]`            |
+| [`getFiscalRegions`](#cpfgetfiscalregionsvalue)      |  ✓  |  —   | `string[]`            |
+| [`getKind`](#cnpjgetkindvalue)                       |  —  |  ✓   | `CnpjKind \| null`    |
+
+### `isValid(value)`
+
+Confirma o comprimento, os caracteres, as regras de repetição e os dígitos
+verificadores. Entradas inválidas retornam `false`; a função não lança erro para
+tipos inesperados.
 
 ```ts
 cpf.isValid('529.982.247-25') // true
+cpf.isValid('529.982.247-26') // false
 
+cnpj.isValid('11.222.333/0001-81') // true
+cnpj.isValid('12.ABC.345/01DE-35') // true
+```
+
+### `inspect(value)`
+
+Executa as mesmas verificações de `isValid`, mas retorna o valor normalizado e,
+em caso de falha, um código que identifica a primeira regra violada.
+
+```ts
 cpf.inspect('529.982.247-26')
 // {
 //   valid: false,
 //   normalized: '52998224726',
 //   issue: 'INVALID_CHECK_DIGITS'
 // }
+
+cnpj.inspect('12.ABC.345/01DE-35')
+// { valid: true, normalized: '12ABC34501DE35' }
 ```
 
-Os códigos de diagnóstico são estáveis e distinguem tipo, caracteres,
-comprimento, repetição e dígitos verificadores inválidos.
+Os possíveis valores de `issue` são:
 
-### Formate enquanto o usuário digita
+- `INVALID_TYPE`;
+- `INVALID_CHARACTERS`;
+- `INVALID_LENGTH`;
+- `INVALID_VERIFIER_CHARACTERS` — somente CNPJ;
+- `REPEATED_CHARACTERS`;
+- `INVALID_CHECK_DIGITS`.
 
-`format` aceita valores parciais, e `normalize` produz a representação adequada
-para armazenamento ou comparação:
+`normalized` é `null` quando não é possível normalizar a entrada com segurança.
+
+### `matchesFormat(value[, options])`
+
+Verifica somente a máscara. Não calcula nem confirma os dígitos verificadores.
+
+```ts
+cpf.matchesFormat('529.982.247-25') // true
+cpf.matchesFormat('529.982', { completeness: 'partial' }) // true
+
+cnpj.matchesFormat('12.ABC.345/01DE-35') // true
+```
+
+| Opção          | Valores               | Padrão     | Descrição                                               |
+| -------------- | --------------------- | ---------- | ------------------------------------------------------- |
+| `completeness` | `complete`, `partial` | `complete` | Exige a máscara completa ou aceita uma entrada parcial. |
+
+### `format(value[, options])`
+
+Aplica a máscara canônica e aceita strings parciais, o que permite seu uso
+durante a digitação em formulários.
 
 ```ts
 cpf.format('5299822') // '529.982.2'
 cpf.format('52998224725') // '529.982.247-25'
+
+cnpj.format('12ABC34501DE35') // '12.ABC.345/01DE-35'
+```
+
+| Opção    | Tipo      | Padrão | Descrição                                                                                              |
+| -------- | --------- | ------ | ------------------------------------------------------------------------------------------------------ |
+| `strict` | `boolean` | `true` | Rejeita caracteres inválidos e valores maiores que o documento. Com `false`, limpa e limita a entrada. |
+
+Entradas numéricas são aceitas somente com `strict: false`. Prefira strings para
+preservar zeros à esquerda e evitar perda de precisão.
+
+### `normalize(value)`
+
+Remove a máscara sem remover zeros à esquerda. Em CNPJ, letras são convertidas
+para maiúsculas.
+
+```ts
 cpf.normalize('529.982.247-25') // '52998224725'
-```
-
-Para verificar somente a máscara, sem afirmar que o documento é válido:
-
-```ts
-cpf.matchesFormat('529.982', { completeness: 'partial' }) // true
-```
-
-### Aceite o CNPJ alfanumérico
-
-A mesma API trata CNPJs numéricos e o formato alfanumérico sem converter ou
-descartar letras:
-
-```ts
-cnpj.isValid('12.ABC.345/01DE-35') // true
-cnpj.getKind('12.ABC.345/01DE-35') // 'alphanumeric'
 cnpj.normalize('12.abc.345/01de-35') // '12ABC34501DE35'
 ```
 
-### Gere dados e repare entradas incompletas
+### `parse(value)`
 
-Gere documentos válidos ou inválidos para testes e encontre candidatos quando
-uma posição for desconhecida:
+Exige uma representação completa e separa suas partes semânticas. `parse` não
+confirma os dígitos verificadores; use `isValid` para validação matemática.
 
 ```ts
-cpf.generate({ output: 'plain' })
-cnpj.generateMany(3, { kind: 'alphanumeric' })
+cpf.parse('529.982.247-25')
+// {
+//   value: '52998224725',
+//   body: '529982247',
+//   checkDigits: '25',
+//   regionDigit: '7'
+// }
 
+cnpj.parse('12.ABC.345/01DE-35')
+// {
+//   value: '12ABC34501DE35',
+//   root: '12ABC345',
+//   branch: '01DE',
+//   checkDigits: '35'
+// }
+```
+
+### `calculateCheckDigits(body)`
+
+Calcula os dois dígitos verificadores. CPF recebe um array com nove dígitos;
+CNPJ recebe uma string ou um array com os doze caracteres do corpo.
+
+```ts
+cpf.calculateCheckDigits([5, 2, 9, 9, 8, 2, 2, 4, 7]) // [2, 5]
+cnpj.calculateCheckDigits('12ABC34501DE') // [3, 5]
+```
+
+### `findValidRepairs(value[, options])`
+
+Retorna candidatos matematicamente válidos para uma posição desconhecida. CPF
+usa `X` como marcador; CNPJ usa `?` por padrão.
+
+```ts
 cpf.findValidRepairs('5299822472X') // ['52998224725']
+cnpj.findValidRepairs('12.ABC.345/01DE-3?') // ['12ABC34501DE35']
 ```
 
-A geração não é criptograficamente segura e não garante unicidade.
+CNPJ permite configurar `placeholder` e restringir os candidatos com
+`kind: 'numeric' | 'alphanumeric'`. Dois marcadores são aceitos somente nas
+posições dos verificadores.
 
-## O que a biblioteca oferece
+### `generate([options])`
 
-| Necessidade                      | API                        |
-| -------------------------------- | -------------------------- |
-| Confirmar validade               | `isValid`, `inspect`       |
-| Trabalhar com máscaras           | `format`, `matchesFormat`  |
-| Remover a máscara                | `normalize`                |
-| Separar partes semânticas        | `parse`                    |
-| Calcular verificadores           | `calculateCheckDigits`     |
-| Recuperar valores incompletos    | `findValidRepairs`         |
-| Criar dados de teste             | `generate`, `generateMany` |
-| Consultar regiões fiscais do CPF | `cpf.getFiscalRegions`     |
-| Classificar o formato do CNPJ    | `cnpj.getKind`             |
-
-CPF e CNPJ compartilham as operações principais. `getFiscalRegions` existe
-somente para CPF; `getKind`, somente para CNPJ.
-
-## Imports alternativos
-
-Use subpaths quando quiser importar apenas um namespace:
+Gera um CPF ou CNPJ e sempre retorna uma string.
 
 ```ts
-import cpf from 'cpf/cpf'
-import cnpj from 'cpf/cnpj'
+cpf.generate()
+cpf.generate({ validity: 'invalid', output: 'plain' })
+
+cnpj.generate({ kind: 'alphanumeric' })
 ```
 
-## Documentação
+| Opção          | Valores ou tipo           | Padrão        | Disponibilidade |
+| -------------- | ------------------------- | ------------- | --------------- |
+| `validity`     | `valid`, `invalid`        | `valid`       | CPF e CNPJ      |
+| `output`       | `formatted`, `plain`      | `formatted`   | CPF e CNPJ      |
+| `randomSource` | `() => number`            | `Math.random` | CPF e CNPJ      |
+| `kind`         | `numeric`, `alphanumeric` | `numeric`     | somente CNPJ    |
 
-- [Contrato completo da API](docs/api-contract.md): retornos, opções e erros de
-  cada operação.
-- [Regras de domínio](docs/domain-rules.md): cálculo, formatos e coexistência de
-  CNPJ numérico e alfanumérico.
-- [Migração da 2.x para a 3.x](docs/migration-v3.md): equivalência dos nomes e
-  opções removidos.
-- [Compatibilidade](docs/compatibility.md) e
-  [política de suporte](docs/support-policy.md): runtimes e evolução da API.
-- [Arquitetura](docs/architecture.md) e [ADRs](docs/adr): decisões internas para
-  contribuidores.
-- [Changelog](CHANGELOG.md): funcionalidades publicadas e ainda não lançadas.
-- [Segurança](SECURITY.md) e [guia de contribuição](CONTRIBUTING.md).
+`randomSource` deve retornar um número no intervalo `[0, 1)`. A geração não é
+criptograficamente segura e não garante unicidade.
 
-Este README descreve o código da branch atual. A série 3.x removeu os nomes e
-opções legados da API 2.x; consulte o guia de migração antes de atualizar.
+### `generateMany(count[, options])`
 
-## Desenvolvimento
+Gera uma lista usando as mesmas opções de `generate`. `count` deve ser um
+inteiro positivo.
+
+```ts
+cpf.generateMany(3, { output: 'plain' })
+cnpj.generateMany(3, { kind: 'alphanumeric' })
+```
+
+### `cpf.getFiscalRegions(value)`
+
+Retorna as UFs associadas ao nono dígito do corpo do CPF. A classificação não
+valida os dígitos verificadores.
+
+```ts
+cpf.getFiscalRegions('529.982.247-25') // ['ES', 'RJ']
+```
+
+### `cnpj.getKind(value)`
+
+Classifica uma estrutura completa como `numeric` ou `alphanumeric`. Retorna
+`null` para uma estrutura incompatível e não confirma os dígitos verificadores.
+
+```ts
+cnpj.getKind('11.222.333/0001-81') // 'numeric'
+cnpj.getKind('12.ABC.345/01DE-35') // 'alphanumeric'
+```
+
+## Módulos e formatos
+
+### ESM
+
+```ts
+import cpf, { cnpj } from 'cpf'
+import cpfOnly from 'cpf/cpf'
+import cnpjOnly from 'cpf/cnpj'
+```
+
+### CommonJS
+
+```js
+const { default: cpf, cnpj } = require('cpf')
+const cpfOnly = require('cpf/cpf').default
+const cnpjOnly = require('cpf/cnpj').default
+```
+
+### Navegador
+
+O bundle IIFE expõe `globalThis.cpf`; o namespace CNPJ fica disponível em
+`globalThis.cpf.cnpj`.
+
+### TypeScript
+
+O pacote inclui declarações para ESM e CommonJS. Os principais tipos públicos
+são:
+
+- `DocumentIssueCode`;
+- `CpfInspectionResult` e `CnpjInspectionResult`;
+- `CpfGenerationOptions` e `CnpjGenerationOptions`;
+- `CpfFormatMatchOptions` e `CnpjFormatMatchOptions`;
+- `CpfParseResult` e `CnpjParseResult`;
+- `CnpjKind`.
+
+## Compatibilidade
+
+- Node.js 16 ou mais recente;
+- ESM e CommonJS;
+- navegadores por meio do bundle IIFE;
+- zero dependências de runtime.
+
+## Documentação complementar
+
+- [Contrato da API](docs/api-contract.md);
+- [regras de domínio](docs/domain-rules.md);
+- [migração da versão 2.x](docs/migration-v3.md);
+- [compatibilidade e evolução](docs/compatibility.md);
+- [política de suporte](docs/support-policy.md);
+- [arquitetura](docs/architecture.md) e [decisões arquiteturais](docs/adr);
+- [changelog](CHANGELOG.md);
+- [segurança](SECURITY.md).
+
+## Desenvolvimento e contribuição
 
 ```sh
 npm run verify
 ```
+
+Consulte o [guia de contribuição](CONTRIBUTING.md) antes de abrir um pull
+request.
+
+## Licença
+
+Distribuído sob a [licença MIT](LICENSE).
