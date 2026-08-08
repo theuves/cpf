@@ -1,9 +1,5 @@
 /* c8 ignore next */
-import type {
-  DocumentSpec,
-  GenerateDocumentOptions,
-  ParsedDocument,
-} from './types'
+import type { DocumentSpec, GenerateDocumentOptions } from './types'
 
 export function calculateVerifiers(
   spec: DocumentSpec,
@@ -120,33 +116,6 @@ function formatDigits(spec: DocumentSpec, digits: string): string {
   return result
 }
 
-export function parseDocument(
-  spec: DocumentSpec,
-  input: string,
-  bodyPartLengths: readonly number[]
-): ParsedDocument {
-  const digits = input
-    .replace(/\D/g, '')
-    .slice(0, spec.totalLength)
-    .split('')
-    .map(Number)
-  const fullBody = digits.slice(0, Math.min(spec.bodyLength, digits.length))
-  const bodyParts: number[][] = []
-  let offset = 0
-
-  for (const length of bodyPartLengths) {
-    bodyParts.push(fullBody.slice(offset, offset + length))
-    offset += length
-  }
-
-  return {
-    digits,
-    fullBody,
-    bodyParts,
-    verifiers: digits.slice(spec.bodyLength),
-  }
-}
-
 export function validateDocument(spec: DocumentSpec, input: unknown): boolean {
   if (typeof input !== 'string' || !spec.validCharsPattern.test(input)) {
     return false
@@ -231,26 +200,21 @@ export function generateDocument(
   spec: DocumentSpec,
   options: GenerateDocumentOptions,
   random: () => number = Math.random
-): string | string[] {
-  const { valid, count, formatted } = options
-  if (!Number.isInteger(count) || count < 1) {
-    throw new Error('Count must be a positive integer')
-  }
-
-  const generateSingle = (): string => {
-    const body = Array.from({ length: spec.bodyLength }, () =>
-      Math.floor(random() * 10)
-    )
-    if (body.every(digit => digit === body[0])) {
-      body[spec.bodyLength - 1] = ((body[0] as number) + 1) % 10
+): string {
+  const { isValid, isFormatted } = options
+  const body = Array.from({ length: spec.bodyLength }, () => {
+    const sample = random()
+    if (!Number.isFinite(sample) || sample < 0 || sample >= 1) {
+      throw new Error('Random source must return a number from 0 up to 1')
     }
-
-    const [first, second] = calculateVerifiers(spec, body)
-    const last = valid ? second : (second + 1) % 10
-    const digits = `${body.join('')}${first}${last}`
-    return formatted ? formatDocument(spec, digits, true) : digits
+    return Math.floor(sample * 10)
+  })
+  if (body.every(digit => digit === body[0])) {
+    body[spec.bodyLength - 1] = ((body[0] as number) + 1) % 10
   }
 
-  if (count === 1) return generateSingle()
-  return Array.from({ length: count }, generateSingle)
+  const [first, second] = calculateVerifiers(spec, body)
+  const last = isValid ? second : (second + 1) % 10
+  const digits = `${body.join('')}${first}${last}`
+  return isFormatted ? formatDocument(spec, digits, true) : digits
 }

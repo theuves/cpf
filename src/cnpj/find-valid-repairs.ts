@@ -1,24 +1,21 @@
 /* c8 ignore next */
 import { calculateCnpjVerifiers, getCnpjAlphabet } from './codec'
-import type { CnpjMode } from './codec'
-import validate from './validate'
+import type { CnpjKind } from './codec'
+import isValid from './is-valid'
 
 export interface RepairOptions {
   placeholder?: string
-  mode?: CnpjMode
+  kind?: CnpjKind
 }
 
-export default function repair(
+export default function findValidRepairs(
   cnpjBroken: string,
   options: RepairOptions = {}
 ): string[] {
   if (typeof cnpjBroken !== 'string') return []
 
-  const inferredPlaceholder = inferPlaceholder(cnpjBroken)
-  const placeholder = options.placeholder ?? inferredPlaceholder
-  const legacyVerifierPlaceholder =
-    options.placeholder === undefined && inferredPlaceholder === 'X'
-  if (!/^[^A-Z0-9.\-/\s]$/.test(placeholder) && !legacyVerifierPlaceholder) {
+  const placeholder = options.placeholder ?? '?'
+  if (!/^[^A-Z0-9.\-/\s]$/.test(placeholder)) {
     throw new Error(
       'Placeholder must be one non-alphanumeric, non-separator character'
     )
@@ -35,7 +32,7 @@ export default function repair(
   const positions = [
     ...clean.matchAll(new RegExp(escapedPlaceholder, 'g')),
   ].map(match => match.index)
-  if (positions.length === 0) return validate(clean) ? [clean] : []
+  if (positions.length === 0) return isValid(clean) ? [clean] : []
   if (positions.length > 2) return []
   if (positions.length === 2 && !(positions[0] === 12 && positions[1] === 13)) {
     return []
@@ -46,14 +43,14 @@ export default function repair(
     return repairVerifiers(clean, placeholder)
   }
 
-  const inferredMode: CnpjMode = /[A-Z]/.test(clean)
+  const inferredKind: CnpjKind = /[A-Z]/.test(clean)
     ? 'alphanumeric'
     : 'numeric'
-  const alphabet = getCnpjAlphabet(options.mode ?? inferredMode)
+  const alphabet = getCnpjAlphabet(options.kind ?? inferredKind)
   const repaired: string[] = []
   for (const character of alphabet) {
     const candidate = clean.replace(placeholder, character)
-    if (validate(candidate)) repaired.push(candidate)
+    if (isValid(candidate)) repaired.push(candidate)
   }
   return repaired
 }
@@ -67,19 +64,9 @@ function repairVerifiers(input: string, placeholder: string): string[] {
   if (result[13] === placeholder) {
     result = `${result.slice(0, 13)}${second}`
   }
-  return validate(result) ? [result] : []
+  return isValid(result) ? [result] : []
 }
 
 function escapeRegExp(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-}
-
-function inferPlaceholder(input: string): string {
-  const clean = input.replace(/[^A-Z0-9?]/g, '')
-  const positions = [...clean.matchAll(/X/g)].map(match => match.index)
-  return !clean.includes('?') &&
-    positions.length > 0 &&
-    positions.every(position => position >= 12)
-    ? 'X'
-    : '?'
 }

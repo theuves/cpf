@@ -31,8 +31,8 @@ fora do intervalo de 0 a 9. O array recebido não é modificado.
 - Formato canônico: `000.000.000-00`.
 
 Sequências com todos os dígitos iguais são rejeitadas mesmo quando o cálculo dos
-verificadores coincidir. `cpf.rfs` interpreta o nono dígito do corpo segundo a
-tabela versionada em `src/cpf/rfs.ts`; essa classificação não valida o CPF.
+verificadores coincidir. `cpf.getFiscalRegions` interpreta o nono dígito do corpo segundo a
+tabela versionada em `src/cpf/get-fiscal-regions.ts`; essa classificação não valida o CPF.
 
 ## CNPJ
 
@@ -75,26 +75,24 @@ existir tanto na raiz quanto na ordem do estabelecimento.
 
 ## Normalização e parsing
 
-`validate` aceita somente strings e os caracteres permitidos pela especificação,
+`isValid` aceita somente strings e os caracteres permitidos pela especificação,
 remove separadores e exige 12 caracteres de corpo e dois dígitos verificadores.
-`parse` é deliberadamente permissivo: extrai `A-Z0-9`, trunca no tamanho total e
-não implica validação. Números permanecem números no resultado; letras permanecem
-strings.
+`parse` exige o documento completo, normaliza a máscara e não implica validação.
+Seus campos semânticos são sempre strings.
 
-Os modos estrito e não estrito de `format`, `unformat` e `check` estão detalhados
-em `docs/api-contract.md`.
+`matchesFormat` usa `completeness: 'complete' | 'partial'`; o contrato completo
+está em `docs/api-contract.md`.
 
 ## Geração e reparo
 
 Geração numérica é o padrão para preservar previsibilidade. O modo alfanumérico
 usa `A-Z0-9` e garante pelo menos uma letra no corpo. Ambos calculam os
-verificadores e, com `valid: false`, alteram o último verificador. Não há garantia
+verificadores e, com `validity: 'invalid'`, alteram o último verificador. Não há garantia
 de unicidade nem de segurança criptográfica.
 
 Reparo aceita `?` em qualquer posição ou dois marcadores apenas nas posições dos
-verificadores. `X` é dado válido no corpo e só é inferido como marcador legado
-quando aparece exclusivamente nos verificadores. Todo candidato é validado antes
-de ser retornado.
+verificadores. `X` é dado válido no corpo; a API 3.0.0 não infere marcadores
+legados. Todo candidato é validado antes de ser retornado.
 
 ## Checklist para mudar uma regra
 

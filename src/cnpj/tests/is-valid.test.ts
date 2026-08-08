@@ -1,5 +1,5 @@
 import test from 'ava'
-import validate from '../validate'
+import validate from '../is-valid'
 
 test('should accept valid formatted and unformatted CNPJs', t => {
   t.true(validate('11.222.333/0001-81'))

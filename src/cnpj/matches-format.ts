@@ -9,16 +9,20 @@ const PARTIAL_PATTERNS = [
   /^[A-Z0-9]{2}\.[A-Z0-9]{3}\.[A-Z0-9]{3}\/[A-Z0-9]{4}-?\d{0,2}$/,
 ]
 
-export interface CheckOptions {
-  strict?: boolean
+export interface FormatMatchOptions {
+  completeness?: 'complete' | 'partial'
 }
 
-export default function check(
+export default function matchesFormat(
   cnpj: string,
-  options: CheckOptions = {}
+  options: FormatMatchOptions = {}
 ): boolean {
   if (typeof cnpj !== 'string') return false
-  if (options.strict ?? true) return STRICT_PATTERN.test(cnpj)
+  const { completeness = 'complete' } = options
+  if (completeness !== 'complete' && completeness !== 'partial') {
+    throw new Error('Completeness must be complete or partial')
+  }
+  if (completeness === 'complete') return STRICT_PATTERN.test(cnpj)
 
   const trimmed = cnpj.trim()
   if (!VALID_CHARACTERS.test(trimmed)) return false

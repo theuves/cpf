@@ -23,15 +23,11 @@ function seededRandom(seed: number): () => number {
 function generateMany(
   spec: DocumentSpec,
   seed: number,
-  valid: boolean
+  isValid: boolean
 ): string[] {
-  const result = generateDocument(
-    spec,
-    { count: 200, formatted: false, valid },
-    seededRandom(seed)
+  return Array.from({ length: 200 }, () =>
+    generateDocument(spec, { isFormatted: false, isValid }, seededRandom(seed))
   )
-  if (typeof result === 'string') throw new Error('Expected multiple documents')
-  return result
 }
 
 for (const spec of specs) {
@@ -91,7 +87,7 @@ for (const spec of specs) {
   test(`${spec.name}: repeated random digits are corrected deterministically`, t => {
     const generated = generateDocument(
       spec,
-      { count: 1, formatted: false, valid: true },
+      { isFormatted: false, isValid: true },
       () => 0
     )
 
@@ -113,9 +109,8 @@ for (const spec of specs) {
 
   test(`${spec.name}: generation uses its default random source`, t => {
     const generated = generateDocument(spec, {
-      count: 1,
-      formatted: false,
-      valid: true,
+      isFormatted: false,
+      isValid: true,
     })
     t.is(typeof generated, 'string')
   })

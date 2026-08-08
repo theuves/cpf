@@ -1,7 +1,7 @@
 /* c8 ignore next */
 import { calculateCnpjVerifiers, isStructurallyValidCnpj } from './codec'
 
-export default function validate(cnpj: string): boolean {
+export default function isValid(cnpj: string): boolean {
   if (!isStructurallyValidCnpj(cnpj)) return false
 
   const characters = cnpj.replace(/[^A-Z0-9]/g, '')

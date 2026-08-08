@@ -1,7 +1,7 @@
 /* c8 ignore next */
 import { numericCnpjSpec } from './spec'
 
-export type CnpjMode = 'numeric' | 'alphanumeric'
+export type CnpjKind = 'numeric' | 'alphanumeric'
 export type CnpjCharacter = number | string
 export type CnpjBody = string | readonly CnpjCharacter[]
 
@@ -37,12 +37,6 @@ export function cleanCnpj(input: string, strict: boolean): string {
   return strict ? characters : characters.slice(0, numericCnpjSpec.totalLength)
 }
 
-export function extractCnpjCharacters(input: string): CnpjCharacter[] {
-  return (input.match(/[A-Z0-9]/g) ?? [])
-    .slice(0, numericCnpjSpec.totalLength)
-    .map(character => (/\d/.test(character) ? Number(character) : character))
-}
-
 export function formatCnpjCharacters(characters: string): string {
   let result = ''
   let offset = 0
@@ -64,8 +58,8 @@ export function isStructurallyValidCnpj(input: unknown): input is string {
   return /^[A-Z0-9]{12}\d{2}$/.test(characters)
 }
 
-export function getCnpjAlphabet(mode: CnpjMode): string {
-  return mode === 'numeric' ? NUMERIC : ALPHANUMERIC
+export function getCnpjAlphabet(kind: CnpjKind): string {
+  return kind === 'numeric' ? NUMERIC : ALPHANUMERIC
 }
 
 function normalizeBody(body: CnpjBody): string[] {

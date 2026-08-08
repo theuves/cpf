@@ -1,52 +1,53 @@
-# Migração da 2.x para 3.x
+# Migração explícita: 2.x → 3.0.0
 
-A versão 3 adiciona suporte completo ao CNPJ alfanumérico sem remover o formato
-numérico. A Receita Federal mantém os dois formatos válidos em paralelo.
+A 3.0.0 remove a camada de compatibilidade. Não há aliases prefixados no export
+raiz e não há nomes ou opções legadas nos namespaces de CPF e CNPJ.
 
-## O que permanece igual
-
-- CNPJs numéricos continuam válidos e com o mesmo cálculo.
-- `cnpj.generate()` continua gerando valores numéricos por padrão.
-- As funções e imports públicos continuam disponíveis.
-- O contrato de CPF não mudou.
-- `X` nas posições dos verificadores continua funcionando como marcador legado.
-
-## Mudanças necessárias
-
-| 2.x | 3.x | Ação do consumidor |
+| 2.x removido | 3.0.0 | Migração |
 | --- | --- | --- |
-| `calc(number[])` | string ou array alfanumérico | arrays numéricos continuam válidos |
-| `parse(...): number[]` | `(number \| string)[]` para campos de CNPJ | aceitar letras nos tipos |
-| letras descartadas em modo permissivo | letras preservadas e normalizadas | revisar sanitização dependente do descarte |
-| `X` desconhecido no corpo | `X` é dado válido | trocar a lacuna por `?` |
-| geração apenas numérica | `mode` seleciona a família | usar `mode: 'alphanumeric'` quando necessário |
-
-## Exemplos
-
-```ts
-import { cnpj } from 'cpf'
-
-cnpj.validate('12.ABC.345/01DE-35') // true
-cnpj.calc('12.ABC.345/01DE') // [3, 5]
-cnpj.format('12ABC34501DE35') // '12.ABC.345/01DE-35'
-cnpj.unformat('12.ABC.345/01DE-35') // '12ABC34501DE35'
-cnpj.generate({ mode: 'alphanumeric' })
-cnpj.repair('12.ABC.345/01DE-3?') // ['12ABC34501DE35']
-```
-
-Para parsing, altere a suposição de `number[]`:
+| `validate` | `isValid` | Renomeie a chamada. |
+| `check({ strict })` | `matchesFormat({ completeness })` | Use `'complete'` ou `'partial'`. |
+| `unformat` | `normalize` | A normalização retorna a representação sem máscara. |
+| `calc` | `calculateCheckDigits` | Renomeie a chamada. |
+| `repair` | `findValidRepairs` | Para CNPJ, `mode` virou `kind`. |
+| `rfs` | `getFiscalRegions` | Disponível apenas em CPF. |
+| `clear`, `getCD` | — | Remova esses aliases. |
+| `cpfX` / `cnpjX` no export raiz | `cpf.x` / `cnpj.x` | Importe o namespace. |
+| `generate({ count })` | `generateMany(count)` | `generate` sempre devolve `string`. |
+| `valid`, `formatted`, `mode`, `random` | `validity`, `output`, `kind`, `randomSource` | Atualize as opções. |
 
 ```ts
-const parsed = cnpj.parse('12.ABC.345/01DE-35')
-// parsed.fullBody:
-// [1, 2, 'A', 'B', 'C', 3, 4, 5, 0, 1, 'D', 'E']
+// 2.x
+import cpf, { cnpjValidate } from 'cpf'
+cpf.validate('529.982.247-25')
+cpf.generate({ count: 3, formatted: false })
+
+// 3.0.0
+import cpf, { cnpj } from 'cpf'
+cpf.isValid('529.982.247-25')
+cpf.generateMany(3, { output: 'plain' })
+cnpj.isValid('12.ABC.345/01DE-35')
 ```
 
-## Checklist de rollout
+## Parsing
 
-1. Atualize tipos de banco e APIs para strings de 14 posições.
-2. Remova regexes que aceitem somente `\d{14}`.
-3. Confirme que comparações e índices preservam letras e zeros à esquerda.
-4. Atualize usos de `repair` no corpo para `?`.
-5. Execute testes com `12.ABC.345/01DE-35` e seus próprios contratos.
-6. Publique consumidores antes de começar a receber dados alfanuméricos.
+O parser permissivo que descartava caracteres e devolvia arrays de números (ou
+de números e letras) foi removido. `parse` exige um documento completo e retorna
+campos semânticos em strings:
+
+```ts
+cpf.parse('529.982.247-25')
+// { value, body, checkDigits, regionDigit }
+
+cnpj.parse('12.ABC.345/01DE-35')
+// { value, root, branch, checkDigits }
+```
+
+`parse` não é validação matemática. Para isso, use `isValid`.
+
+## CNPJ alfanumérico
+
+Use `kind: 'alphanumeric'` para geração. CNPJ aceita letras maiúsculas nas 12
+posições do corpo e apenas dígitos nos verificadores. Em reparos, `?` é o
+marcador padrão; `X` é uma letra válida do corpo e não é mais inferido como
+marcador legado.

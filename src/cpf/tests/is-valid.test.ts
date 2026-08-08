@@ -1,5 +1,5 @@
 import test from 'ava'
-import validate from '../validate'
+import validate from '../is-valid'
 
 test('should return true for valid CPF with dots and dash', t => {
   const cpf = '529.982.247-25'

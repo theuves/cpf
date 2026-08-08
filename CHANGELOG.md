@@ -14,24 +14,32 @@ segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e o projeto us
 - Cobertura mínima de 100% para linhas, statements, funções e branches.
 - Suporte completo à coexistência de CNPJ numérico e alfanumérico em validação,
   formato, parsing, cálculo, geração e reparo.
-- Tipos `CnpjBody`, `CnpjCharacter`, `CnpjMode` e `CnpjRepairOptions`.
+- Tipos `CnpjBody`, `CnpjKind` e `RepairOptions`.
 - Vetores oficiais da Receita Federal e testes determinísticos dos dois formatos.
+- API semântica: `isValid`, `matchesFormat`, `normalize`,
+  `calculateCheckDigits`, `findValidRepairs`, `generateMany` e, para CPF,
+  `getFiscalRegions`.
+- Opções de geração: `validity`, `output`, `kind` e `randomSource`.
+- Tipo `CnpjKind`.
 
 ### Alterado
 
-- `cnpj.calc` aceita string ou array contendo números e letras maiúsculas.
-- `cnpj.parse` preserva letras do corpo em vez de descartá-las.
-- `cnpj.generate` aceita `mode: 'numeric' | 'alphanumeric'`; o padrão continua
+- `calculateCheckDigits` aceita corpo CNPJ em string ou array contendo números e
+  letras maiúsculas.
+- `parse` agora exige valor completo e devolve campos semânticos em strings.
+- `generate` sempre retorna uma string; `generateMany` cria lotes.
+- A geração de CNPJ recebe `kind: 'numeric' | 'alphanumeric'`; o padrão continua
   numérico.
-- `cnpj.repair` adota `?` como marcador padrão; `X` no corpo é dado válido.
-- No modo não estrito, letras são preservadas e normalizadas para maiúsculas.
+- `findValidRepairs` adota `?` como marcador padrão; `X` no corpo é dado válido.
+- `normalize` converte letras CNPJ a maiúsculas sem truncar valores inválidos.
 - Testes probabilísticos de geração foram substituídos por invariantes
   reproduzíveis.
 
 ### Compatibilidade
 
 - Esta é uma versão major porque tipos e semântica de parsing, normalização e
-  reparo de CNPJ mudaram. Consulte `docs/migration-v3.md`.
+  reparo de CNPJ mudaram e a API legada foi removida. Consulte
+  `docs/migration-v3.md`.
 
 ## 2.0.1 - 2019-01-04
 

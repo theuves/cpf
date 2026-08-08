@@ -1,6 +1,6 @@
 # ADR 004: retorno condicional de `generate` na série 2.x
 
-- Status: aceito para compatibilidade; candidato a separação na 3.x
+- Status: substituído pela ADR 007 na 3.0.0
 
 ## Contexto
 
@@ -8,14 +8,14 @@
 conveniente em JavaScript, mas exige overloads e retorno unido quando `count` é
 apenas `number` em TypeScript.
 
-## Decisão
+## Decisão histórica
 
 Modelar fielmente o runtime com overloads e tipo condicional. Não prometer
 unicidade. Rejeitar contagens que não sejam inteiros positivos. Não impor um novo
 limite na série 2.x porque isso quebraria entradas hoje aceitas.
 
-## Consequências
+## Substituição na 3.0.0
 
-Testes de tipo e do tarball protegem a inferência. A documentação alerta que lotes
-grandes são materializados em memória. A 3.x pode separar geração unitária, lote
-e iteração, depois de definir limites e nomes em proposta própria.
+A 3.0.0 separa as operações: `generate` retorna sempre uma string e
+`generateMany` retorna sempre uma lista. As opções de geração adotam vocabulário
+semântico. A ADR permanece apenas como contexto para consumidores da 2.x.

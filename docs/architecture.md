@@ -16,7 +16,7 @@ mais ampla do que ele exige.
   ASCII−48 específicos do CNPJ coexistente.
 - `src/cpf` e `src/cnpj` são adaptadores públicos, responsáveis pelos tipos e
   formatos de retorno específicos de cada domínio.
-- `src/cpf/rfs.ts` permanece fora do núcleo porque regiões fiscais são uma regra
+- `src/cpf/get-fiscal-regions.ts` permanece fora do núcleo porque regiões fiscais são uma regra
   exclusiva de CPF.
 
 O núcleo não é exportado pelo `package.json`. Ele é um detalhe de implementação;
@@ -59,6 +59,7 @@ e como será verificada no tarball entregue.
 - `ADR 001`: núcleo compartilhado orientado por especificação;
 - `ADR 002`: formatos ESM, CommonJS e IIFE;
 - `ADR 003`: modos estrito e não estrito;
-- `ADR 004`: retorno condicional de geração;
+- `ADR 004`: retorno condicional de geração na 2.x, substituído na 3.0.0;
 - `ADR 005`: tratamento público de erros;
 - `ADR 006`: CNPJ alfanumérico como mudança coerente de versão major.
+- `ADR 007`: vocabulário semântico da API pública e migração major explícita.

@@ -94,17 +94,17 @@ try {
   writeFileSync(
     join(temporaryDirectory, 'esm.mjs'),
     `
-      import cpf, { cnpj, cpfParse } from 'cpf'
+      import cpf, { cnpj } from 'cpf'
       import cpfSubpath from 'cpf/cpf'
       import cnpjSubpath from 'cpf/cnpj'
 
-      if (!cpf.validate('529.982.247-25')) process.exit(1)
-      if (!cnpj.validate('11.222.333/0001-81')) process.exit(1)
-      if (!cnpj.validate('12.ABC.345/01DE-35')) process.exit(1)
-      if (!cpfParse('529.982.247-25')) process.exit(1)
-      if (!cpfSubpath.validate('529.982.247-25')) process.exit(1)
-      if (!cnpjSubpath.validate('11.222.333/0001-81')) process.exit(1)
-      if (!cnpjSubpath.validate('12.ABC.345/01DE-35')) process.exit(1)
+      if (!cpf.isValid('529.982.247-25')) process.exit(1)
+      if (!cnpj.isValid('11.222.333/0001-81')) process.exit(1)
+      if (!cnpj.isValid('12.ABC.345/01DE-35')) process.exit(1)
+      if (!cpf.parse('529.982.247-25')) process.exit(1)
+      if (!cpfSubpath.isValid('529.982.247-25')) process.exit(1)
+      if (!cnpjSubpath.isValid('11.222.333/0001-81')) process.exit(1)
+      if (!cnpjSubpath.isValid('12.ABC.345/01DE-35')) process.exit(1)
     `
   )
   run(process.execPath, ['esm.mjs'])
@@ -116,10 +116,10 @@ try {
       const cpf = require('cpf/cpf').default
       const cnpj = require('cpf/cnpj').default
 
-      if (!root.default.validate('529.982.247-25')) process.exit(1)
-      if (!cpf.validate('529.982.247-25')) process.exit(1)
-      if (!cnpj.validate('11.222.333/0001-81')) process.exit(1)
-      if (!cnpj.validate('12.ABC.345/01DE-35')) process.exit(1)
+      if (!root.default.isValid('529.982.247-25')) process.exit(1)
+      if (!cpf.isValid('529.982.247-25')) process.exit(1)
+      if (!cnpj.isValid('11.222.333/0001-81')) process.exit(1)
+      if (!cnpj.isValid('12.ABC.345/01DE-35')) process.exit(1)
     `
   )
   run(process.execPath, ['commonjs.cjs'])
@@ -138,9 +138,9 @@ try {
   writeFileSync(
     join(temporaryDirectory, 'browser/browser.cjs'),
     `${browserBundle}
-      if (!globalThis.cpf.validate('529.982.247-25')) process.exit(1)
-      if (!globalThis.cpf.cnpj.validate('11.222.333/0001-81')) process.exit(1)
-      if (!globalThis.cpf.cnpj.validate('12.ABC.345/01DE-35')) process.exit(1)
+      if (!globalThis.cpf.isValid('529.982.247-25')) process.exit(1)
+      if (!globalThis.cpf.cnpj.isValid('11.222.333/0001-81')) process.exit(1)
+      if (!globalThis.cpf.cnpj.isValid('12.ABC.345/01DE-35')) process.exit(1)
     `
   )
   run(process.execPath, ['browser/browser.cjs'])
@@ -152,19 +152,16 @@ try {
       import cpfSubpath from 'cpf/cpf'
       import cnpjSubpath from 'cpf/cnpj'
 
-      const one: string = cpf.generate({ count: 1 })
-      const many: string[] = cpf.generate({ count: 2 })
-      const dynamicCount: number = Date.now() % 2 === 0 ? 1 : 2
-      const dynamic: string | string[] = cpf.generate({ count: dynamicCount })
-      const alphanumeric: string = cnpj.generate({ mode: 'alphanumeric' })
-      const body: (number | string)[] = cnpj.parse('12.ABC.345/01DE-35').fullBody
+      const one: string = cpf.generate()
+      const many: string[] = cpf.generateMany(2)
+      const alphanumeric: string = cnpj.generate({ kind: 'alphanumeric' })
+      const body: string = cnpj.parse('12.ABC.345/01DE-35').root
 
-      cpfSubpath.validate(one)
-      cnpjSubpath.validate(cnpj.generate())
-      cnpjSubpath.validate(alphanumeric)
-      cnpj.calc('12.ABC.345/01DE')
+      cpfSubpath.isValid(one)
+      cnpjSubpath.isValid(cnpj.generate())
+      cnpjSubpath.isValid(alphanumeric)
+      cnpj.calculateCheckDigits('12.ABC.345/01DE')
       void many
-      void dynamic
       void body
     `
   )
@@ -188,8 +185,8 @@ try {
       import cnpj = require('cpf/cnpj')
 
       const generated: string = root.default.generate()
-      cpf.default.validate(generated)
-      cnpj.default.validate(cnpj.default.generate())
+      cpf.default.isValid(generated)
+      cnpj.default.isValid(cnpj.default.generate())
     `
   )
   run(resolve(projectRoot, 'node_modules/.bin/tsc'), [

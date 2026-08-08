@@ -14,15 +14,7 @@ export interface DocumentSpec {
   readonly validCharsPattern: RegExp
 }
 
-export interface ParsedDocument {
-  digits: number[]
-  fullBody: number[]
-  bodyParts: number[][]
-  verifiers: number[]
-}
-
 export interface GenerateDocumentOptions {
-  valid: boolean
-  count: number
-  formatted: boolean
+  isValid: boolean
+  isFormatted: boolean
 }

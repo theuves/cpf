@@ -1,31 +1,46 @@
-import calc from './calc'
-import check from './check'
+import calculateCheckDigits from './calculate-check-digits'
+import matchesFormat from './matches-format'
 import format from './format'
-import generate from './generate'
-import parse from './parser'
-import repair from './repair'
-import unformat from './unformat'
-import validate from './validate'
+import generate, { generateMany } from './generate'
+import parse from './parse'
+import findValidRepairs from './find-valid-repairs'
+import normalize from './normalize'
+import isValid from './is-valid'
+import type { FormatMatchOptions } from './matches-format'
+import type { CnpjBody, CnpjKind } from './codec'
+import type { GenerationOptions } from './generate'
+import type { ParseResult } from './parse'
+import type { RepairOptions } from './find-valid-repairs'
 
 const cnpj = {
-  calc,
-  check,
+  calculateCheckDigits,
+  findValidRepairs,
   format,
   generate,
+  generateMany,
+  isValid,
+  matchesFormat,
+  normalize,
   parse,
-  repair,
-  unformat,
-  validate,
 }
 
-export { calc, check, format, generate, parse, repair, unformat, validate }
-
-export type { CheckOptions } from './check'
-export type { CnpjBody, CnpjCharacter, CnpjMode } from './codec'
-export type { FormatOptions } from './format'
-export type { GenerateOptions } from './generate'
-export type { ParseResult } from './parser'
-export type { RepairOptions } from './repair'
-export type { UnformatOptions } from './unformat'
-
+export {
+  calculateCheckDigits,
+  findValidRepairs,
+  format,
+  generate,
+  generateMany,
+  isValid,
+  matchesFormat,
+  normalize,
+  parse,
+}
+export type {
+  CnpjBody,
+  CnpjKind,
+  FormatMatchOptions,
+  GenerationOptions,
+  ParseResult,
+  RepairOptions,
+}
 export default cnpj

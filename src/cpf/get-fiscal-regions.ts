@@ -1,5 +1,5 @@
 /* c8 ignore next */
-import parser from './parser'
+import parse from './parse'
 
 /*
  * RF (Região Fiscal) é uma divisão da Receita Federal para gerenciar
@@ -9,13 +9,15 @@ import parser from './parser'
  * https://www.gov.br/receitafederal/pt-br/assuntos/educacao-fiscal/educacao_fiscal/folhetos-orientativos/cadastros-dig.pdf
  */
 
-export default function rfs(cpf: string): string[] {
+export default function getFiscalRegions(cpf: string): string[] {
   if (typeof cpf !== 'string') {
     return []
   }
 
-  const parsed = parser(cpf)
-  if (parsed.digits.length !== 11) {
+  let parsed: import('./parse').ParseResult
+  try {
+    parsed = parse(cpf)
+  } catch {
     return []
   }
 
@@ -32,5 +34,5 @@ export default function rfs(cpf: string): string[] {
     9: ['PR', 'SC'],
   }
 
-  return rfMap[parsed.lastBodyDigit as number] as string[]
+  return rfMap[Number(parsed.regionDigit)] as string[]
 }

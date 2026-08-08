@@ -1,54 +1,40 @@
-import calc from './calc'
-import check from './check'
+import calculateCheckDigits from './calculate-check-digits'
+import matchesFormat from './matches-format'
 import format from './format'
-import generate from './generate'
-import parse from './parser'
-import repair from './repair'
-import rfs from './rfs'
-import unformat from './unformat'
-import validate from './validate'
-
-/** @deprecated Use `validate` instead. */
-const isValid = validate
-/** @deprecated Use `unformat` instead. */
-const clear = unformat
-/** @deprecated Use `calc` instead. */
-const getCD = calc
+import generate, { generateMany } from './generate'
+import parse from './parse'
+import findValidRepairs from './find-valid-repairs'
+import getFiscalRegions from './get-fiscal-regions'
+import normalize from './normalize'
+import isValid from './is-valid'
+import type { FormatMatchOptions } from './matches-format'
+import type { GenerationOptions } from './generate'
+import type { ParseResult } from './parse'
 
 const cpf = {
-  calc,
-  check,
-  clear,
+  calculateCheckDigits,
+  findValidRepairs,
   format,
   generate,
-  getCD,
+  generateMany,
+  getFiscalRegions,
   isValid,
+  matchesFormat,
+  normalize,
   parse,
-  repair,
-  rfs,
-  unformat,
-  validate,
 }
 
 export {
-  calc,
-  check,
-  clear,
+  calculateCheckDigits,
+  findValidRepairs,
   format,
   generate,
-  getCD,
+  generateMany,
+  getFiscalRegions,
   isValid,
+  matchesFormat,
+  normalize,
   parse,
-  repair,
-  rfs,
-  unformat,
-  validate,
 }
-
-export type { CheckOptions } from './check'
-export type { FormatOptions } from './format'
-export type { GenerateOptions } from './generate'
-export type { ParseResult } from './parser'
-export type { UnformatOptions } from './unformat'
-
+export type { FormatMatchOptions, GenerationOptions, ParseResult }
 export default cpf
