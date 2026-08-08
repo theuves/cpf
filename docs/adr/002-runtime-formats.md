@@ -22,5 +22,11 @@ tarball instalado, não apenas imports relativos dos fontes.
 
 ## Consequências
 
-O pipeline é mais complexo e precisa de teste por ambiente. Um formato só pode
-ser removido com dados de uso, aviso, documentação de migração e versão adequada.
+O pipeline é mais complexo. ESM e CommonJS precisam ser executados em cada versão
+de Node suportada; o IIFE é verificado como artefato autocontido e pela exposição
+da API em `globalThis`. Essa verificação do IIFE não equivale a uma matriz de
+navegadores, que só poderá ser prometida quando houver execução em navegadores
+reais.
+
+Um formato só pode ser removido com dados de uso, aviso, documentação de migração
+e versão adequada.

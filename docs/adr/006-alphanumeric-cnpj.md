@@ -7,7 +7,9 @@
 
 A Receita Federal iniciou em julho de 2026 a implantação progressiva de CNPJ com
 12 posições alfanuméricas e dois verificadores numéricos. Os formatos numérico e
-alfanumérico coexistem e devem ser aceitos em todos os processos.
+alfanumérico coexistem e todas as operações de domínio devem tratá-los sem perder
+letras. Isso não implica que todas as operações adotem a mesma política de
+maiúsculas, máscara ou validade matemática.
 
 A API 2.x contém premissas incompatíveis com uma extensão superficial:
 
@@ -26,7 +28,9 @@ Implementar o suporte completo na 3.0.0 e preservar o caminho numérico existent
   à esquerda;
 - geração permanece numérica por padrão e recebe um `kind` explícito;
 - reparo adota `?` e trata `X` como dado no corpo;
-- entrada estrita segue `A-Z`; entrada permissiva normaliza minúsculas;
+- validação, classificação, cálculo e `format({ strict: true })` exigem `A-Z`;
+- `format({ strict: false })`, `normalize` e, por composição, `parse` convertem
+  minúsculas para maiúsculas;
 - vetores oficiais protegem o cálculo e a validação.
 
 ## Alternativas

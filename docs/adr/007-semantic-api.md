@@ -1,5 +1,8 @@
 # ADR 007: vocabulário semântico da API pública
 
+- Status: implementado na 3.0.0
+- Data da decisão: 2026-08-08
+
 ## Contexto
 
 A API histórica mistura operações de predicado, transformação e busca de
@@ -28,4 +31,8 @@ contrato.
 
 Consumidores novos passam a ler a semântica pela assinatura. Consumidores 2.x
 recebem uma migração major explícita. A versão 3 elimina retorno condicional de
-`generate` e torna `parse` rigoroso.
+`generate` e faz `parse` exigir o comprimento completo e somente caracteres
+admitidos pelo domínio. `parse` remove separadores admitidos onde quer que
+apareçam, converte CNPJ para maiúsculas e não verifica máscara canônica nem
+dígitos verificadores; essas responsabilidades pertencem, respectivamente, a
+`matchesFormat` e `isValid`.

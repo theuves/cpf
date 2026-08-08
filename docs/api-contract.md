@@ -20,8 +20,10 @@ também oferece `getKind`.
   `INVALID_VERIFIER_CHARACTERS` existe apenas para CNPJ.
 - Em `inspect`, `normalized` é `null` quando a entrada não é string ou contém
   caracteres inválidos. Nas demais falhas, preserva o conteúdo sem separadores.
-- `cnpj.getKind` retorna `numeric`, `alphanumeric` ou `null`. Ele exige estrutura
-  completa e caracteres estritos, mas não confirma os dígitos verificadores.
+- `cnpj.getKind` retorna `numeric`, `alphanumeric` ou `null`. Depois de remover
+  separadores admitidos em qualquer posição, ele exige 12 caracteres `A-Z0-9` e
+  dois dígitos verificadores. Não confirma a máscara nem o valor matemático dos
+  verificadores; use `matchesFormat` e `isValid` para essas propriedades.
 - `matchesFormat` verifica somente a máscara com
   `completeness: 'complete' | 'partial'`.
 - Entradas numéricas de `format` são aceitas somente com `strict: false` e devem
@@ -34,8 +36,9 @@ também oferece `getKind`.
   devem ser divididos pelo consumidor para manter o uso de memória limitado.
 - As opções de geração são `validity`, `output`, `randomSource` e, para CNPJ,
   `kind`. A fonte aleatória deve devolver um número em `[0, 1)`.
-- `parse` exige o tamanho completo e retorna somente campos semânticos em
-  `string`. Ele não atesta validade matemática.
+- `parse` exige o tamanho completo depois da remoção dos separadores admitidos e
+  retorna somente campos semânticos em `string`. Ele converte letras de CNPJ para
+  maiúsculas, mas não atesta máscara canônica nem validade matemática.
 - `findValidRepairs` devolve lista vazia quando não houver reparo válido.
 
 Os nomes `validate`, `check`, `unformat`, `calc`, `repair`, `rfs`, `clear` e

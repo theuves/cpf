@@ -17,7 +17,16 @@ entrada completa antes de descobrir que seu tamanho era inválido.
 - Preservar a API síncrona e o retorno `string[]` dentro desse intervalo.
 - Orientar consumidores a dividir volumes maiores em lotes menores.
 - Compartilhar a validação da contagem entre CPF e CNPJ para evitar divergência.
-- Rejeitar entradas de reparo acima de 64 caracteres antes de regexes e cópias.
+- Rejeitar entradas de reparo acima de 64 caracteres antes de examinar ou copiar
+  o conteúdo da entrada.
+
+Os valores são limites determinísticos da API, não estimativas da capacidade de
+todo ambiente. Dez mil mantém uma chamada na ordem de centenas de quilobytes de
+texto, além do custo do array e das strings, sem permitir alocação arbitrária a
+partir de um único número. Sessenta e quatro deixa margem sobre as representações
+canônicas de CPF e CNPJ e sobre separadores tolerados, mas impede trabalho
+proporcional a uma entrada sem limite. Alterar qualquer teto exige medição e
+avaliação de compatibilidade.
 
 ## Alternativas
 
@@ -34,4 +43,6 @@ entrada completa antes de descobrir que seu tamanho era inválido.
 Chamadas existentes até 10.000 itens mantêm o comportamento. Contagens maiores
 falham antes de alocar o array. O teto não é uma promessa de que 10.000 itens
 sejam adequados a toda aplicação; consumidores ainda devem adotar limites de
-requisição e concorrência compatíveis com seu ambiente.
+requisição e concorrência compatíveis com seu ambiente. Os tetos também não
+protegem, isoladamente, contra chamadas repetidas ou concorrentes; controle de
+taxa e orçamento global pertencem à aplicação consumidora.

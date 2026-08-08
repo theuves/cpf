@@ -21,8 +21,10 @@ classificação que não deve ser confundida com validade matemática.
 - Fazer `isValid` reutilizar a mesma inspeção, evitando divergência entre o
   predicado e o diagnóstico.
 - Adicionar `cnpj.getKind`, que retorna `numeric`, `alphanumeric` ou `null`.
-- Classificar somente estruturas completas e estritas, sem exigir verificadores
-  matematicamente válidos.
+- Classificar somente representações que, depois da remoção dos separadores
+  admitidos, tenham 12 caracteres `A-Z0-9` e dois verificadores numéricos, sem
+  exigir verificadores matematicamente válidos. A posição dos separadores não é
+  parte da classificação; máscara canônica pertence a `matchesFormat`.
 
 ## Alternativas
 
@@ -39,5 +41,6 @@ classificação que não deve ser confundida com validade matemática.
 
 Consumidores podem produzir mensagens próprias sem interpretar textos de erro.
 Os códigos e a ordem de precedência passam a fazer parte do contrato semântico.
-`getKind` pode classificar um CNPJ com verificadores incorretos, mas devolve
-`null` para entrada incompleta, minúscula ou estruturalmente inválida.
+`getKind` pode classificar um CNPJ com verificadores incorretos ou separadores
+fora da máscara canônica, mas devolve `null` para entrada incompleta, minúscula
+ou com caracteres/posições essenciais estruturalmente inválidos.

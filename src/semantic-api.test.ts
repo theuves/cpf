@@ -47,7 +47,7 @@ test('keeps generation return types and validity deterministic', t => {
   t.false(cnpj.isValid(cnpj.generate({ validity: 'invalid' })))
 })
 
-test('exposes canonical CNPJ operations and strict semantic parsing', t => {
+test('exposes canonical CNPJ operations and complete semantic parsing', t => {
   t.deepEqual(Object.keys(cnpj).sort(), [
     'calculateCheckDigits',
     'findValidRepairs',
@@ -73,6 +73,21 @@ test('exposes canonical CNPJ operations and strict semantic parsing', t => {
     branch: '01DE',
     checkDigits: '35',
   })
+  t.deepEqual(cnpj.parse('12.abc.345/01de-35'), {
+    value: '12ABC34501DE35',
+    root: '12ABC345',
+    branch: '01DE',
+    checkDigits: '35',
+  })
+  t.deepEqual(cpf.parse('5.2.9.9.8.2.2.4.7.2.5'), {
+    value: '52998224725',
+    body: '529982247',
+    checkDigits: '25',
+    regionDigit: '7',
+  })
+  t.false(cpf.matchesFormat('5.2.9.9.8.2.2.4.7.2.5'))
+  t.is(cnpj.getKind('1.2.A.B.C.3.4.5.0.1.D.E.3.5'), 'alphanumeric')
+  t.false(cnpj.matchesFormat('1.2.A.B.C.3.4.5.0.1.D.E.3.5'))
   t.throws(() => cnpj.parse('12.ABC'), {
     message: 'CNPJ must contain exactly 14 characters',
   })

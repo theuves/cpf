@@ -151,8 +151,10 @@ cnpj.normalize('12.abc.345/01de-35') // '12ABC34501DE35'
 
 ### `parse(value)`
 
-Exige uma representação completa e separa suas partes semânticas. `parse` não
-confirma os dígitos verificadores; use `isValid` para validação matemática.
+Exige uma representação completa depois de remover os separadores admitidos e
+separa suas partes semânticas. Em CNPJ, converte letras para maiúsculas. `parse`
+não confirma a posição da máscara nem os dígitos verificadores; use
+`matchesFormat` e `isValid` para essas verificações.
 
 ```ts
 cpf.parse('529.982.247-25')

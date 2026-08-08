@@ -1,6 +1,6 @@
 # ADR 005: mensagens de erro não são códigos públicos na série 2.x
 
-- Status: aceito; erros tipados adiados para proposta futura
+- Status: aceito na 2.x e preservado na 3.x; erros lançados tipados permanecem adiados
 
 ## Contexto
 
@@ -19,3 +19,8 @@ textual. Projetar erros com `code` discriminado para uma versão major.
 Correções que alterem mensagens exigem avaliação de compatibilidade. A futura
 taxonomia deve separar tipo, caractere, comprimento e opções inválidas, mantendo
 mensagem humana independente do tratamento programático.
+
+Os códigos discriminados adicionados por `inspect` na ADR 008 descrevem
+resultados esperados de validação e são estáveis. Eles não transformam as
+exceções lançadas pelas operações de transformação em erros tipados nem tornam
+suas mensagens códigos públicos.

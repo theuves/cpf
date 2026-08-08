@@ -31,9 +31,11 @@ cnpj.isValid('12.ABC.345/01DE-35')
 
 ## Parsing
 
-O parser permissivo que descartava caracteres e devolvia arrays de números (ou
-de números e letras) foi removido. `parse` exige um documento completo e retorna
-campos semânticos em strings:
+O parser permissivo que descartava caracteres arbitrários e devolvia arrays de
+números (ou de números e letras) foi removido. `parse` admite somente caracteres
+do domínio e separadores conhecidos, exige o documento completo depois de
+removê-los e retorna campos semânticos em strings. A posição dos separadores não
+é validada por `parse`; use `matchesFormat` quando a máscara for relevante:
 
 ```ts
 cpf.parse('529.982.247-25')
@@ -43,7 +45,9 @@ cnpj.parse('12.ABC.345/01DE-35')
 // { value, root, branch, checkDigits }
 ```
 
-`parse` não é validação matemática. Para isso, use `isValid`.
+`parse` não é validação de máscara nem validação matemática. Para isso, use
+`matchesFormat` e `isValid`, respectivamente. No CNPJ, `parse` também converte
+letras minúsculas para maiúsculas.
 
 ## CNPJ alfanumérico
 

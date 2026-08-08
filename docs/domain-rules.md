@@ -82,8 +82,14 @@ documento completo, normaliza a máscara e não implica validação. Seus campos
 semânticos são sempre strings.
 
 `cnpj.getKind` classifica uma estrutura completa pela presença de letras nas 12
-posições do corpo. A classificação é independente da validade dos verificadores;
-entrada incompleta, minúscula ou estruturalmente inválida produz `null`.
+posições do corpo. A classificação remove separadores admitidos sem verificar
+suas posições e é independente da validade dos verificadores; entrada incompleta,
+minúscula ou com caracteres/posições essenciais inválidos produz `null`.
+
+`normalize` e `parse` de CNPJ convertem minúsculas para maiúsculas. `parse` exige
+o comprimento completo depois da normalização, mas não confirma máscara nem
+verificadores. Assim, “estrito” em validação e classificação não deve ser usado
+como sinônimo de “completo” ou “canonicamente formatado”.
 
 `matchesFormat` usa `completeness: 'complete' | 'partial'`; o contrato completo
 está em `docs/api-contract.md`.
