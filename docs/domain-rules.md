@@ -95,9 +95,10 @@ usa `A-Z0-9` e garante pelo menos uma letra no corpo. Ambos calculam os
 verificadores e, com `validity: 'invalid'`, alteram o último verificador. Não há garantia
 de unicidade nem de segurança criptográfica.
 
-Reparo aceita `?` em qualquer posição ou dois marcadores apenas nas posições dos
-verificadores. `X` é dado válido no corpo; a API 3.0.0 não infere marcadores
-legados. Todo candidato é validado antes de ser retornado.
+Reparo de CPF usa `X` como marcador. Reparo de CNPJ usa `?` por padrão, aceita um
+marcador configurável e permite dois marcadores apenas nas posições dos
+verificadores. No corpo do CNPJ, `X` é dado válido e não é inferido como marcador
+legado. Todo candidato é validado antes de ser retornado.
 
 ## Checklist para mudar uma regra
 
