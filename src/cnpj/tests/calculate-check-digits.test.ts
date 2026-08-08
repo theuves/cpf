@@ -50,6 +50,7 @@ test('should throw error for body with non-integer values', t => {
   const body = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 'a']
   const error = t.throws(
     () => {
+      // @ts-expect-error runtime rejection protects JavaScript consumers
       calc(body)
     },
     { instanceOf: Error }

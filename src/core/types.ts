@@ -27,7 +27,14 @@ export type DocumentIssueCode =
   | 'REPEATED_CHARACTERS'
   | 'INVALID_CHECK_DIGITS'
 
-export type InspectionResult =
+export type CommonDocumentIssueCode = Exclude<
+  DocumentIssueCode,
+  'INVALID_VERIFIER_CHARACTERS'
+>
+
+export type InspectionResult<
+  IssueCode extends DocumentIssueCode = DocumentIssueCode,
+> =
   | {
       readonly valid: true
       readonly normalized: string
@@ -35,5 +42,5 @@ export type InspectionResult =
   | {
       readonly valid: false
       readonly normalized: string | null
-      readonly issue: DocumentIssueCode
+      readonly issue: IssueCode
     }

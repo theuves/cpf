@@ -300,15 +300,19 @@ O pacote inclui declarações para ESM e CommonJS. Os principais tipos públicos
 são:
 
 - `DocumentIssueCode`;
-- `CpfInspectionResult` e `CnpjInspectionResult`;
+- `CpfIssueCode`, `CpfInspectionResult` e `CnpjInspectionResult`;
 - `CpfGenerationOptions` e `CnpjGenerationOptions`;
+- `CpfGenerationValidity`, `CnpjGenerationValidity`, `CpfGenerationOutput` e
+  `CnpjGenerationOutput`;
+- `CpfFormatOptions` e `CnpjFormatOptions`;
 - `CpfFormatMatchOptions` e `CnpjFormatMatchOptions`;
 - `CpfParseResult` e `CnpjParseResult`;
-- `CnpjKind`.
+- `CnpjKind`, `CnpjCharacter` e `CnpjAsciiCharacter`.
 
 O subpath `cpf/cnpj` também exporta `CnpjBody` e `RepairOptions`. Nos subpaths,
 os tipos compartilhados são exportados sem os prefixos `Cpf` e `Cnpj`, como
-`GenerationOptions`, `InspectionResult` e `ParseResult`.
+`FormatOptions`, `GenerationOptions`, `GenerationValidity`, `GenerationOutput`,
+`InspectionResult` e `ParseResult`.
 
 ## Migração da versão 2.x
 

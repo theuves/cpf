@@ -1,8 +1,12 @@
 /* c8 ignore next */
 import { calculateCnpjVerifiers, hasValidCnpjCharacters } from './codec'
-import type { DocumentIssueCode, InspectionResult } from '../core/types'
+import type {
+  DocumentIssueCode,
+  InspectionResult as CoreInspectionResult,
+} from '../core/types'
 
-export type { DocumentIssueCode, InspectionResult }
+export type InspectionResult = CoreInspectionResult<DocumentIssueCode>
+export type { DocumentIssueCode }
 
 export default function inspect(cnpj: unknown): InspectionResult {
   if (typeof cnpj !== 'string') {

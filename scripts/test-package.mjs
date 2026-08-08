@@ -154,9 +154,15 @@ try {
   writeFileSync(
     join(temporaryDirectory, 'consumer.ts'),
     `
-      import cpf, { cnpj } from 'cpf'
+      import cpf, {
+        cnpj,
+        type CnpjCharacter,
+        type CpfFormatOptions,
+        type CpfIssueCode,
+      } from 'cpf'
       import cpfSubpath from 'cpf/cpf'
       import cnpjSubpath from 'cpf/cnpj'
+      import type { FormatOptions as CnpjFormatOptions } from 'cpf/cnpj'
 
       const one: string = cpf.generate()
       const many: string[] = cpf.generateMany(2)
@@ -164,6 +170,10 @@ try {
       const body: string = cnpj.parse('12.ABC.345/01DE-35').root
       const inspected: boolean = cpf.inspect(one).valid
       const kind = cnpj.getKind(alphanumeric)
+      const cpfIssue: CpfIssueCode = 'INVALID_CHECK_DIGITS'
+      const cnpjCharacter: CnpjCharacter = 'A'
+      const cpfFormatOptions: CpfFormatOptions = { strict: false }
+      const cnpjFormatOptions: CnpjFormatOptions = { strict: true }
 
       cpfSubpath.isValid(one)
       cnpjSubpath.isValid(cnpj.generate())
@@ -173,6 +183,10 @@ try {
       void body
       void inspected
       void kind
+      void cpfIssue
+      void cnpjCharacter
+      void cpfFormatOptions
+      void cnpjFormatOptions
     `
   )
   run(resolve(projectRoot, 'node_modules/.bin/tsc'), [

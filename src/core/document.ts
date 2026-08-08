@@ -3,6 +3,7 @@ import type {
   DocumentSpec,
   GenerateDocumentOptions,
   InspectionResult,
+  CommonDocumentIssueCode,
 } from './types'
 
 export const MAX_GENERATION_BATCH_SIZE = 10_000
@@ -143,7 +144,7 @@ export function validateDocument(spec: DocumentSpec, input: unknown): boolean {
 export function inspectDocument(
   spec: DocumentSpec,
   input: unknown
-): InspectionResult {
+): InspectionResult<CommonDocumentIssueCode> {
   if (typeof input !== 'string') {
     return { valid: false, normalized: null, issue: 'INVALID_TYPE' }
   }

@@ -7,13 +7,6 @@ import {
 import { assertGenerationCount } from '../core/document'
 import type { CnpjKind } from './codec'
 
-export interface GenerateOptions {
-  validity?: GenerationValidity
-  output?: GenerationOutput
-  kind?: CnpjKind
-  randomSource?: () => number
-}
-
 export type GenerationValidity = 'valid' | 'invalid'
 export type GenerationOutput = 'formatted' | 'plain'
 
@@ -24,7 +17,7 @@ export interface GenerationOptions {
   randomSource?: () => number
 }
 
-export default function generate(options: GenerateOptions = {}): string {
+export default function generate(options: GenerationOptions = {}): string {
   const resolved = resolveGenerationOptions(options)
   return generateSingle(resolved)
 }
@@ -52,7 +45,7 @@ function generateSingle(options: {
     if (!Number.isFinite(sample) || sample < 0 || sample >= 1) {
       throw new Error('Random source must return a number from 0 up to 1')
     }
-    return alphabet[Math.floor(sample * alphabet.length)] as string
+    return alphabet.charAt(Math.floor(sample * alphabet.length))
   })
 
   if (
@@ -75,7 +68,7 @@ function generateSingle(options: {
 }
 
 /* c8 ignore next */
-function resolveGenerationOptions(options: GenerateOptions): {
+function resolveGenerationOptions(options: GenerationOptions): {
   valid: boolean
   formatted: boolean
   kind: CnpjKind

@@ -21,6 +21,16 @@ segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e o projeto us
   alfanuméricas sem atestar os dígitos verificadores.
 - Tipos públicos `DocumentIssueCode`, `CpfInspectionResult` e
   `CnpjInspectionResult`.
+- Tipos de opções e valores semânticos para formato e geração nos exports raiz e
+  subpaths.
+- `CpfIssueCode`, que exclui o diagnóstico exclusivo dos verificadores de CNPJ,
+  e tipos de caracteres ASCII aceitos em arrays de CNPJ.
+
+### Alterado
+
+- A tipagem de `cpf.inspect` não inclui mais
+  `INVALID_VERIFIER_CHARACTERS`, resultado impossível nesse domínio.
+- `generate` e `generateMany` compartilham o mesmo tipo público de opções.
 
 ## 3.0.0 - 2026-08-08
 

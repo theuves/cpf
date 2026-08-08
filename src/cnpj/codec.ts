@@ -2,8 +2,46 @@
 import { numericCnpjSpec } from './spec'
 
 export type CnpjKind = 'numeric' | 'alphanumeric'
-export type CnpjCharacter = number | string
+export type CnpjAsciiCharacter =
+  | '0'
+  | '1'
+  | '2'
+  | '3'
+  | '4'
+  | '5'
+  | '6'
+  | '7'
+  | '8'
+  | '9'
+  | 'A'
+  | 'B'
+  | 'C'
+  | 'D'
+  | 'E'
+  | 'F'
+  | 'G'
+  | 'H'
+  | 'I'
+  | 'J'
+  | 'K'
+  | 'L'
+  | 'M'
+  | 'N'
+  | 'O'
+  | 'P'
+  | 'Q'
+  | 'R'
+  | 'S'
+  | 'T'
+  | 'U'
+  | 'V'
+  | 'W'
+  | 'X'
+  | 'Y'
+  | 'Z'
+export type CnpjCharacter = number | CnpjAsciiCharacter
 export type CnpjBody = string | readonly CnpjCharacter[]
+type CnpjInternalBody = string | readonly (number | string)[]
 
 const ALPHANUMERIC = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 const NUMERIC = '0123456789'
@@ -14,7 +52,9 @@ export function hasValidCnpjCharacters(input: string): boolean {
   return input === '' || STRICT_INPUT_PATTERN.test(input)
 }
 
-export function calculateCnpjVerifiers(body: CnpjBody): [number, number] {
+export function calculateCnpjVerifiers(
+  body: CnpjInternalBody
+): [number, number] {
   const characters = normalizeBody(body)
   const first = calculateVerifier(characters, numericCnpjSpec.weights[0])
   const second = calculateVerifier(
@@ -67,7 +107,7 @@ export function getCnpjAlphabet(kind: CnpjKind): string {
   return kind === 'numeric' ? NUMERIC : ALPHANUMERIC
 }
 
-function normalizeBody(body: CnpjBody): string[] {
+function normalizeBody(body: CnpjInternalBody): string[] {
   let characters: string[]
   if (typeof body === 'string') {
     if (body.length > MAX_BODY_INPUT_LENGTH) {

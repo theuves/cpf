@@ -2,12 +2,6 @@
 import { assertGenerationCount, generateDocument } from '../core/document'
 import { cpfSpec } from './spec'
 
-export interface GenerateOptions {
-  validity?: GenerationValidity
-  output?: GenerationOutput
-  randomSource?: () => number
-}
-
 export type GenerationValidity = 'valid' | 'invalid'
 export type GenerationOutput = 'formatted' | 'plain'
 
@@ -17,9 +11,9 @@ export interface GenerationOptions {
   randomSource?: () => number
 }
 
-export default function generate(options: GenerateOptions = {}): string {
+export default function generate(options: GenerationOptions = {}): string {
   const { isValid, isFormatted, random } = resolveGenerationOptions(options)
-  return generateDocument(cpfSpec, { isValid, isFormatted }, random) as string
+  return generateDocument(cpfSpec, { isValid, isFormatted }, random)
 }
 
 /* c8 ignore next */
@@ -35,7 +29,7 @@ export function generateMany(
 }
 
 /* c8 ignore next */
-function resolveGenerationOptions(options: GenerateOptions): {
+function resolveGenerationOptions(options: GenerationOptions): {
   isValid: boolean
   isFormatted: boolean
   random: () => number

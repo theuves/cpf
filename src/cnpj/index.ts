@@ -8,9 +8,19 @@ import normalize from './normalize'
 import isValid from './is-valid'
 import inspect from './inspect'
 import getKind from './get-kind'
+import type { FormatOptions } from './format'
 import type { FormatMatchOptions } from './matches-format'
-import type { CnpjBody, CnpjKind } from './codec'
-import type { GenerationOptions } from './generate'
+import type {
+  CnpjAsciiCharacter,
+  CnpjBody,
+  CnpjCharacter,
+  CnpjKind,
+} from './codec'
+import type {
+  GenerationOptions,
+  GenerationOutput,
+  GenerationValidity,
+} from './generate'
 import type { ParseResult } from './parse'
 import type { RepairOptions } from './find-valid-repairs'
 import type { DocumentIssueCode, InspectionResult } from './inspect'
@@ -43,11 +53,16 @@ export {
   parse,
 }
 export type {
+  CnpjAsciiCharacter,
   CnpjBody,
+  CnpjCharacter,
   CnpjKind,
   DocumentIssueCode,
+  FormatOptions,
   FormatMatchOptions,
   GenerationOptions,
+  GenerationOutput,
+  GenerationValidity,
   InspectionResult,
   ParseResult,
   RepairOptions,
