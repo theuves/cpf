@@ -78,7 +78,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"type-tests/**/*.ts\" \"scripts/**/*.mjs\" \"*.mjs\" \"package.json\" \"tsconfig*.json\"",
     "format:check": "prettier --check \"src/**/*.ts\" \"type-tests/**/*.ts\" \"scripts/**/*.mjs\" \"*.mjs\" \"package.json\" \"tsconfig*.json\"",
     "test": "ava",
-    "test:coverage": "c8 --all --include 'src/**/*.ts' --exclude 'src/**/*.test.ts' --exclude 'src/**/tests/**' --exclude 'src/**/index.ts' --exclude 'src/**/spec.ts' --exclude 'src/core/types.ts' --exclude 'src/browser.ts' --check-coverage --lines 100 --statements 100 --functions 90 --branches 85 ava --colors",
+    "test:coverage": "c8 --all --include 'src/**/*.ts' --exclude 'src/**/*.test.ts' --exclude 'src/**/tests/**' --exclude 'src/**/index.ts' --exclude 'src/**/spec.ts' --exclude 'src/core/types.ts' --exclude 'src/browser.ts' --check-coverage --lines 100 --statements 100 --functions 100 --branches 100 ava --colors",
     "test:package": "node scripts/test-package.mjs",
     "test:watch": "ava --watch",
     "typecheck": "tsc --noEmit",

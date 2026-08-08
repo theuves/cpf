@@ -1,3 +1,4 @@
+/* c8 ignore next */
 import { checkDocument } from '../core/document'
 import { cnpjSpec } from './spec'
 

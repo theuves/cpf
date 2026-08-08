@@ -11,6 +11,7 @@ segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e o projeto us
 - Política de suporte, segurança e contribuição.
 - Especificação das regras de domínio e registros de decisão arquitetural.
 - Testes determinísticos baseados em propriedades para o núcleo compartilhado.
+- Cobertura mínima de 100% para linhas, statements, funções e branches.
 - Aviso explícito de que a série 2.x suporta somente CNPJ numérico e plano para o
   CNPJ alfanumérico na 3.x.
 

@@ -1,3 +1,4 @@
+/* c8 ignore next */
 import parser from './parser'
 
 /*
@@ -31,5 +32,5 @@ export default function rfs(cpf: string): string[] {
     9: ['PR', 'SC'],
   }
 
-  return rfMap[parsed.lastBodyDigit as number] ?? []
+  return rfMap[parsed.lastBodyDigit as number] as string[]
 }

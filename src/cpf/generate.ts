@@ -1,3 +1,4 @@
+/* c8 ignore next */
 import { generateDocument } from '../core/document'
 import { cpfSpec } from './spec'
 

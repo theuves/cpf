@@ -103,4 +103,18 @@ for (const spec of specs) {
     )
     t.true(validateDocument(spec, generated))
   })
+
+  test(`${spec.name}: repeated bodies cannot be repaired with two verifiers`, t => {
+    const unknownVerifiers = `${'0'.repeat(spec.bodyLength)}XX`
+    t.deepEqual(repairDocument(spec, unknownVerifiers), [])
+  })
+
+  test(`${spec.name}: generation uses its default random source`, t => {
+    const generated = generateDocument(spec, {
+      count: 1,
+      formatted: false,
+      valid: true,
+    })
+    t.is(typeof generated, 'string')
+  })
 }

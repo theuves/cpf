@@ -1,3 +1,4 @@
+/* c8 ignore next */
 import type {
   DocumentSpec,
   GenerateDocumentOptions,
@@ -27,7 +28,7 @@ function calculateVerifier(
   weights: readonly number[]
 ): number {
   const sum = digits.reduce(
-    (total, digit, index) => total + digit * (weights[index] ?? 0),
+    (total, digit, index) => total + digit * (weights[index] as number),
     0
   )
   const remainder = sum % 11
@@ -225,6 +226,7 @@ function replaceVerifiers(spec: DocumentSpec, input: string): string[] {
   return validateDocument(spec, result) ? [result] : []
 }
 
+/* c8 ignore next */
 export function generateDocument(
   spec: DocumentSpec,
   options: GenerateDocumentOptions,
@@ -240,7 +242,7 @@ export function generateDocument(
       Math.floor(random() * 10)
     )
     if (body.every(digit => digit === body[0])) {
-      body[spec.bodyLength - 1] = ((body[0] ?? 0) + 1) % 10
+      body[spec.bodyLength - 1] = ((body[0] as number) + 1) % 10
     }
 
     const [first, second] = calculateVerifiers(spec, body)

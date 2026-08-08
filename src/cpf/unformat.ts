@@ -1,3 +1,7 @@
+/* c8 ignore next */
+import { unformatDocument } from '../core/document'
+import { cpfSpec } from './spec'
+
 export interface UnformatOptions {
   strict?: boolean
 }
@@ -8,5 +12,3 @@ export default function unformat(
 ): string {
   return unformatDocument(cpfSpec, cpf, options.strict ?? true)
 }
-import { unformatDocument } from '../core/document'
-import { cpfSpec } from './spec'

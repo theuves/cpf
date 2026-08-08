@@ -33,6 +33,11 @@ alterações não intencionais no artefato público.
 - Não dependa de aleatoriedade, relógio, rede ou estado global em testes.
 - Explique riscos, rollback e efeitos para ESM, CommonJS, navegador e tipos.
 
+Diretivas `c8 ignore` são permitidas somente para branches artificiais mapeados
+pelo `tsx` durante interoperabilidade ESM/CommonJS. Elas não podem ocultar uma
+decisão de negócio ou fallback executável; nesses casos, escreva o teste ou
+remova o ramo inalcançável.
+
 ## Commits e releases
 
 Use mensagens descritivas no formato `tipo: resumo`, como `fix:`, `feat:`,
