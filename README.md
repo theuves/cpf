@@ -1,6 +1,7 @@
 # cpf
 
-Biblioteca TypeScript/JavaScript para CPF e CNPJ numérico ou alfanumérico.
+Valide, normalize, formate, gere e repare CPF e CNPJ numérico ou alfanumérico em
+aplicações JavaScript e TypeScript.
 A série 3.x removeu os nomes e opções legados da API 2.x. Consulte o
 [guia de migração](docs/migration-v3.md) antes de atualizar. Este README descreve
 o código da branch atual; funcionalidades ainda não publicadas aparecem na seção

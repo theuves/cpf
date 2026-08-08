@@ -26,3 +26,10 @@ Esta biblioteca valida estrutura e dígitos verificadores. Um retorno `true` nã
 confirma identidade, titularidade, emissão ou situação cadastral. A geração usa
 `Math.random`, não oferece aleatoriedade criptográfica e não deve ser usada para
 segredos, autenticação ou controle de acesso.
+
+## Verificações automatizadas
+
+Pull requests e pushes passam por auditoria de dependências com bloqueio para
+vulnerabilidades de severidade alta ou crítica. O CodeQL analisa JavaScript e
+TypeScript nesses eventos e semanalmente. Dependabot acompanha atualizações do
+ecossistema npm e das GitHub Actions.

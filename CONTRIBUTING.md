@@ -22,7 +22,8 @@ npm run verify
 
 `verify` valida fontes, testes, cobertura, build, tipos e o tarball instalado
 como consumidor. Um pull request só está pronto quando esse comando passa sem
-alterações não intencionais no artefato público.
+alterações não intencionais no artefato público. O CI também executa auditoria de
+dependências e análise estática de segurança.
 
 ## Critérios de pull request
 
@@ -43,3 +44,5 @@ remova o ramo inalcançável.
 Use mensagens descritivas no formato `tipo: resumo`, como `fix:`, `feat:`,
 `docs:`, `test:` e `refactor:`. Mantenedores definem a versão pelo impacto no
 contrato público; a data ou a quantidade de commits não determina a versão.
+Releases são publicadas localmente pelo mantenedor conforme
+`docs/releasing.md`; pull requests e automações não publicam o pacote.

@@ -15,18 +15,20 @@ locais ou dependências fora do lockfile.
 
 ## Publicação
 
-O workflow `Release package` é manual e usa o ambiente protegido `npm`. Ele
-executa `verify` novamente e inicia em modo dry-run. Para publicar:
+Releases são publicadas localmente pelo mantenedor. A máquina deve usar uma
+versão suportada do Node.js, autenticação npm com 2FA e um checkout limpo do
+commit exato da release.
 
-1. Executar dry-run no commit exato da release.
-2. Inspecionar nome, versão, conteúdo e tamanho reportados pelo npm.
-3. Executar novamente com dry-run desativado e tag `latest` ou `next`.
-4. Criar a GitHub Release a partir do mesmo commit e copiar as notas do changelog.
-5. Instalar a versão publicada em um projeto vazio e repetir um smoke test.
+1. Executar `npm ci && npm run verify`.
+2. Inspecionar nome, versão, conteúdo e tamanho com `npm pack --dry-run`.
+3. Publicar com `npm publish --access public --tag latest` ou trocar `latest` por
+   `next` para uma prévia.
+4. Criar e enviar a tag Git correspondente ao mesmo commit.
+5. Criar a GitHub Release a partir da tag e copiar as notas do changelog.
+6. Instalar a versão publicada em um projeto vazio e repetir um smoke test.
 
-Trusted publishing deve ser configurado no npm para este repositório e workflow.
-Não adicionar token permanente ao arquivo ou ao código. A publicação solicita
-provenance por OIDC.
+Não salvar token npm no repositório, em scripts versionados ou no histórico do
+shell. A credencial pertence exclusivamente ao ambiente local do mantenedor.
 
 ## Falha e rollback
 
