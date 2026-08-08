@@ -42,8 +42,8 @@ cnpj.getKind('12.ABC.345/01DE-35') // 'alphanumeric'
 
 ## API
 
-O export padrão contém as operações de CPF. O export nomeado `cnpj` contém as
-operações de CNPJ.
+O export padrão e o export nomeado `cpf` contêm as operações de CPF. O export
+nomeado `cnpj` contém as operações de CNPJ.
 
 | Operação                                             | CPF | CNPJ | Retorno               |
 | ---------------------------------------------------- | :-: | :--: | --------------------- |
@@ -73,6 +73,9 @@ cpf.isValid('529.982.247-26') // false
 cnpj.isValid('11.222.333/0001-81') // true
 cnpj.isValid('12.ABC.345/01DE-35') // true
 ```
+
+As operações estritas de CNPJ esperam letras maiúsculas. Use `normalize` para
+preparar uma entrada que possa conter letras minúsculas.
 
 ### `inspect(value)`
 
@@ -243,20 +246,42 @@ cnpj.getKind('11.222.333/0001-81') // 'numeric'
 cnpj.getKind('12.ABC.345/01DE-35') // 'alphanumeric'
 ```
 
+## Validação e erros
+
+As operações de consulta evitam exceções para entradas inválidas. Operações que
+transformam dados ou recebem opções explícitas rejeitam contratos incorretos.
+
+| Operação                       | Comportamento para entrada inválida                                                  |
+| ------------------------------ | ------------------------------------------------------------------------------------ |
+| `isValid`                      | Retorna `false`.                                                                     |
+| `inspect`                      | Retorna um resultado com `valid: false` e o código em `issue`.                       |
+| `getKind`                      | Retorna `null`.                                                                      |
+| `getFiscalRegions`             | Retorna `[]`.                                                                        |
+| `matchesFormat`                | Retorna `false`; lança se `completeness` for inválido.                               |
+| `format`, `normalize`, `parse` | Lançam para tipos, caracteres ou tamanhos incompatíveis com o contrato.              |
+| `calculateCheckDigits`         | Lança para um corpo com tamanho ou caracteres inválidos.                             |
+| `findValidRepairs`             | Retorna `[]`; CNPJ lança se `placeholder` for inválido.                              |
+| `generate`, `generateMany`     | Lançam para opções inválidas, contagem inválida ou fonte aleatória fora de `[0, 1)`. |
+
 ## Módulos e formatos
 
 ### ESM
 
 ```ts
 import cpf, { cnpj } from 'cpf'
-import cpfOnly from 'cpf/cpf'
-import cnpjOnly from 'cpf/cnpj'
+import { cpf as namedCpf } from 'cpf'
+
+import cpfOnly, { isValid as isValidCpf } from 'cpf/cpf'
+import cnpjOnly, { isValid as isValidCnpj } from 'cpf/cnpj'
 ```
+
+Os subpaths oferecem o namespace como export padrão e cada operação como export
+nomeado.
 
 ### CommonJS
 
 ```js
-const { default: cpf, cnpj } = require('cpf')
+const { default: cpf, cpf: namedCpf, cnpj } = require('cpf')
 const cpfOnly = require('cpf/cpf').default
 const cnpjOnly = require('cpf/cnpj').default
 ```
@@ -277,6 +302,19 @@ são:
 - `CpfFormatMatchOptions` e `CnpjFormatMatchOptions`;
 - `CpfParseResult` e `CnpjParseResult`;
 - `CnpjKind`.
+
+O subpath `cpf/cnpj` também exporta `CnpjBody` e `RepairOptions`. Nos subpaths,
+os tipos compartilhados são exportados sem os prefixos `Cpf` e `Cnpj`, como
+`GenerationOptions`, `InspectionResult` e `ParseResult`.
+
+## Migração da versão 2.x
+
+A versão 3 remove os aliases e as opções legadas da série 2.x. Entre as mudanças
+estão `validate` → `isValid`, `unformat` → `normalize`, `calc` →
+`calculateCheckDigits` e `generate({ count })` → `generateMany(count)`.
+
+Consulte o [guia de migração](docs/migration-v3.md) para a tabela completa de
+equivalências e as mudanças de parsing, geração e CNPJ alfanumérico.
 
 ## Compatibilidade
 
