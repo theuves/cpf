@@ -80,10 +80,11 @@
     "test": "ava",
     "test:coverage": "c8 --all --include 'src/**/*.ts' --exclude 'src/**/*.test.ts' --exclude 'src/**/tests/**' --exclude 'src/**/index.ts' --exclude 'src/**/spec.ts' --exclude 'src/core/types.ts' --exclude 'src/browser.ts' --check-coverage --lines 100 --statements 100 --functions 100 --branches 100 ava --colors",
     "test:package": "node scripts/test-package.mjs",
+    "test:runtime": "node scripts/test-runtime.mjs",
     "test:watch": "ava --watch",
     "typecheck": "tsc --noEmit",
     "typecheck:tests": "tsc -p tsconfig.test.json",
-    "verify": "npm run typecheck && npm run typecheck:tests && npm run lint && npm run format:check && npm run test:coverage && npm run build && npm run test:package",
+    "verify": "npm run typecheck && npm run typecheck:tests && npm run lint && npm run format:check && npm run test:coverage && npm run build && npm run test:runtime && npm run test:package",
     "prepublishOnly": "npm run verify"
   },
   "keywords": [

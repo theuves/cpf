@@ -40,6 +40,11 @@ O teste de pacote cria um tarball, instala-o em um diretório temporário e veri
 os três runtimes e as duas formas de resolução de tipos. Assim, a validação cobre
 o artefato entregue ao consumidor, e não somente os fontes do repositório.
 
+O smoke test de runtime usado pela matriz de versões do Node é o mesmo executado
+por `npm run verify`. Mantê-lo em `scripts/test-runtime.mjs`, em vez de duplicar
+comandos no workflow, garante que mudanças na API sejam verificadas localmente e
+em todos os runtimes suportados antes da integração.
+
 ## Princípios
 
 - Funções públicas permanecem pequenas e orientadas ao domínio.

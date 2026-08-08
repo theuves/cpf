@@ -66,8 +66,5 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: Test CommonJS package
-      run: node -e "const lib = require('cpf'); const cpf = require('cpf/cpf').default; const cnpj = require('cpf/cnpj').default; require('./dist/cpf.min.js'); if (!lib.cpfParse || !cpf.validate('529.982.247-25') || !cnpj.validate('11.222.333/0001-81') || !globalThis.cpf.validate('529.982.247-25') || !globalThis.cpf.cnpj.validate('11.222.333/0001-81')) process.exit(1)"
-
-    - name: Test ESM package
-      run: node --input-type=module -e "import root, { cpfParse } from 'cpf'; import cpf from 'cpf/cpf'; import cnpj from 'cpf/cnpj'; if (!root.parse || !cpfParse('529.982.247-25') || !cpf.validate('529.982.247-25') || !cnpj.validate('11.222.333/0001-81')) process.exit(1)"
+    - name: Test package runtimes
+      run: npm run test:runtime
