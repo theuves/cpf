@@ -1,5 +1,6 @@
 import test from 'ava'
 import generate from '../generate'
+import validate from '../validate'
 
 test('should generate a single formatted CPF by default', t => {
   const cpf = generate()
@@ -33,4 +34,35 @@ test('should generate multiple unformatted CPFs when count is specified', t => {
   cpfs.forEach(cpf => {
     t.regex(cpf, /^\d{11}$/)
   })
+})
+
+test('should always generate a valid CPF by default', t => {
+  const cpfs = generate({ count: 100 })
+  t.true(cpfs.every(cpf => validate(cpf)))
+})
+
+test('should always generate an invalid CPF when requested', t => {
+  const cpfs = generate({ count: 100, valid: false })
+  t.true(cpfs.every(cpf => !validate(cpf)))
+})
+
+test('should reject a non-positive or non-integer count', t => {
+  for (const count of [0, -1, 1.5, Number.NaN, Number.POSITIVE_INFINITY]) {
+    t.throws(() => generate({ count }), {
+      message: 'Count must be a positive integer',
+    })
+  }
+})
+
+test.serial('should avoid a repeated CPF body', t => {
+  const originalRandom = Math.random
+  Math.random = () => 0
+
+  try {
+    const cpf = generate({ formatted: false })
+    t.true(validate(cpf))
+    t.is(cpf.slice(0, 9), '000000001')
+  } finally {
+    Math.random = originalRandom
+  }
 })

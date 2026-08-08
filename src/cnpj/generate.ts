@@ -1,55 +1,28 @@
-import calc from './calc'
-import format from './format'
+import { generateDocument } from '../core/document'
+import { cnpjSpec } from './spec'
 
-interface GenerateOptions {
+export interface GenerateOptions {
   valid?: boolean
   count?: number
   formatted?: boolean
 }
 
+export type GenerateResult<Count extends number> = number extends Count
+  ? string | string[]
+  : Count extends 1
+    ? string
+    : string[]
+
 // Function overloads for better type inference
 export default function generate(
   options?: GenerateOptions & { count?: 1 }
 ): string
+export default function generate<const Count extends number>(
+  options: GenerateOptions & { count: Count }
+): GenerateResult<Count>
 export default function generate(
-  options?: GenerateOptions & { count: number }
-): string[]
-export default function generate(options: GenerateOptions = {}) {
+  options: GenerateOptions = {}
+): string | string[] {
   const { valid = true, count = 1, formatted = true } = options
-
-  if (count < 1) {
-    throw new Error('Count must be at least 1')
-  }
-
-  const generateSingle = (): string => {
-    const body: number[] = []
-
-    // Generates 12 random digits for the CNPJ body
-    for (let i = 0; i < 12; i++) {
-      body.push(Math.floor(Math.random() * 10))
-    }
-
-    let cnpj: string
-    if (valid) {
-      const digits = calc(body)
-      cnpj = body.join('') + digits[0]?.toString() + digits[1]?.toString()
-    } else {
-      // For invalid CNPJs, generate random check digits
-      const dv1 = Math.floor(Math.random() * 10)
-      const dv2 = Math.floor(Math.random() * 10)
-      cnpj = body.join('') + dv1.toString() + dv2.toString()
-    }
-
-    return formatted ? format(cnpj) : cnpj
-  }
-
-  if (count === 1) {
-    return generateSingle()
-  } else {
-    const cnpjs: string[] = []
-    for (let i = 0; i < count; i++) {
-      cnpjs.push(generateSingle())
-    }
-    return cnpjs
-  }
-} 
+  return generateDocument(cnpjSpec, { valid, count, formatted })
+}

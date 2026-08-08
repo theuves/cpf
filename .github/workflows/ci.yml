@@ -7,30 +7,57 @@ on:
     branches: [ main, master ]
 
 jobs:
-  test:
+  quality:
+    name: Quality and package
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x]
 
     steps:
     - uses: actions/checkout@v4
 
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Use Node.js 20
       uses: actions/setup-node@v4
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: 20.x
         cache: 'npm'
 
     - name: Install dependencies
       run: npm ci
 
-    - name: Lint
-      run: npm run lint
+    - name: Verify source and package
+      run: npm run verify
 
-    - name: Build
-      run: npm run build
+    - name: Upload verified build
+      uses: actions/upload-artifact@v4
+      with:
+        name: dist-node20
+        path: dist
+        if-no-files-found: error
 
-    - name: Test
-      run: npm test
+  runtime-compatibility:
+    name: Runtime compatibility (Node.js ${{ matrix.node-version }})
+    needs: quality
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x, 20.x, 22.x, 24.x]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Download built package
+      uses: actions/download-artifact@v4
+      with:
+        name: dist-node20
+        path: dist
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Test CommonJS package
+      run: node -e "const lib = require('cpf'); const cpf = require('cpf/cpf').default; const cnpj = require('cpf/cnpj').default; require('./dist/cpf.min.js'); if (!lib.cpfParse || !cpf.validate('529.982.247-25') || !cnpj.validate('11.222.333/0001-81') || !globalThis.cpf.validate('529.982.247-25') || !globalThis.cpf.cnpj.validate('11.222.333/0001-81')) process.exit(1)"
+
+    - name: Test ESM package
+      run: node --input-type=module -e "import root, { cpfParse } from 'cpf'; import cpf from 'cpf/cpf'; import cnpj from 'cpf/cnpj'; if (!root.parse || !cpfParse('529.982.247-25') || !cpf.validate('529.982.247-25') || !cnpj.validate('11.222.333/0001-81')) process.exit(1)"

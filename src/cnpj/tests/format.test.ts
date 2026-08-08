@@ -119,7 +119,10 @@ test('should truncate more than 14 digits in non-strict mode', t => {
 })
 
 test('should handle CNPJ with spaces in non-strict mode', t => {
-  t.is(format('  12.345.678/0001-95  ', { strict: false }), '12.345.678/0001-95')
+  t.is(
+    format('  12.345.678/0001-95  ', { strict: false }),
+    '12.345.678/0001-95'
+  )
   t.is(format(' 12 345 678 0001 95 ', { strict: false }), '12.345.678/0001-95')
 })
 
@@ -194,7 +197,10 @@ test('should handle CNPJ with different separator patterns', t => {
 })
 
 test('should handle CNPJ with extra characters in non-strict mode', t => {
-  t.is(format('12abc345def678ghi0001jkl95', { strict: false }), '12.345.678/0001-95')
+  t.is(
+    format('12abc345def678ghi0001jkl95', { strict: false }),
+    '12.345.678/0001-95'
+  )
   t.is(format('12.345.678/0001-9a', { strict: false }), '12.345.678/0001-9')
   t.is(format('12.345.678/0001-9#', { strict: false }), '12.345.678/0001-9')
 })
@@ -207,4 +213,4 @@ test('should handle CNPJ with all zeros', t => {
 test('should handle CNPJ with all nines', t => {
   t.is(format('99999999999999', { strict: false }), '99.999.999/9999-99')
   t.is(format(99999999999999, { strict: false }), '99.999.999/9999-99')
-}) 
+})

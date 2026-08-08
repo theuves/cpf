@@ -1,5 +1,6 @@
 import test from 'ava'
 import generate from '../generate'
+import validate from '../validate'
 
 test('should generate a single formatted CNPJ by default', t => {
   const cnpj = generate()
@@ -38,11 +39,11 @@ test('should generate multiple unformatted CNPJs when count is specified', t => 
 test('should generate valid CNPJs by default', t => {
   const cnpj = generate()
   t.regex(cnpj, /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/)
-  
+
   // Extract digits and validate check digits
   const digits = cnpj.replace(/\D/g, '')
   t.is(digits.length, 14)
-  
+
   // Basic validation: not all same digits
   const allSame = digits.split('').every(d => d === digits[0])
   t.false(allSame)
@@ -51,10 +52,11 @@ test('should generate valid CNPJs by default', t => {
 test('should generate invalid CNPJs when valid is false', t => {
   const cnpj = generate({ valid: false })
   t.regex(cnpj, /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/)
-  
+
   // Extract digits
   const digits = cnpj.replace(/\D/g, '')
   t.is(digits.length, 14)
+  t.false(validate(cnpj))
 })
 
 test('should generate multiple invalid CNPJs when valid is false and count is specified', t => {
@@ -62,16 +64,17 @@ test('should generate multiple invalid CNPJs when valid is false and count is sp
   const cnpjs = generate({ valid: false, count })
   t.true(Array.isArray(cnpjs))
   t.is(cnpjs.length, count)
-  
+
   cnpjs.forEach(cnpj => {
     t.regex(cnpj, /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/)
+    t.false(validate(cnpj))
   })
 })
 
 test('should generate unformatted valid CNPJs', t => {
   const cnpj = generate({ formatted: false, valid: true })
   t.regex(cnpj, /^\d{14}$/)
-  
+
   // Basic validation: not all same digits
   const allSame = cnpj.split('').every(d => d === cnpj[0])
   t.false(allSame)
@@ -86,7 +89,7 @@ test('should generate different CNPJs on multiple calls', t => {
   const cnpj1 = generate()
   const cnpj2 = generate()
   const cnpj3 = generate()
-  
+
   t.not(cnpj1, cnpj2)
   t.not(cnpj2, cnpj3)
   t.not(cnpj1, cnpj3)
@@ -96,7 +99,7 @@ test('should generate different unformatted CNPJs on multiple calls', t => {
   const cnpj1 = generate({ formatted: false })
   const cnpj2 = generate({ formatted: false })
   const cnpj3 = generate({ formatted: false })
-  
+
   t.not(cnpj1, cnpj2)
   t.not(cnpj2, cnpj3)
   t.not(cnpj1, cnpj3)
@@ -128,14 +131,22 @@ test('should handle count of 1 with all options', t => {
 
 test('should throw error for count less than 1', t => {
   t.throws(() => generate({ count: 0 }), {
-    message: 'Count must be at least 1',
+    message: 'Count must be a positive integer',
   })
   t.throws(() => generate({ count: -1 }), {
-    message: 'Count must be at least 1',
+    message: 'Count must be a positive integer',
   })
   t.throws(() => generate({ count: -5 }), {
-    message: 'Count must be at least 1',
+    message: 'Count must be a positive integer',
   })
+})
+
+test('should throw error for a non-integer count', t => {
+  for (const count of [1.5, Number.NaN, Number.POSITIVE_INFINITY]) {
+    t.throws(() => generate({ count }), {
+      message: 'Count must be a positive integer',
+    })
+  }
 })
 
 test('should handle large count values', t => {
@@ -143,7 +154,7 @@ test('should handle large count values', t => {
   const cnpjs = generate({ count })
   t.true(Array.isArray(cnpjs))
   t.is(cnpjs.length, count)
-  
+
   cnpjs.forEach(cnpj => {
     t.regex(cnpj, /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/)
   })
@@ -154,7 +165,7 @@ test('should handle large count values with unformatted', t => {
   const cnpjs = generate({ count, formatted: false })
   t.true(Array.isArray(cnpjs))
   t.is(cnpjs.length, count)
-  
+
   cnpjs.forEach(cnpj => {
     t.regex(cnpj, /^\d{14}$/)
   })
@@ -164,7 +175,7 @@ test('should generate unique CNPJs in large batches', t => {
   const count = 20
   const cnpjs = generate({ count })
   const uniqueCnpjs = new Set(cnpjs)
-  
+
   // Most should be unique (allowing for very rare collisions)
   t.true(uniqueCnpjs.size >= count * 0.9)
 })
@@ -173,7 +184,7 @@ test('should generate unique unformatted CNPJs in large batches', t => {
   const count = 20
   const cnpjs = generate({ count, formatted: false })
   const uniqueCnpjs = new Set(cnpjs)
-  
+
   // Most should be unique (allowing for very rare collisions)
   t.true(uniqueCnpjs.size >= count * 0.9)
 })
@@ -188,8 +199,21 @@ test('should handle partial options', t => {
   const cnpj1 = generate({ formatted: false })
   const cnpj2 = generate({ valid: false })
   const cnpj3 = generate({ count: 1 })
-  
+
   t.regex(cnpj1, /^\d{14}$/)
   t.regex(cnpj2, /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/)
   t.regex(cnpj3, /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/)
-}) 
+})
+
+test.serial('should avoid a repeated CNPJ body', t => {
+  const originalRandom = Math.random
+  Math.random = () => 0
+
+  try {
+    const cnpj = generate({ formatted: false })
+    t.true(validate(cnpj))
+    t.is(cnpj.slice(0, 12), '000000000001')
+  } finally {
+    Math.random = originalRandom
+  }
+})

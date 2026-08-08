@@ -84,7 +84,7 @@ test('should return false if the input is not a string', t => {
   const cnpj2 = null
   const cnpj3 = undefined
   const cnpj4 = {}
-  const cnpj5 = []
+  const cnpj5: unknown[] = []
   // @ts-expect-error invalid type
   t.false(check(cnpj1, { strict: false }))
   // @ts-expect-error invalid type
@@ -130,4 +130,4 @@ test('should handle CNPJ with missing separators in non-strict mode', t => {
   t.false(check(cnpj1, { strict: false }))
   t.false(check(cnpj2, { strict: false }))
   t.false(check(cnpj3, { strict: false }))
-}) 
+})

@@ -64,7 +64,7 @@ test('should return false if the input is not a string', t => {
   const cpf2 = null
   const cpf3 = undefined
   const cpf4 = {}
-  const cpf5 = []
+  const cpf5: unknown[] = []
   // @ts-expect-error invalid type
   t.false(check(cpf1, { strict: false }))
   // @ts-expect-error invalid type

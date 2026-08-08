@@ -1,40 +1,6 @@
-<div align="center">
-  <i><b>Documentação em progresso. <a href="https://github.com/theuves/cpf/tree/2.0.1">Leia esse README</a> para a versão mais atualizada.</b></i>
-</div>
+# CPF
 
-***
-
-<div align="center">
-  <h1>CPF</h1>
-  Uma biblioteca completa para manipulação de CPF e CNPJ brasileiros.
-  <br />
-  <br />
-
-  [![Doar Pix (Brasil)](https://img.shields.io/badge/Donate-Pix%20(Brasil)-blue.svg)](https://nubank.com.br/cobrar/193y02/67a7cf95-b24c-4a98-95b2-9ce5daf03e2c)
-  [![Doar GitHub Sponsors](https://img.shields.io/badge/Donate-GitHub%20Sponsors-blue.svg)](https://github.com/sponsors/theuves)
-  [![Doar PayPal](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/donate/?hosted_button_id=3TPLED2TF5874)
-</div>
-
-***
-
-O projeto CPF foi criado com o objetivo de fornecer uma solução simples e eficiente para a manipulação de CPF e CNPJ brasileiros.
-
-A motivação por trás deste projeto é atender a uma necessidade comum em diversas aplicações brasileiras, onde é frequentemente necessário validar, formatar e gerar CPFs e CNPJs para fins de documentação, formulários, testes e outros documentos formais.
-
-Nossa ambição com o CPF.js é tornar esta biblioteca uma referência para desenvolvedores que precisam dessa funcionalidade em suas aplicações, promovendo a padronização e simplificação do processo de manipulação de documentos brasileiros.
-
-## Funcionalidades
-
-- [x] **Validação** de CPF e CNPJ com algoritmo oficial brasileiro
-- [x] **Formatação** de CPF e CNPJ nos padrões brasileiros
-- [x] **Geração** de CPFs e CNPJs válidos e inválidos para testes
-- [x] **Desformatação** de CPF e CNPJ (remoção de caracteres especiais)
-- [x] **Verificação** de formato de CPF e CNPJ
-- [x] **Cálculo** de dígitos verificadores de CPF e CNPJ
-- [x] **Reparo** de CPFs com dígitos desconhecidos (representados por X) *`experimental`*
-- [x] **Identificação de RF** (Região Fiscal) baseada no CPF *`experimental`*
-
-_**NOTA**: As funcionalidades experimentais podem ter comportamento instável e estão sujeitas a mudanças._
+Biblioteca TypeScript/JavaScript para validar, formatar, gerar e reparar números brasileiros de CPF e CNPJ.
 
 ## Instalação
 
@@ -42,224 +8,200 @@ _**NOTA**: As funcionalidades experimentais podem ter comportamento instável e 
 npm install cpf
 ```
 
-Ou se preferir, com Yarn:
-
-```bash
-yarn add cpf
-```
-
 ## Uso
+
+O export padrão contém a API de CPF:
 
 ```js
 import cpf from 'cpf'
+
+cpf.validate('529.982.247-25') // true
+cpf.format('52998224725') // '529.982.247-25'
+cpf.parse('529.982.247-25').verifiers // [2, 5]
 ```
 
-### `cpf.validate(cpf)` [*string*]
-
-> Valida se um CPF é válido de acordo com o algoritmo oficial brasileiro.
-
-**Parâmetros:**
-- `cpf` [*string*] - O CPF a ser validado (pode conter formatação)
-
-**Retorna:** [*boolean*] - `true` se o CPF for válido, `false` caso contrário
-
-**Exemplos:**
+A API de CNPJ está disponível como export nomeado:
 
 ```js
-cpf.validate('123.456.789-09')
-//=> true
+import { cnpj } from 'cpf'
 
-cpf.validate('12345678909')
-//=> true
-
-cpf.validate('111.111.111-11')
-//=> false
-
-cpf.validate('123.456.789-10')
-//=> false
+cnpj.validate('11.222.333/0001-81') // true
+cnpj.format('11222333000181') // '11.222.333/0001-81'
+cnpj.parse('11.222.333/0001-81').verifiers // [8, 1]
 ```
 
-### `cpf.format(cpf[, options])` [*string*, *object*]
-
-> Formata um CPF no padrão brasileiro (XXX.XXX.XXX-XX).
-
-**Parâmetros:**
-- `cpf` [*string* | *number*] - O CPF a ser formatado
-- `options` [*object*] - Opções de formatação
-  - `strict` [*boolean*] - Se `true` (padrão), valida caracteres permitidos
-
-**Retorna:** [*string*] - CPF formatado
-
-**Exemplos:**
+CommonJS também é suportado:
 
 ```js
-cpf.format('12345678909')
-//=> '123.456.789-09'
-
-cpf.format('12345678909', { strict: false })
-//=> '123.456.789-09'
-
-cpf.format('123456789')
-//=> '123.456.789'
-
-cpf.format(12345678909)
-//=> Error: Number input is only allowed when strict=false
+const cpf = require('cpf').default
+const { cnpj } = require('cpf')
 ```
 
-### `cpf.generate([options])` [*object*]
+## API de CPF
 
-> Gera CPFs válidos ou inválidos para testes.
+### `cpf.validate(value)`
 
-**Parâmetros:**
-- `options` [*object*] - Opções de geração
-  - `valid` [*boolean*] - Se deve gerar CPF válido (padrão: `true`)
-  - `count` [*number*] - Quantidade de CPFs a gerar (padrão: `1`)
-  - `formatted` [*boolean*] - Se deve retornar formatado (padrão: `true`)
+Retorna `true` quando o CPF possui 11 dígitos, não é uma sequência repetida e seus dígitos verificadores estão corretos. Pontos, hífen e espaços são aceitos.
 
-**Retorna:** [*string* | *string[]*] - CPF(s) gerado(s)
+```js
+cpf.validate('529.982.247-25') // true
+cpf.validate('111.111.111-11') // false
+```
 
-**Exemplos:**
+### `cpf.format(value, options?)`
+
+Formata um valor completo ou parcial. Em modo estrito, usado por padrão, rejeita caracteres que não pertencem à formatação de CPF. Números são aceitos somente com `{ strict: false }`.
+
+```js
+cpf.format('52998224725') // '529.982.247-25'
+cpf.format('529982') // '529.982'
+cpf.format(52998224725, { strict: false }) // '529.982.247-25'
+```
+
+### `cpf.unformat(value, options?)`
+
+Remove a formatação e retorna até 11 dígitos. Com `{ strict: false }`, ignora quaisquer caracteres e trunca o excedente.
+
+```js
+cpf.unformat('529.982.247-25') // '52998224725'
+```
+
+### `cpf.check(value, options?)`
+
+Verifica apenas o formato, sem validar os dígitos verificadores. O modo padrão exige o formato completo; `{ strict: false }` também aceita entradas parciais.
+
+```js
+cpf.check('529.982.247-25') // true
+cpf.check('529.982', { strict: false }) // true
+```
+
+### `cpf.generate(options?)`
+
+Gera um CPF ou uma lista de CPFs. As opções são `valid` (padrão `true`), `formatted` (padrão `true`) e `count` (inteiro positivo, padrão `1`).
 
 ```js
 cpf.generate()
-//=> '123.456.789-09'
-
-cpf.generate({ valid: true, formatted: true })
-//=> '987.654.321-00'
-
-cpf.generate({ valid: false, formatted: false })
-//=> '12345678910'
-
+cpf.generate({ formatted: false, valid: false })
 cpf.generate({ count: 3 })
-//=> ['123.456.789-09', '987.654.321-00', '456.789.123-45']
 ```
 
-### `cpf.unformat(cpf[, options])` [*string*, *object*]
+Quando `count` é `1`, o retorno é uma string; para valores maiores, é um array de strings.
+Quando `count` é uma variável TypeScript do tipo `number`, o retorno é corretamente
+inferido como `string | string[]`, pois o valor pode ser `1` em tempo de execução.
 
-> Remove a formatação de um CPF, retornando apenas os dígitos.
+### `cpf.calc(body)`
 
-**Parâmetros:**
-- `cpf` [*string*] - O CPF a ser desformatado
-- `options` [*object*] - Opções de desformatação
-  - `strict` [*boolean*] - Se `true` (padrão), valida caracteres permitidos
-
-**Retorna:** [*string*] - CPF sem formatação
-
-**Exemplos:**
+Calcula os dois dígitos verificadores a partir dos nove dígitos do corpo.
 
 ```js
-cpf.unformat('123.456.789-09')
-//=> '12345678909'
-
-cpf.unformat('123.456.789-09', { strict: false })
-//=> '12345678909'
+cpf.calc([1, 2, 3, 4, 5, 6, 7, 8, 9]) // [0, 9]
 ```
 
-### `cpf.check(cpf[, options])` [*string*, *object*]
+### `cpf.parse(value)`
 
-> Verifica se um CPF está no formato correto.
-
-**Parâmetros:**
-- `cpf` [*string*] - O CPF a ser verificado
-- `options` [*object*] - Opções de verificação
-  - `strict` [*boolean*] - Se `true` (padrão), verifica formato completo
-
-**Retorna:** [*boolean*] - `true` se o formato estiver correto
-
-**Exemplos:**
+Separa os dígitos, corpo, partes e verificadores de um CPF completo ou parcial.
 
 ```js
-cpf.check('123.456.789-09')
-//=> true
-
-cpf.check('12345678909', { strict: false })
-//=> true
-
-cpf.check('123.456.789')
-//=> false
-
-cpf.check('123.456.789', { strict: false })
-//=> true
+cpf.parse('529.982.247-25')
+// { digits, fullBody, bodyParts, lastBodyDigit, verifiers }
 ```
 
-### `cpf.calc(body)` [*number[]*]
+### `cpf.repair(value)`
 
-> Calcula os dígitos verificadores de um CPF a partir do corpo (9 primeiros dígitos).
-
-**Parâmetros:**
-- `body` [*number[]*] - Array com os 9 primeiros dígitos do CPF
-
-**Retorna:** [*number[]*] - Array com os 2 dígitos verificadores
-
-**Exemplos:**
+Retorna os CPFs válidos possíveis quando um ou dois dígitos desconhecidos são representados por `X`. Dois `X` são aceitos somente nas posições verificadoras.
 
 ```js
-cpf.calc([1, 2, 3, 4, 5, 6, 7, 8, 9])
-//=> [0, 9]
+cpf.repair('529.982.247-2X') // ['52998224725']
 ```
 
-### `cpf.repair(cpfBroken)` [*string*]
+### `cpf.rfs(value)`
 
-> Repara CPFs com dígitos desconhecidos (representados por X).
-
-**Parâmetros:**
-- `cpfBroken` [*string*] - CPF com X nos dígitos desconhecidos
-
-**Retorna:** [*string[]*] - Array com CPFs válidos possíveis
-
-**Exemplos:**
+Retorna as siglas dos estados associados à Região Fiscal indicada pelo nono dígito do CPF.
 
 ```js
-cpf.repair('123.456.789-0X')
-//=> ['123.456.789-09']
-
-cpf.repair('123.456.78X-09')
-//=> ['123.456.789-09']
+cpf.rfs('123.456.789-09') // ['PR', 'SC']
 ```
 
-### `cpf.rfs(cpf)` [*string*]
+## API de CNPJ
 
-> Identifica as Regiões Fiscais (RF) baseadas no CPF.
+O objeto `cnpj` oferece as mesmas operações aplicáveis ao documento:
 
-**Parâmetros:**
-- `cpf` [*string*] - O CPF para identificar a RF
-
-**Retorna:** [*string[]*] - Array com as siglas dos estados da RF
-
-**Exemplos:**
+- `cnpj.validate(value)`
+- `cnpj.format(value, options?)`
+- `cnpj.unformat(value, options?)`
+- `cnpj.check(value, options?)`
+- `cnpj.generate(options?)`
+- `cnpj.calc(body)` — recebe os 12 dígitos do corpo
+- `cnpj.parse(value)` — separa corpo, partes e verificadores
+- `cnpj.repair(value)` — usa `X` para dígitos desconhecidos
 
 ```js
-cpf.rfs('123.456.789-09')
-//=> ['SP']
-
-cpf.rfs('987.654.321-00')
-//=> ['PR', 'SC']
+cnpj.calc([1, 1, 2, 2, 2, 3, 3, 3, 0, 0, 0, 1]) // [8, 1]
+cnpj.repair('11.222.333/0001-8X') // ['11222333000181']
 ```
 
-## Suporte a CNPJ
+## Imports modulares
 
-A biblioteca também inclui suporte básico para CNPJ através da função `calc`:
+Todas as funções também possuem aliases nomeados com prefixo, evitando colisões entre CPF e CNPJ:
 
 ```js
-import { calc as cnpjCalc } from 'cpf'
-
-// Calcula dígitos verificadores de CNPJ
-cnpjCalc([1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2])
-//=> [3, 4]
+import { cpfValidate, cpfGenerate, cnpjValidate, cnpjGenerate } from 'cpf'
 ```
 
-## Contribuições
+Os tipos `CpfGenerateOptions` e `CnpjGenerateOptions` são exportados para consumidores TypeScript.
 
-Encontrou algum erro ou tem alguma sugestão de melhoria? Há diferentes formas de contribuir:
+Também são exportados os tipos `CpfCheckOptions`, `CpfFormatOptions`, `CpfUnformatOptions`, `CpfParseResult` e seus equivalentes com prefixo `Cnpj`.
 
-- Abrindo uma issue para relatar problemas ou sugestões
-- Enviando um pull request com melhorias
-- Comentando diretamente no código que pode ser aprimorado
+## Entradas específicas
 
-Toda contribuição é bem-vinda e ajuda a tornar a biblioteca ainda melhor.
+É possível importar somente a API do documento desejado:
+
+```js
+import cpf from 'cpf/cpf'
+import cnpj from 'cpf/cnpj'
+```
+
+## Compatibilidade com versões anteriores
+
+Os aliases `isValid`, `clear` e `getCD` continuam disponíveis para CPF. Novos projetos devem usar `validate`, `unformat` e `calc`.
+
+```js
+cpf.isValid('529.982.247-25')
+cpf.clear('529.982.247-25')
+cpf.getCD([5, 2, 9, 9, 8, 2, 2, 4, 7])
+```
+
+## Navegador
+
+O bundle `dist/cpf.min.js` cria o global `cpf`. A API de CNPJ fica em `cpf.cnpj`.
+
+```html
+<script src="cpf.min.js"></script>
+<script>
+  cpf.validate('529.982.247-25')
+  cpf.cnpj.validate('11.222.333/0001-81')
+</script>
+```
+
+## Compatibilidade
+
+A biblioteca suporta Node.js 16, 18, 20, 22 e 24. O pacote final é testado em CommonJS e ESM em todas essas versões.
+
+As ferramentas de desenvolvimento exigem Node.js 18.18 ou superior.
+
+## Desenvolvimento
+
+```bash
+npm run verify
+```
+
+`verify` executa typecheck dos fontes e testes, lint, formatação, cobertura, build e
+instalação do tarball em um projeto temporário. O pacote instalado é verificado em
+ESM, CommonJS, navegador e TypeScript.
+
+As decisões internas estão descritas em [Arquitetura](docs/architecture.md), e o
+comportamento compatível da versão atual em [Contrato da API 2.x](docs/api-contract.md).
 
 ## Licença
 
-Criado e mantido por [Matheus Alves](https://github.com/theuves).
-
-Licenciado sob a licença [MIT](https://github.com/theuves/cpf/blob/master/LICENSE) © 2015-2025
+MIT © Matheus Alves

@@ -2,12 +2,11 @@ import esbuild from 'esbuild'
 
 // Configuração para build de produção (IIFE)
 const iifeConfig = {
-  entryPoints: ['src/index.ts'],
+  entryPoints: ['src/browser.ts'],
   bundle: true,
   minify: true,
   outfile: 'dist/cpf.min.js',
   format: 'iife',
-  globalName: 'cpf',
   target: 'es2020',
   sourcemap: true,
   external: [],
@@ -15,22 +14,42 @@ const iifeConfig = {
 
 // Configuração para build ESM
 const esmConfig = {
-  entryPoints: ['src/index.ts'],
+  entryPoints: {
+    cpf: 'src/index.ts',
+    'cpf/index': 'src/cpf/index.ts',
+    'cnpj/index': 'src/cnpj/index.ts',
+  },
   bundle: true,
-  outfile: 'dist/cpf.esm.js',
+  outdir: 'dist',
+  outExtension: { '.js': '.mjs' },
   format: 'esm',
   target: 'es2020',
   sourcemap: true,
   external: [],
 }
 
+// Configuração para CommonJS/Node.js
+const cjsConfig = {
+  entryPoints: {
+    cpf: 'src/index.ts',
+    'cpf/index': 'src/cpf/index.ts',
+    'cnpj/index': 'src/cnpj/index.ts',
+  },
+  bundle: true,
+  outdir: 'dist',
+  outExtension: { '.js': '.cjs' },
+  format: 'cjs',
+  target: 'node16',
+  sourcemap: true,
+  external: [],
+}
+
 // Configuração para desenvolvimento
 const devConfig = {
-  entryPoints: ['src/index.ts'],
+  entryPoints: ['src/browser.ts'],
   bundle: true,
   outfile: 'dist/cpf.js',
   format: 'iife',
-  globalName: 'cpf',
   target: 'es2020',
   sourcemap: true,
   external: [],
@@ -51,6 +70,10 @@ async function build() {
         await esbuild.build(esmConfig)
         console.log('✅ ESM build completed')
         break
+      case 'cjs':
+        await esbuild.build(cjsConfig)
+        console.log('✅ CommonJS build completed')
+        break
       case 'dev':
         await esbuild.build(devConfig)
         console.log('✅ Development build completed')
@@ -59,6 +82,7 @@ async function build() {
         // Build ambos os formatos
         await esbuild.build(iifeConfig)
         await esbuild.build(esmConfig)
+        await esbuild.build(cjsConfig)
         console.log('✅ All builds completed')
     }
   } catch (error) {
@@ -72,4 +96,4 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   build()
 }
 
-export { iifeConfig, esmConfig, devConfig }
+export { iifeConfig, esmConfig, cjsConfig, devConfig }

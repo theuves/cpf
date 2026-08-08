@@ -1,26 +1,31 @@
-export default function parser(cpf: string) {
-  const digitStr = cpf.replace(/\D/g, '')
-  const digits = digitStr
-    .slice(0, 11)
-    .split('')
-    .map(d => parseInt(d))
-  const len = digits.length
-  const fullBodyLen = Math.min(9, len)
-  const fullBody = digits.slice(0, fullBodyLen)
-  const part1 = fullBody.slice(0, 3)
-  const part2 = fullBody.slice(3, 6)
-  const part3 = fullBody.slice(6, 9)
-  const lastBodyDigit = fullBodyLen === 9 ? fullBody[8] : null
-  const verifiers = digits.slice(9)
+export interface ParseResult {
+  digits: number[]
+  fullBody: number[]
+  bodyParts: {
+    part1: number[]
+    part2: number[]
+    part3: number[]
+  }
+  lastBodyDigit: number | null
+  verifiers: number[]
+}
+
+export default function parser(cpf: string): ParseResult {
+  const parsed = parseDocument(cpfSpec, cpf, [3, 3, 3])
   return {
-    digits,
-    fullBody,
+    digits: parsed.digits,
+    fullBody: parsed.fullBody,
     bodyParts: {
-      part1,
-      part2,
-      part3,
+      part1: parsed.bodyParts[0] ?? [],
+      part2: parsed.bodyParts[1] ?? [],
+      part3: parsed.bodyParts[2] ?? [],
     },
-    lastBodyDigit,
-    verifiers,
+    lastBodyDigit:
+      parsed.fullBody.length === cpfSpec.bodyLength
+        ? (parsed.fullBody[cpfSpec.bodyLength - 1] ?? null)
+        : null,
+    verifiers: parsed.verifiers,
   }
 }
+import { parseDocument } from '../core/document'
+import { cpfSpec } from './spec'

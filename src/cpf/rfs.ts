@@ -18,12 +18,6 @@ export default function rfs(cpf: string): string[] {
     return []
   }
 
-  const lastBodyDigit = parsed.lastBodyDigit
-
-  if (lastBodyDigit === null) {
-    throw new Error('Invalid CPF: last body digit is null')
-  }
-
   const rfMap: { [key: number]: string[] } = {
     0: ['RS'],
     1: ['DF', 'GO', 'MS', 'MT', 'TO'],
@@ -37,5 +31,5 @@ export default function rfs(cpf: string): string[] {
     9: ['PR', 'SC'],
   }
 
-  return rfMap[lastBodyDigit as number] || []
+  return rfMap[parsed.lastBodyDigit as number] ?? []
 }

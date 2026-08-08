@@ -1,32 +1,93 @@
 {
   "name": "cpf",
   "version": "2.0.1",
-  "description": "Functions to handle Brazilian CPF numbers.",
-  "main": "./dist/cpf.min.js",
-  "module": "./dist/cpf.esm.js",
+  "description": "Functions to validate, format, generate and repair Brazilian CPF and CNPJ numbers.",
+  "main": "./dist/cpf.cjs",
+  "module": "./dist/cpf.mjs",
+  "browser": "./dist/cpf.min.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/cpf.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/cpf.cjs"
+      },
+      "default": "./dist/cpf.mjs"
+    },
+    "./cpf": {
+      "import": {
+        "types": "./dist/cpf/index.d.mts",
+        "default": "./dist/cpf/index.mjs"
+      },
+      "require": {
+        "types": "./dist/cpf/index.d.cts",
+        "default": "./dist/cpf/index.cjs"
+      },
+      "default": "./dist/cpf/index.mjs"
+    },
+    "./cnpj": {
+      "import": {
+        "types": "./dist/cnpj/index.d.mts",
+        "default": "./dist/cnpj/index.mjs"
+      },
+      "require": {
+        "types": "./dist/cnpj/index.d.cts",
+        "default": "./dist/cnpj/index.cjs"
+      },
+      "default": "./dist/cnpj/index.mjs"
+    }
+  },
   "files": [
-    "dist"
+    "dist/cpf.cjs",
+    "dist/cpf.cjs.map",
+    "dist/cpf.mjs",
+    "dist/cpf.mjs.map",
+    "dist/cpf.min.js",
+    "dist/cpf.min.js.map",
+    "dist/index.d.ts",
+    "dist/index.d.ts.map",
+    "dist/index.d.mts",
+    "dist/index.d.cts",
+    "dist/cpf",
+    "dist/cnpj",
+    "dist/core"
   ],
   "repository": {
     "type": "git",
     "url": "git://github.com/theuves/cpf.git"
   },
+  "engines": {
+    "node": ">=16"
+  },
   "scripts": {
-    "build": "esbuild src/index.ts --bundle --minify --outfile=dist/cpf.min.js --format=iife --global-name=cpf",
-    "build:esm": "esbuild src/index.ts --bundle --outfile=dist/cpf.esm.js --format=esm",
-    "build:types": "tsc --emitDeclarationOnly --outDir dist",
-    "dev": "esbuild src/index.ts --bundle --outfile=dist/cpf.js --format=iife --global-name=cpf --watch",
-    "lint": "eslint src/**/*.ts",
-    "lint:fix": "eslint src/**/*.ts --fix",
-    "format": "prettier --write \"src/**/*.ts\" --write \"*.mjs\"",
-    "format:check": "prettier --check \"src/**/*.ts\" --check \"*.mjs\"",
+    "clean": "node scripts/clean.mjs",
+    "build": "npm run clean && npm run build:js && npm run build:types",
+    "build:js": "node esbuild.config.mjs",
+    "build:iife": "node esbuild.config.mjs iife",
+    "build:esm": "node esbuild.config.mjs esm",
+    "build:cjs": "node esbuild.config.mjs cjs",
+    "build:types": "tsc --emitDeclarationOnly --outDir dist && node scripts/build-type-variants.mjs",
+    "dev": "esbuild src/browser.ts --bundle --outfile=dist/cpf.js --format=iife --watch",
+    "lint": "eslint src/**/*.ts type-tests/**/*.ts scripts/**/*.mjs",
+    "lint:fix": "eslint src/**/*.ts type-tests/**/*.ts scripts/**/*.mjs --fix",
+    "format": "prettier --write \"src/**/*.ts\" \"type-tests/**/*.ts\" \"scripts/**/*.mjs\" \"*.mjs\" \"package.json\" \"tsconfig*.json\"",
+    "format:check": "prettier --check \"src/**/*.ts\" \"type-tests/**/*.ts\" \"scripts/**/*.mjs\" \"*.mjs\" \"package.json\" \"tsconfig*.json\"",
     "test": "ava",
-    "test:coverage": "c8 --check-coverage --100 ava --colors",
+    "test:coverage": "c8 --all --include 'src/**/*.ts' --exclude 'src/**/*.test.ts' --exclude 'src/**/tests/**' --exclude 'src/**/index.ts' --exclude 'src/**/spec.ts' --exclude 'src/core/types.ts' --exclude 'src/browser.ts' --check-coverage --lines 100 --statements 100 --functions 90 --branches 85 ava --colors",
+    "test:package": "node scripts/test-package.mjs",
     "test:watch": "ava --watch",
-    "prepublishOnly": "npm run build && npm run build:esm && npm run build:types"
+    "typecheck": "tsc --noEmit",
+    "typecheck:tests": "tsc -p tsconfig.test.json",
+    "verify": "npm run typecheck && npm run typecheck:tests && npm run lint && npm run format:check && npm run test:coverage && npm run build && npm run test:package",
+    "prepublishOnly": "npm run verify"
   },
   "keywords": [
     "cpf",
+    "cnpj",
     "brazil",
     "validation",
     "generator",
