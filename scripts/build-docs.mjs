@@ -6,6 +6,21 @@ import { URL } from 'node:url'
 import MarkdownIt from 'markdown-it'
 import { build } from 'esbuild'
 import { createHighlighter } from 'shiki'
+import {
+  ArrowLeft,
+  ArrowRight,
+  BookOpen,
+  Bug,
+  CircleCheck,
+  CircleX,
+  CodeXml,
+  ExternalLink,
+  FlaskConical,
+  Info,
+  Package,
+  ShieldCheck,
+  Terminal,
+} from 'lucide-static'
 
 const siteUrl = new URL(
   process.env.SITE_URL || 'https://theuves.github.io/cpf/'
@@ -34,6 +49,13 @@ function highlight(code, language) {
 }
 const md = new MarkdownIt({ highlight })
 const escape = md.utils.escapeHtml
+function icon(svg) {
+  return svg
+    .trim()
+    .replace('<svg', '<svg aria-hidden="true" focusable="false"')
+    .replace('width="24"', 'width="16"')
+    .replace('height="24"', 'height="16"')
+}
 const sourcePages = new Map(
   pages.map(page => [resolve(page.source), page.slug])
 )
@@ -75,7 +97,7 @@ function pagination(slug) {
   const index = pages.findIndex(page => page.slug === slug)
   const adjacent = (page, direction) =>
     page
-      ? `<a class="page-${direction}" href="${base}${page.slug}/" rel="${direction}"><span>${direction === 'prev' ? '← Anterior' : 'Próxima →'}</span><strong>${escape(page.label)}</strong></a>`
+      ? `<a class="page-${direction}" href="${base}${page.slug}/" rel="${direction}"><span class="page-direction">${direction === 'prev' ? `${icon(ArrowLeft)} Anterior` : `Próxima ${icon(ArrowRight)}`}</span><strong>${escape(page.label)}</strong></a>`
       : ''
   return `<nav class="pagination" aria-label="Paginação da documentação">
     <div class="page-adjacent">${adjacent(pages[index - 1], 'prev')}${adjacent(pages[index + 1], 'next')}</div>
@@ -90,6 +112,7 @@ function layout({ title, description, slug = '', body, home = false }) {
   return `<!doctype html>
 <html lang="pt-BR">
 <head>
+  <!-- Lucide icons: copyright Lucide contributors and Cole Bemis. ISC/MIT notices: ${base}assets/lucide-LICENSE.txt -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${escape(title)} | cpf</title>
@@ -104,23 +127,23 @@ function layout({ title, description, slug = '', body, home = false }) {
   <link rel="icon" type="image/svg+xml" href="${base}assets/favicon.svg">
   ${verification ? `<meta name="google-site-verification" content="${escape(verification)}">` : ''}
   <link rel="stylesheet" href="${base}assets/styles.css?v=${stylesVersion}">
-  ${home ? `<script type="module" src="${base}assets/demo.js"></script>` : ''}
+  ${home ? `<script type="module" src="${base}assets/demo.js?v=${demoVersion}"></script>` : ''}
 </head>
 <body>
   <a class="skip" href="#conteudo">Pular para o conteúdo</a>
   <header class="header"><div class="header-inner">
     <div class="brand-group"><a class="brand-symbol" href="${base}" aria-label="CPF/CNPJ, início"><img src="${base}assets/fidalgo.svg" width="38" height="38" alt=""></a><div><a class="brand" href="${base}">CPF/CNPJ</a><a class="fidalgo-brand" href="https://www.fidalgoitsolutions.com.br/">por Fidalgo IT Solutions</a></div></div>
     <nav aria-label="Navegação principal">
-      <a href="${base}${pages[0].slug}/">Documentação</a>
-      <a href="${base}api/">API</a>
-      <a href="${repository}">GitHub</a>
-      <a href="https://www.npmjs.com/package/cpf">npm ↗</a>
+      <a href="${base}${pages[0].slug}/">${icon(BookOpen)} Documentação</a>
+      <a href="${base}api/">${icon(CodeXml)} API</a>
+      <a href="${repository}">GitHub ${icon(ExternalLink)}</a>
+      <a href="https://www.npmjs.com/package/cpf">${icon(Package)} npm</a>
     </nav>
   </div></header>
   <main id="conteudo" class="${home ? 'home' : 'docs'}">
-  ${home ? body : `<nav class="sidebar" aria-label="Guias"><a class="back-link" href="${base}">← Experimentar a biblioteca</a><p class="eyebrow">Documentação</p>${pages.map((page, i) => `<a href="${base}${page.slug}/"${page.slug === slug ? ' aria-current="page"' : ''}><span class="sidebar-number">0${i + 1}</span>${escape(page.label)}</a>`).join('')}</nav><article class="article"><p class="eyebrow">Documentação / ${pages.findIndex(page => page.slug === slug) + 1} de ${pages.length}</p>${body}${pagination(slug)}<div class="article-end"><a href="${base}">← Voltar ao início</a> · <a href="${repository}/issues">Relatar um problema</a></div></article>`}
+  ${home ? body : `<nav class="sidebar" aria-label="Guias"><a class="back-link" href="${base}">${icon(ArrowLeft)} Experimentar a biblioteca</a><p class="eyebrow">Documentação</p>${pages.map((page, i) => `<a href="${base}${page.slug}/"${page.slug === slug ? ' aria-current="page"' : ''}><span class="sidebar-number">0${i + 1}</span>${escape(page.label)}</a>`).join('')}</nav><article class="article"><p class="eyebrow">Documentação / ${pages.findIndex(page => page.slug === slug) + 1} de ${pages.length}</p>${body}${pagination(slug)}<div class="article-end"><a href="${base}">${icon(ArrowLeft)} Voltar ao início</a> · <a href="${repository}/issues">${icon(Bug)} Relatar um problema</a></div></article>`}
   </main>
-  <footer><div><a class="footer-brand" href="https://www.fidalgoitsolutions.com.br/"><img src="${base}assets/fidalgo.svg" width="26" height="26" alt="">Fidalgo IT Solutions</a><span>Uma biblioteca de código aberto por <a href="https://github.com/theuves">Matheus Alves</a>.</span></div><nav aria-label="Links do projeto"><a href="${repository}/blob/master/LICENSE">Licença MIT</a><a href="${repository}/issues">Reportar problema</a><a href="${repository}">GitHub ↗</a></nav></footer>
+  <footer><div><a class="footer-brand" href="https://www.fidalgoitsolutions.com.br/"><img src="${base}assets/fidalgo.svg" width="26" height="26" alt="">Fidalgo IT Solutions</a><span>Uma biblioteca de código aberto por <a href="https://github.com/theuves">Matheus Alves</a>.</span></div><nav aria-label="Links do projeto"><a href="${repository}/blob/master/LICENSE">Licença MIT</a><a href="${repository}/issues">${icon(Bug)} Reportar problema</a><a href="${repository}">GitHub ${icon(ExternalLink)}</a></nav></footer>
 </body>
 </html>
 `
@@ -131,6 +154,10 @@ await mkdir(`${output}/assets`, { recursive: true })
 await copyFile('website/styles.css', `${output}/assets/styles.css`)
 await copyFile('website/fidalgo.svg', `${output}/assets/fidalgo.svg`)
 await copyFile('website/favicon.svg', `${output}/assets/favicon.svg`)
+await copyFile(
+  'node_modules/lucide-static/LICENSE',
+  `${output}/assets/lucide-LICENSE.txt`
+)
 await build({
   entryPoints: ['website/demo.js'],
   bundle: true,
@@ -139,6 +166,10 @@ await build({
   target: 'es2020',
   outfile: `${output}/assets/demo.js`,
 })
+const demoVersion = createHash('sha256')
+  .update(await readFile(`${output}/assets/demo.js`))
+  .digest('hex')
+  .slice(0, 12)
 
 const exampleCode = `import cpf, { cnpj } from 'cpf'
 
@@ -156,7 +187,7 @@ const homeBody = `
   <h1 id="intro-title">CPF e CNPJ em JavaScript e TypeScript</h1>
   <p>Valide, formate e gere documentos com a biblioteca <code>cpf</code>. Suporte a CNPJ alfanumérico, tipos incluídos e zero dependências de runtime.</p>
 </section>
-<nav class="section-nav" aria-label="Nesta página"><a class="section-current" href="#demo-title">Experimentar</a><a href="#instalacao">Instalação e uso</a><a href="#guias">Guias</a></nav>
+<nav class="section-nav" aria-label="Nesta página"><a class="section-current" href="#demo-title">${icon(FlaskConical)} Experimentar</a><a href="#instalacao">${icon(Terminal)} Instalação e uso</a><a href="#guias">${icon(BookOpen)} Guias</a></nav>
 <section class="demo" aria-labelledby="demo-title">
   <div class="demo-grid">
     <div class="configuration">
@@ -165,30 +196,30 @@ const homeBody = `
       <label for="document-kind">Tipo de documento</label><select id="document-kind"><option value="cpf">CPF</option><option value="cnpj">CNPJ numérico ou alfanumérico</option></select>
       <label for="document-input">Documento</label><input id="document-input" type="text" inputmode="numeric" spellcheck="false" autocapitalize="characters" autocomplete="off" maxlength="64" placeholder="Digite com ou sem pontuação" aria-describedby="input-help validation-status">
       <p id="input-help" class="note">A validação usa a entrada original normalizada. A máscara é uma prévia de formatação.</p>
-      <button id="load-example" type="button">Carregar exemplo <span aria-hidden="true">↗</span></button>
-      <p class="local-note"><span aria-hidden="true">◉</span> Processamento local. Nenhum documento é enviado.</p>
+      <button id="load-example" type="button">${icon(FlaskConical)} Carregar exemplo</button>
+      <p class="local-note">${icon(ShieldCheck)} <span>Processamento local. Nenhum documento é enviado.</span></p>
       <noscript>Ative JavaScript para usar a demonstração. Os guias e a referência da API continuam disponíveis.</noscript>
     </div>
     <section class="result" aria-labelledby="result-title">
       <p class="eyebrow">02 / Saída</p><h2 id="result-title">Resultado</h2>
       <div class="result-preview"><dl><dt>Prévia com máscara</dt><dd id="formatted-value">—</dd></dl><p>Saída de <code>format</code></p></div>
       <dl class="normalized-result"><dt>Valor normalizado</dt><dd id="normalized-value">—</dd></dl>
-      <p id="validation-status" class="status" role="status">Digite um documento ou carregue um exemplo.</p>
+      <p id="validation-status" class="status" role="status"><span class="status-icon status-idle">${icon(Info)}</span><span class="status-icon status-valid">${icon(CircleCheck)}</span><span class="status-icon status-invalid">${icon(CircleX)}</span><span id="validation-message">Digite um documento ou carregue um exemplo.</span></p>
       <p class="result-note">A validação verifica estrutura e dígitos verificadores. Não consulta emissão, titularidade ou situação cadastral.</p>
     </section>
   </div>
 </section>
 <section class="quickstart" aria-labelledby="instalacao">
-  <div class="quickstart-intro"><p class="eyebrow">No seu projeto</p><h2 id="instalacao">Instalação e uso</h2><p>Disponível para Node.js e navegador, com exports ESM e CommonJS.</p><div class="install">${highlight('npm install cpf', 'sh')}</div><a href="${base}api/">Consultar a referência da API →</a></div>
-  <div class="code-panel"><div class="code-label"><span>exemplo.ts</span><span>JavaScript / TypeScript</span></div>${highlight(exampleCode, 'ts')}</div>
+  <div class="quickstart-intro"><p class="eyebrow">No seu projeto</p><h2 id="instalacao">Instalação e uso</h2><p>Disponível para Node.js e navegador, com exports ESM e CommonJS.</p><div class="install">${highlight('npm install cpf', 'sh')}</div><a href="${base}api/">Consultar a referência da API ${icon(ArrowRight)}</a></div>
+  <div class="code-panel"><div class="code-label"><span>${icon(CodeXml)} exemplo.ts</span><span>JavaScript / TypeScript</span></div>${highlight(exampleCode, 'ts')}</div>
 </section>
 <section class="guides-section" aria-labelledby="guias">
-  <div class="section-top"><div><p class="eyebrow">Documentação</p><h2 id="guias">Guias de implementação</h2></div><a href="${base}${pages[0].slug}/">Ler a documentação →</a></div>
+  <div class="section-top"><div><p class="eyebrow">Documentação</p><h2 id="guias">Guias de implementação</h2></div><a href="${base}${pages[0].slug}/">Ler a documentação ${icon(ArrowRight)}</a></div>
   <div class="guide-grid">${pages
     .slice(0, 4)
     .map(
       (page, i) =>
-        `<a class="guide" href="${base}${page.slug}/"><span class="guide-number">0${i + 1}</span><div><h3>${escape(page.label)} <span aria-hidden="true">↗</span></h3><p>${escape(page.description)}</p></div></a>`
+        `<a class="guide" href="${base}${page.slug}/"><span class="guide-number">0${i + 1}</span><div><h3>${escape(page.label)} ${icon(ArrowRight)}</h3><p>${escape(page.description)}</p></div></a>`
     )
     .join('')}</div>
 </section>`

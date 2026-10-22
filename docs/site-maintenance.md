@@ -22,6 +22,10 @@ Os blocos de código recebem realce com Shiki e o tema GitHub Light durante o
 build, inclusive na página inicial. JavaScript, TypeScript, TSX, HTML, shell e
 JSON são suportados; outras linguagens ficam em texto simples. Nenhum código
 do realçador é enviado ao navegador ou incluído no pacote publicado.
+Os ícones da interface usam Lucide Static: somente os SVGs utilizados entram no
+HTML, gerados pela função `icon` no build. Mantenha textos visíveis nos controles;
+os SVGs são decorativos e ficam ocultos de leitores de tela. Os arquivos JS e CSS
+usam uma versão derivada do conteúdo na URL para evitar assets antigos em cache.
 
 `SITE_URL` controla a URL pública e o prefixo de caminhos. Para testar com um
 servidor local na raiz, use `SITE_URL=http://localhost:8000/` nos dois comandos

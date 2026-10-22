@@ -5,6 +5,7 @@ const kind = document.querySelector('#document-kind')
 const mask = document.querySelector('#formatted-value')
 const normalized = document.querySelector('#normalized-value')
 const status = document.querySelector('#validation-status')
+const statusMessage = document.querySelector('#validation-message')
 const example = document.querySelector('#load-example')
 const issues = {
   INVALID_TYPE: 'Use um valor em texto.',
@@ -22,7 +23,7 @@ function update() {
   normalized.textContent = '—'
   status.dataset.valid = ''
   if (!input.value.trim()) {
-    status.textContent = 'Digite um documento ou carregue um exemplo.'
+    statusMessage.textContent = 'Digite um documento ou carregue um exemplo.'
     return
   }
   try {
@@ -30,12 +31,13 @@ function update() {
     normalized.textContent = value || '—'
     const result = api.inspect(value)
     status.dataset.valid = String(result.valid)
-    status.textContent = result.valid
+    statusMessage.textContent = result.valid
       ? 'Estrutura e dígitos verificadores válidos.'
       : issues[result.issue]
   } catch {
     status.dataset.valid = 'false'
-    status.textContent = 'A entrada contém caracteres ou tamanho incompatíveis.'
+    statusMessage.textContent =
+      'A entrada contém caracteres ou tamanho incompatíveis.'
   }
 }
 

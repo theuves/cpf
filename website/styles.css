@@ -15,6 +15,14 @@
 * {
   box-sizing: border-box;
 }
+.lucide {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  vertical-align: -0.2em;
+  stroke-width: 1.75;
+}
 body {
   margin: 0;
   font-size: 15px;
@@ -83,6 +91,7 @@ a:hover {
 }
 .header nav {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 24px;
   font-size: 13px;
@@ -260,21 +269,24 @@ button {
   font-size: 13px;
   font-weight: 600;
 }
-button span {
-  margin-left: 20px;
+button .lucide {
+  margin-right: 6px;
   color: var(--accent);
 }
 button:hover {
   background: #1c3c5c;
 }
 .local-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
   font-size: 11px;
   color: var(--muted);
   margin: 24px 0 0;
 }
-.local-note span {
+.local-note .lucide {
   color: var(--link);
-  margin-right: 5px;
+  margin-top: 2px;
 }
 .result {
   background: #f9fbff;
@@ -341,6 +353,9 @@ button:hover {
   min-width: 0;
 }
 .status {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
   font-size: 13px;
   font-weight: 600;
   padding: 10px 12px;
@@ -348,6 +363,16 @@ button:hover {
   background: #edf1f7;
   color: var(--muted);
   margin: 0 0 16px;
+}
+.status-icon {
+  display: none;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.status:not([data-valid='true']):not([data-valid='false']) .status-idle,
+.status[data-valid='true'] .status-valid,
+.status[data-valid='false'] .status-invalid {
+  display: inline-flex;
 }
 .status[data-valid='true'] {
   color: #176444;
@@ -454,7 +479,7 @@ button:hover {
   margin: 0 0 8px;
   font-size: 16px;
 }
-.guide h3 span {
+.guide h3 .lucide {
   color: var(--link);
   margin-left: 8px;
   font-weight: 400;
@@ -574,6 +599,11 @@ th {
   margin-top: 24px;
   font-size: 12px;
 }
+.article-end a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
 .pagination {
   margin-top: 40px;
   border-top: 1px solid var(--line);
@@ -605,6 +635,14 @@ th {
 .page-next {
   grid-column: 2;
   text-align: right;
+}
+.page-adjacent .page-direction {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.page-next .page-direction {
+  justify-content: flex-end;
 }
 .page-numbers {
   display: flex;
@@ -754,6 +792,17 @@ footer nav {
   }
 }
 @media (max-width: 400px) {
+  .header nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .page-numbers {
+    gap: 4px;
+  }
+  .page-numbers a {
+    min-width: 40px;
+  }
   .section-nav a {
     font-size: 12px;
     padding: 9px 11px;
