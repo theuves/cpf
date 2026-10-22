@@ -33,7 +33,7 @@ O resultado fica em `site-dist`, ignorado pelo Git e excluído do pacote npm.
 O build inclui o código real da biblioteca na demonstração e gera HTML estático,
 URLs canônicas, metadados sociais e `sitemap.xml`. O parser Markdown é apenas uma
 dependência de desenvolvimento; não acompanha o runtime da biblioteca.
-Os blocos de código recebem realce com Shiki e o tema GitHub Light durante o
+Os blocos de código recebem realce com Shiki e os temas GitHub Light e GitHub Dark durante o
 build, inclusive na página inicial. JavaScript, TypeScript, TSX, HTML, shell e
 JSON são suportados; outras linguagens ficam em texto simples. Nenhum código
 do realçador é enviado ao navegador ou incluído no pacote publicado.
@@ -41,6 +41,14 @@ Os ícones da interface usam Lucide Static: somente os SVGs utilizados entram no
 HTML, gerados pela função `icon` no build. Mantenha textos visíveis nos controles;
 os SVGs são decorativos e ficam ocultos de leitores de tela. Os arquivos JS e CSS
 usam uma versão derivada do conteúdo na URL para evitar assets antigos em cache.
+
+O botão de tema está presente em todas as páginas. `website/theme.js` aplica o
+tema antes do CSS para evitar um clarão ao abrir uma página escura. Sem uma
+escolha salva, acompanha `prefers-color-scheme`; a escolha manual fica em
+`localStorage` (`cpf-theme`) e é compartilhada entre páginas, idiomas e abas.
+Se o armazenamento estiver bloqueado, o botão continua funcionando na página.
+As cores dos dois temas ficam nas variáveis de `website/styles.css`.
+`test:docs` também verifica o comportamento do tema com e sem armazenamento.
 
 `SITE_URL` controla a URL pública e o prefixo de caminhos. Para testar com um
 servidor local na raiz, use `SITE_URL=http://localhost:8000/` nos dois comandos

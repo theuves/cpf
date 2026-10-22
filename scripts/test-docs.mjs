@@ -7,6 +7,7 @@ import { transform } from 'esbuild'
 import MarkdownIt from 'markdown-it'
 import { locales } from '../website/i18n.mjs'
 import { demoMessages } from '../website/demo-messages.mjs'
+import './test-theme.mjs'
 
 const pages = JSON.parse(await readFile('website/pages.json', 'utf8'))
 const siteUrl = new URL(

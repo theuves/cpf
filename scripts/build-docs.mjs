@@ -17,6 +17,8 @@ import {
   CircleCheck,
   CircleX,
   Info,
+  Moon,
+  Sun,
 } from 'lucide-static'
 
 const siteUrl = new URL(
@@ -54,8 +56,13 @@ const languageSwitchVersion = createHash('sha256')
   .update(languageSwitch)
   .digest('hex')
   .slice(0, 12)
+const themeScript = await readFile('website/theme.js')
+const themeVersion = createHash('sha256')
+  .update(themeScript)
+  .digest('hex')
+  .slice(0, 12)
 const highlighter = await createHighlighter({
-  themes: ['github-light'],
+  themes: ['github-light', 'github-dark-default'],
   langs: ['javascript', 'typescript', 'tsx', 'html', 'bash', 'json'],
 })
 const languages = new Set(highlighter.getLoadedLanguages())
@@ -63,7 +70,7 @@ function highlight(code, language) {
   const lang = language.trim().split(/\s+/)[0]
   return highlighter.codeToHtml(code, {
     lang: languages.has(lang) ? lang : 'text',
-    theme: 'github-light',
+    themes: { light: 'github-light', dark: 'github-dark-default' },
   })
 }
 const md = new MarkdownIt({ highlight })
@@ -170,6 +177,7 @@ function layout(
   <meta name="theme-color" content="#102b46">
   <link rel="icon" type="image/svg+xml" href="${assetBase}assets/favicon.svg">
   ${verification ? `<meta name="google-site-verification" content="${escape(verification)}">` : ''}
+  <script src="${assetBase}assets/theme.js?v=${themeVersion}"></script>
   <link rel="stylesheet" href="${assetBase}assets/styles.css?v=${stylesVersion}">
   <script type="module" src="${assetBase}assets/language-switch.js?v=${languageSwitchVersion}"></script>
   ${home ? `<script type="module" src="${assetBase}assets/demo.js?v=${demoVersion}"></script>` : ''}
@@ -184,6 +192,7 @@ function layout(
       <a href="${repository}">GitHub</a>
       <a href="https://www.npmjs.com/package/cpf">npm</a>
     </nav>
+    <button class="theme-toggle" type="button" hidden aria-label="${t('darkMode')}" aria-pressed="false" data-light-label="${t('useLightTheme')}" data-dark-label="${t('useDarkTheme')}"><span class="theme-icon-dark">${icon(Moon)}</span><span class="theme-icon-light">${icon(Sun)}</span></button>
     <nav class="language-switch" aria-label="${t('language')}"><details>
       <summary aria-label="${config.code} ${config.name} — ${t('selectLanguage')}" aria-controls="language-options"><img class="language-flag" src="${assetBase}assets/flags/${config.flag}.svg" width="24" height="18" alt=""><span class="language-name">${config.name}</span><span class="language-code">${config.code}</span>${icon(ChevronDown)}</summary>
       <div class="language-menu" id="language-options"><p class="language-menu-title">${t('chooseLanguage')}</p>${Object.entries(
@@ -225,6 +234,7 @@ await mkdir(`${output}/assets`, { recursive: true })
 await copyFile('website/styles.css', `${output}/assets/styles.css`)
 await copyFile('website/fidalgo.svg', `${output}/assets/fidalgo.svg`)
 await copyFile('website/favicon.svg', `${output}/assets/favicon.svg`)
+await copyFile('website/theme.js', `${output}/assets/theme.js`)
 await copyFile(
   'website/language-switch.js',
   `${output}/assets/language-switch.js`

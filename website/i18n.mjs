@@ -43,6 +43,9 @@ export const locales = {
       language: 'Idioma',
       selectLanguage: 'Selecionar idioma',
       chooseLanguage: 'Escolha um idioma',
+      darkMode: 'Modo escuro',
+      useLightTheme: 'Ativar tema claro',
+      useDarkTheme: 'Ativar tema escuro',
       introTitle: 'CPF e CNPJ em JavaScript e TypeScript',
       introBefore: 'Valide, formate e gere documentos com a biblioteca',
       introAfter:
@@ -126,6 +129,9 @@ export const locales = {
       language: 'Language',
       selectLanguage: 'Select language',
       chooseLanguage: 'Choose a language',
+      darkMode: 'Dark mode',
+      useLightTheme: 'Use light theme',
+      useDarkTheme: 'Use dark theme',
       introTitle: 'CPF and CNPJ in JavaScript and TypeScript',
       introBefore: 'Validate, format and generate Brazilian tax IDs with the',
       introAfter:
