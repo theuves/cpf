@@ -60,10 +60,7 @@ export default function findValidRepairs(
       : []
   }
 
-  const inferredKind: CnpjKind = /[A-Z]/.test(clean)
-    ? 'alphanumeric'
-    : 'numeric'
-  const alphabet = getCnpjAlphabet(options.kind ?? inferredKind)
+  const alphabet = getCnpjAlphabet(options.kind ?? 'alphanumeric')
   const repaired: string[] = []
   for (const character of alphabet) {
     const candidate = clean.replace(placeholder, character)

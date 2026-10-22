@@ -4,6 +4,13 @@ Alterações relevantes para consumidores são registradas neste arquivo. O form
 segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e o projeto usa
 [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## Não lançado
+
+### Corrigido
+
+- Reparo de CNPJ sem `kind` inclui candidatos cuja única letra está na posição
+  desconhecida, preservando os filtros explícitos por família.
+
 ## 3.0.0 - 2026-08-08
 
 ### Segurança

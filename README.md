@@ -198,7 +198,9 @@ cnpj.findValidRepairs('12.ABC.345/01DE-3?') // ['12ABC34501DE35']
 ```
 
 CNPJ permite configurar `placeholder` e restringir os candidatos com
-`kind: 'numeric' | 'alphanumeric'`. Dois marcadores são aceitos somente nas
+`kind: 'numeric' | 'alphanumeric'`. Sem `kind`, a busca considera números e letras,
+inclusive quando a posição desconhecida é a única letra do corpo.
+Dois marcadores são aceitos somente nas
 posições dos verificadores.
 
 ### `generate([options])`

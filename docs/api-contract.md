@@ -40,6 +40,8 @@ também oferece `getKind`.
   retorna somente campos semânticos em `string`. Ele converte letras de CNPJ para
   maiúsculas, mas não atesta máscara canônica nem validade matemática.
 - `findValidRepairs` devolve lista vazia quando não houver reparo válido.
+  Em CNPJ, omitir `kind` permite candidatos numéricos e alfanuméricos; informar
+  `kind` restringe os resultados à família escolhida.
 
 Os nomes `validate`, `check`, `unformat`, `calc`, `repair`, `rfs`, `clear` e
 `getCD`, bem como as opções `count`, `valid`, `formatted`, `mode` e `random`,

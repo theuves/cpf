@@ -28,6 +28,8 @@ Implementar o suporte completo na 3.0.0 e preservar o caminho numérico existent
   à esquerda;
 - geração permanece numérica por padrão e recebe um `kind` explícito;
 - reparo adota `?` e trata `X` como dado no corpo;
+- reparo sem `kind` busca nas duas famílias, pois a posição desconhecida pode
+  conter a única letra do corpo; somente `kind` explícito restringe a família;
 - validação, classificação, cálculo e `format({ strict: true })` exigem `A-Z`;
 - `format({ strict: false })`, `normalize` e, por composição, `parse` convertem
   minúsculas para maiúsculas;

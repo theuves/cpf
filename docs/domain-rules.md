@@ -105,6 +105,9 @@ Reparo de CPF usa `X` como marcador. Reparo de CNPJ usa `?` por padrão, aceita 
 marcador configurável e permite dois marcadores apenas nas posições dos
 verificadores. No corpo do CNPJ, `X` é dado válido e não é inferido como marcador
 legado. Todo candidato é validado antes de ser retornado.
+Sem `kind`, o reparo de CNPJ considera números e letras na posição desconhecida,
+mesmo quando nenhuma letra permanece visível. Um `kind` explícito restringe os
+candidatos à família solicitada.
 
 ## Checklist para mudar uma regra
 
