@@ -409,15 +409,6 @@ button:hover {
   background: transparent;
   font-size: 13px;
 }
-.token-keyword {
-  color: #5843a0;
-}
-.token-string {
-  color: #246047;
-}
-.token-comment {
-  color: #64748b;
-}
 .guides-section {
   margin-top: 40px;
 }

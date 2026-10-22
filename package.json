@@ -120,6 +120,7 @@
     "eslint-plugin-prettier": "^5.5.1",
     "markdown-it": "^15.0.3",
     "prettier": "^3.6.2",
+    "shiki": "^4.5.0",
     "tsx": "^4.20.3",
     "typescript-eslint": "^8.36.0"
   }

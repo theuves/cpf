@@ -18,6 +18,10 @@ O resultado fica em `site-dist`, ignorado pelo Git e excluído do pacote npm.
 O build inclui o código real da biblioteca na demonstração e gera HTML estático,
 URLs canônicas, metadados sociais e `sitemap.xml`. O parser Markdown é apenas uma
 dependência de desenvolvimento; não acompanha o runtime da biblioteca.
+Os blocos de código recebem realce com Shiki e o tema GitHub Light durante o
+build, inclusive na página inicial. JavaScript, TypeScript, TSX, HTML, shell e
+JSON são suportados; outras linguagens ficam em texto simples. Nenhum código
+do realçador é enviado ao navegador ou incluído no pacote publicado.
 
 `SITE_URL` controla a URL pública e o prefixo de caminhos. Para testar com um
 servidor local na raiz, use `SITE_URL=http://localhost:8000/` nos dois comandos

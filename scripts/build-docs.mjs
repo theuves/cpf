@@ -5,6 +5,7 @@ import process from 'node:process'
 import { URL } from 'node:url'
 import MarkdownIt from 'markdown-it'
 import { build } from 'esbuild'
+import { createHighlighter } from 'shiki'
 
 const siteUrl = new URL(
   process.env.SITE_URL || 'https://theuves.github.io/cpf/'
@@ -19,7 +20,19 @@ const stylesVersion = createHash('sha256')
   .update(styles)
   .digest('hex')
   .slice(0, 12)
-const md = new MarkdownIt()
+const highlighter = await createHighlighter({
+  themes: ['github-light'],
+  langs: ['javascript', 'typescript', 'tsx', 'html', 'bash', 'json'],
+})
+const languages = new Set(highlighter.getLoadedLanguages())
+function highlight(code, language) {
+  const lang = language.trim().split(/\s+/)[0]
+  return highlighter.codeToHtml(code, {
+    lang: languages.has(lang) ? lang : 'text',
+    theme: 'github-light',
+  })
+}
+const md = new MarkdownIt({ highlight })
 const escape = md.utils.escapeHtml
 const sourcePages = new Map(
   pages.map(page => [resolve(page.source), page.slug])
@@ -125,6 +138,17 @@ await build({
   outfile: `${output}/assets/demo.js`,
 })
 
+const exampleCode = `import cpf, { cnpj } from 'cpf'
+
+cpf.isValid('529.982.247-25')
+// true
+
+cnpj.isValid('12.ABC.345/01DE-35')
+// true
+
+cpf.format('5299822')
+// '529.982.2'`
+
 const homeBody = `
 <section class="intro" aria-labelledby="intro-title">
   <h1 id="intro-title">CPF e CNPJ em JavaScript e TypeScript</h1>
@@ -153,17 +177,8 @@ const homeBody = `
   </div>
 </section>
 <section class="quickstart" aria-labelledby="instalacao">
-  <div class="quickstart-intro"><p class="eyebrow">No seu projeto</p><h2 id="instalacao">Instalação e uso</h2><p>Disponível para Node.js e navegador, com exports ESM e CommonJS.</p><pre class="install"><code>npm install cpf</code></pre><a href="${base}api/">Consultar a referência da API →</a></div>
-  <div class="code-panel"><div class="code-label"><span>exemplo.ts</span><span>JavaScript / TypeScript</span></div><pre><code><span class="token-keyword">import</span> cpf, { cnpj } <span class="token-keyword">from</span> <span class="token-string">'cpf'</span>
-
-cpf.isValid(<span class="token-string">'529.982.247-25'</span>)
-<span class="token-comment">// true</span>
-
-cnpj.isValid(<span class="token-string">'12.ABC.345/01DE-35'</span>)
-<span class="token-comment">// true</span>
-
-cpf.format(<span class="token-string">'5299822'</span>)
-<span class="token-comment">// '529.982.2'</span></code></pre></div>
+  <div class="quickstart-intro"><p class="eyebrow">No seu projeto</p><h2 id="instalacao">Instalação e uso</h2><p>Disponível para Node.js e navegador, com exports ESM e CommonJS.</p><div class="install">${highlight('npm install cpf', 'sh')}</div><a href="${base}api/">Consultar a referência da API →</a></div>
+  <div class="code-panel"><div class="code-label"><span>exemplo.ts</span><span>JavaScript / TypeScript</span></div>${highlight(exampleCode, 'ts')}</div>
 </section>
 <section class="guides-section" aria-labelledby="guias">
   <div class="section-top"><div><p class="eyebrow">Documentação</p><h2 id="guias">Guias de implementação</h2></div><a href="${base}${pages[0].slug}/">Ler a documentação →</a></div>
@@ -208,6 +223,7 @@ await writeFile(
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls.map(path => `<url><loc>${escape(new URL(path, siteUrl).href)}</loc></url>`).join('')}</urlset>\n`
 )
 await writeFile(`${output}/.nojekyll`, '')
+highlighter.dispose()
 process.stdout.write(
   `Built ${urls.length} documentation pages for ${siteUrl.href}\n`
 )
