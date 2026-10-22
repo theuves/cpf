@@ -1,12 +1,14 @@
 :root {
   color-scheme: light;
-  --paper: #f7f8f4;
-  --ink: #172b25;
-  --muted: #52635b;
-  --line: #d8e0d7;
-  --green: #176444;
-  --wash: #e7eee5;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --paper: #ffffff;
+  --ink: #17212b;
+  --muted: #475569;
+  --line: #e2e8f0;
+  --link: #4c64b5;
+  --navy: #102b46;
+  --accent: #7c9cff;
+  --wash: #f4f7fa;
+  font-family: Arial, Helvetica, sans-serif;
   color: var(--ink);
   background: var(--paper);
 }
@@ -19,14 +21,14 @@ body {
   line-height: 1.65;
 }
 a {
-  color: var(--green);
+  color: var(--link);
   text-underline-offset: 4px;
 }
 a:hover {
   text-decoration-thickness: 2px;
 }
 :focus-visible {
-  outline: 3px solid #a54d0b;
+  outline: 3px solid var(--link);
   outline-offset: 4px;
 }
 .skip {
@@ -59,7 +61,29 @@ a:hover {
   letter-spacing: -2px;
 }
 .brand span {
-  color: var(--green);
+  color: var(--accent);
+}
+.brand-group {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.brand-group .fidalgo-brand {
+  border-left: 1px solid var(--line);
+  padding-left: 24px;
+}
+.fidalgo-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--navy);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.fidalgo-brand img {
+  flex-shrink: 0;
 }
 .header nav {
   display: flex;
@@ -68,11 +92,27 @@ a:hover {
 }
 .header nav a {
   text-decoration: none;
+  white-space: nowrap;
 }
 main {
   max-width: 1200px;
   margin: auto;
   padding: 64px 32px;
+}
+.home {
+  max-width: none;
+  padding: 0 0 72px;
+}
+.hero-shell {
+  background: var(--navy);
+  color: white;
+}
+.hero,
+.features,
+.guides-section,
+.demo {
+  max-width: 1136px;
+  margin-inline: auto;
 }
 h1,
 h2,
@@ -83,7 +123,7 @@ h3 {
 h1 {
   font-size: clamp(36px, 5vw, 64px);
   margin: 16px 0 24px;
-  font-weight: 650;
+  font-weight: 700;
 }
 h2 {
   font-size: 30px;
@@ -101,59 +141,144 @@ p {
     monospace;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: var(--green);
+  color: var(--link);
 }
 .hero {
   display: grid;
-  grid-template-columns: 1.15fr 1fr;
-  gap: 64px;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 56px;
   align-items: center;
+  padding-block: 72px;
+}
+.hero h1 {
+  font-size: clamp(44px, 5vw, 68px);
+  line-height: 1.04;
+  margin-block: 24px;
+}
+.hero h1 span,
+.hero .eyebrow {
+  color: var(--accent);
+}
+.hero .eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.1em;
 }
 .lede {
-  color: var(--muted);
+  color: #cbd5e1;
   max-width: 600px;
-  font-size: 20px;
+  font-size: 18px;
+}
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+.button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  background: var(--accent);
+  color: var(--navy);
+  padding: 14px 22px;
+  border: 1px solid var(--accent);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+.button:hover {
+  background: #a0b7ff;
+}
+.button-outline {
+  background: transparent;
+  border-color: #64748b;
+  color: white;
+}
+.button-outline:hover {
+  background: #ffffff12;
+}
+.hero :focus-visible {
+  outline-color: var(--accent);
 }
 .install {
-  display: inline-block;
-  background: var(--wash);
-  padding: 12px 20px;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  margin: 8px 0 20px;
+  color: #cbd5e1;
+  margin-top: 24px;
+  font-size: 15px;
+}
+.install span {
+  color: var(--accent);
+  margin-right: 8px;
+}
+.install code {
+  background: transparent;
+  padding: 0;
 }
 .code-panel {
-  background: #142b24;
-  color: #edf6e8;
-  border-radius: 12px;
+  min-width: 0;
+  background: #0c2136;
+  color: #f4f7fa;
+  border: 1px solid #38516a;
   overflow: hidden;
-  box-shadow: 0 18px 40px #142b2412;
+  box-shadow: 16px 16px 0 #ffffff05;
 }
 .code-label {
-  padding: 12px 24px;
-  border-bottom: 1px solid #ffffff24;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 24px;
+  border-bottom: 1px solid #38516a;
   font-size: 12px;
-  color: #b9cfbf;
+  color: #b4c4d6;
+}
+.code-label > :last-child {
+  margin-left: auto;
+}
+.code-dots {
+  color: #647e98;
+  font-size: 9px;
+  letter-spacing: 3px;
 }
 .code-panel pre {
   margin: 0;
-  padding: 24px;
+  padding: 28px 24px;
   background: transparent;
   color: inherit;
   border: 0;
   font-size: 14px;
 }
+.token-keyword {
+  color: #a7baff;
+}
+.token-string {
+  color: #bcd9ef;
+}
+.token-comment {
+  color: #8fa7bd;
+}
+.code-foot {
+  padding: 16px 24px;
+  border-top: 1px solid #38516a;
+  color: #a3b9cf;
+  font-size: 11px;
+}
 .features {
   display: flex;
   flex-wrap: wrap;
   gap: 12px 28px;
-  border-block: 1px solid var(--line);
-  padding: 18px 0;
-  margin: 52px 0;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  padding: 26px 0;
+  margin-bottom: 72px;
   font:
     500 13px ui-monospace,
     monospace;
   color: var(--muted);
+}
+.features span::before {
+  content: '+';
+  color: var(--link);
+  margin-right: 10px;
 }
 .section-top {
   display: flex;
@@ -168,7 +293,7 @@ p {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 0;
   overflow: hidden;
 }
 .guide {
@@ -197,16 +322,16 @@ p {
 }
 .guide-number {
   font:
-    12px ui-monospace,
+    14px ui-monospace,
     monospace;
-  color: var(--green);
+  color: var(--link);
 }
 .demo {
-  margin-top: 56px;
-  padding: 32px;
-  background: #fff;
+  margin-top: 64px;
+  padding: 40px;
+  background: var(--wash);
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 0;
 }
 .demo h2 {
   margin-top: 0;
@@ -226,26 +351,27 @@ input,
 select,
 button {
   font: inherit;
-  border: 1px solid #7c8e80;
-  border-radius: 5px;
+  border: 1px solid #94a3b8;
+  border-radius: 0;
   padding: 10px 12px;
 }
 input,
 select {
   width: 100%;
-  background: var(--paper);
+  background: white;
   color: var(--ink);
   margin-bottom: 18px;
 }
 button {
   cursor: pointer;
-  background: var(--green);
-  color: white;
-  border-color: var(--green);
+  background: var(--accent);
+  color: var(--navy);
+  border-color: var(--accent);
   font-size: 14px;
+  font-weight: 700;
 }
 button:hover {
-  background: #104d34;
+  background: #a0b7ff;
 }
 .result {
   border-left: 2px solid var(--line);
@@ -267,7 +393,7 @@ button:hover {
   font-weight: 600;
 }
 .status[data-valid='true'] {
-  color: var(--green);
+  color: #176444;
 }
 .status[data-valid='false'] {
   color: #9d351a;
@@ -292,10 +418,11 @@ button:hover {
   display: block;
   padding: 9px 12px;
   text-decoration: none;
-  border-radius: 4px;
+  border-radius: 0;
 }
 .sidebar a[aria-current='page'] {
   background: var(--wash);
+  box-shadow: inset 3px 0 var(--link);
   font-weight: 600;
 }
 .article {
@@ -304,6 +431,7 @@ button:hover {
 }
 .article h1 {
   font-size: clamp(32px, 4vw, 46px);
+  color: var(--navy);
 }
 .article h2 {
   padding-top: 12px;
@@ -311,9 +439,9 @@ button:hover {
 }
 pre {
   padding: 20px;
-  background: #edf1ea;
+  background: var(--wash);
   border: 1px solid var(--line);
-  border-radius: 6px;
+  border-radius: 0;
   overflow-x: auto;
   line-height: 1.65;
   font-size: 14px;
@@ -328,10 +456,10 @@ pre code {
 :not(pre) > code {
   background: var(--wash);
   padding: 2px 4px;
-  border-radius: 3px;
+  border-radius: 0;
 }
 blockquote {
-  border-left: 3px solid var(--green);
+  border-left: 3px solid var(--link);
   margin: 24px 0;
   padding-left: 20px;
   color: var(--muted);
@@ -366,6 +494,14 @@ footer {
   justify-content: space-between;
   gap: 24px;
 }
+@media (max-width: 1200px) {
+  .hero,
+  .features,
+  .guides-section,
+  .demo {
+    margin-inline: 32px;
+  }
+}
 @media (max-width: 800px) {
   .hero,
   .demo-grid {
@@ -374,6 +510,22 @@ footer {
   }
   main {
     padding: 36px 20px;
+  }
+  .home {
+    padding: 0 0 48px;
+  }
+  .hero,
+  .features,
+  .guides-section,
+  .demo {
+    margin-inline: 20px;
+  }
+  .hero {
+    padding-block: 48px;
+    gap: 40px;
+  }
+  .features {
+    margin-bottom: 48px;
   }
   .header {
     padding: 20px;
@@ -404,6 +556,32 @@ footer {
   }
 }
 @media (max-width: 520px) {
+  .header {
+    gap: 12px;
+  }
+  .hero-actions .button {
+    width: 100%;
+  }
+  .brand-group {
+    gap: 12px;
+  }
+  .brand-group .fidalgo-brand {
+    padding-left: 12px;
+  }
+  .brand-group .fidalgo-brand span {
+    display: none;
+  }
+  .brand-group .fidalgo-brand::after {
+    content: 'Fidalgo';
+    font-size: 12px;
+  }
+  .brand-group .fidalgo-brand img {
+    display: none;
+  }
+  .header nav {
+    gap: 12px;
+    font-size: 13px;
+  }
   .guide-grid {
     grid-template-columns: 1fr;
   }

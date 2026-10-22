@@ -68,7 +68,7 @@ function layout({ title, description, slug = '', body, home = false }) {
   <meta property="og:title" content="${escape(title)}">
   <meta property="og:description" content="${escape(description)}">
   <meta property="og:url" content="${escape(canonical)}">
-  <meta name="theme-color" content="#176444">
+  <meta name="theme-color" content="#102b46">
   ${verification ? `<meta name="google-site-verification" content="${escape(verification)}">` : ''}
   <link rel="stylesheet" href="${base}assets/styles.css">
   ${home ? `<script type="module" src="${base}assets/demo.js"></script>` : ''}
@@ -76,17 +76,17 @@ function layout({ title, description, slug = '', body, home = false }) {
 <body>
   <a class="skip" href="#conteudo">Pular para o conteúdo</a>
   <header class="header">
-    <a class="brand" href="${base}" aria-label="cpf, início">cpf<span>.</span></a>
+    <div class="brand-group"><a class="brand" href="${base}" aria-label="cpf, início">cpf<span>.</span></a><a class="fidalgo-brand" href="https://www.fidalgoitsolutions.com.br/" aria-label="Fidalgo IT Solutions"><img src="${base}assets/fidalgo.svg" width="32" height="32" alt=""><span>Fidalgo IT Solutions</span></a></div>
     <nav aria-label="Navegação principal">
       <a href="${base}api/">API</a>
       <a href="${repository}">GitHub</a>
       <a href="https://www.npmjs.com/package/cpf">npm ↗</a>
     </nav>
   </header>
-  <main id="conteudo"${home ? '' : ' class="docs"'}>
+  <main id="conteudo" class="${home ? 'home' : 'docs'}">
   ${home ? body : `<nav class="sidebar" aria-label="Guias"><p class="eyebrow">Documentação</p>${pages.map(page => `<a href="${base}${page.slug}/"${page.slug === slug ? ' aria-current="page"' : ''}>${escape(page.label)}</a>`).join('')}</nav><article class="article">${body}<div class="article-end"><a href="${base}">← Voltar ao início</a> · <a href="${repository}/issues">Relatar um problema</a></div></article>`}
   </main>
-  <footer><span>cpf · JavaScript e TypeScript · Licença MIT</span><span>Por <a href="https://github.com/theuves">Matheus Alves</a> · <a href="${repository}">Código aberto</a></span></footer>
+  <footer><a class="fidalgo-brand" href="https://www.fidalgoitsolutions.com.br/"><img src="${base}assets/fidalgo.svg" width="32" height="32" alt=""><span>Fidalgo IT Solutions</span></a><span>cpf · Licença MIT<br>Por <a href="https://github.com/theuves">Matheus Alves</a> · <a href="${repository}">Código aberto</a></span></footer>
 </body>
 </html>
 `
@@ -95,6 +95,7 @@ function layout({ title, description, slug = '', body, home = false }) {
 await rm(output, { recursive: true, force: true })
 await mkdir(`${output}/assets`, { recursive: true })
 await copyFile('website/styles.css', `${output}/assets/styles.css`)
+await copyFile('website/fidalgo.svg', `${output}/assets/fidalgo.svg`)
 await build({
   entryPoints: ['website/demo.js'],
   bundle: true,
@@ -105,27 +106,28 @@ await build({
 })
 
 const homeBody = `
-<section class="hero">
+<div class="hero-shell"><section class="hero">
   <div>
-    <p class="eyebrow">Uma biblioteca. Dois documentos.</p>
-    <h1>CPF e CNPJ.<br>Do campo ao código.</h1>
+    <p class="eyebrow">Código aberto · JavaScript & TypeScript</p>
+    <h1>CPF e CNPJ.<br>Do campo<br>ao <span>código.</span></h1>
     <p class="lede">Valide, formate e gere CPF e CNPJ em JavaScript e TypeScript. Com suporte a CNPJ alfanumérico e zero dependências de runtime.</p>
-    <div class="install"><code>npm install cpf</code></div>
-    <p><a href="${base}validar-cpf-javascript/">Começar pela validação →</a></p>
+    <div class="hero-actions"><a class="button" href="${base}validar-cpf-javascript/">Começar a usar <span aria-hidden="true">→</span></a><a class="button button-outline" href="${base}api/">Explorar a API</a></div>
+    <div class="install"><span aria-hidden="true">$</span> <code>npm install cpf</code></div>
   </div>
-  <div class="code-panel"><div class="code-label">JavaScript / TypeScript</div><pre><code>import cpf, { cnpj } from 'cpf'
+  <div class="code-panel"><div class="code-label"><span class="code-dots" aria-hidden="true">● ● ●</span> exemplo.ts <span>TypeScript</span></div><pre><code><span class="token-keyword">import</span> cpf, { cnpj } <span class="token-keyword">from</span> <span class="token-string">'cpf'</span>
 
-cpf.isValid('529.982.247-25')
-// true
+cpf.isValid(<span class="token-string">'529.982.247-25'</span>)
+<span class="token-comment">// true</span>
 
-cnpj.isValid('12.ABC.345/01DE-35')
-// true
+cnpj.isValid(<span class="token-string">'12.ABC.345/01DE-35'</span>)
+<span class="token-comment">// true</span>
 
-cpf.format('5299822')
-// '529.982.2'</code></pre></div>
-</section>
+cpf.format(<span class="token-string">'5299822'</span>)
+<span class="token-comment">// '529.982.2'</span></code></pre><div class="code-foot">Uma biblioteca. Dois documentos. Zero dependências.</div></div>
+</section></div>
 <div class="features"><span>CPF + CNPJ alfanumérico</span><span>Tipos incluídos</span><span>Node.js + navegador</span><span>ESM + CommonJS</span></div>
-<section aria-labelledby="guias">
+<section class="guides-section" aria-labelledby="guias">
+  <p class="eyebrow">Guias de implementação</p>
   <div class="section-top"><h2 id="guias">Da dúvida à implementação.</h2><p class="note">Exemplos prontos para adaptar ao seu projeto.</p></div>
   <div class="guide-grid">${pages
     .slice(0, 4)
@@ -136,6 +138,7 @@ cpf.format('5299822')
     .join('')}</div>
 </section>
 <section class="demo" aria-labelledby="demo-title">
+  <p class="eyebrow">Da documentação à prática</p>
   <h2 id="demo-title">Experimente no navegador.</h2>
   <p class="note">O documento é processado apenas nesta página, sem envio a um servidor. A máscara é uma prévia; a validação usa a entrada original normalizada.</p>
   <noscript>Ative JavaScript para usar a demonstração. Os guias e a referência da API continuam disponíveis.</noscript>

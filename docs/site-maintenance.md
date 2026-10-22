@@ -55,6 +55,11 @@ exigiria definir e conectar uma ferramenta de analytics.
 
 ## Manutenção de conteúdo
 
+A identidade visual acompanha a Fidalgo IT Solutions: azul-marinho `#102b46`,
+azul-claro `#7c9cff`, fonte Arial e formas retas. Os estilos ficam em
+`website/styles.css`; `website/fidalgo.svg` é o símbolo da Fidalgo, copiado dos
+assets oficiais da marca. O site serve todos os assets localmente.
+
 Priorize exemplos úteis e compatíveis com a API publicada. Atualize os guias quando
 o comportamento mudar, confira os links oficiais e preserve a distinção entre
 validação matemática e consulta cadastral. Não publique páginas repetidas apenas
