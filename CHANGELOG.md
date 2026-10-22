@@ -10,6 +10,8 @@ segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e o projeto us
 
 - Reparo de CNPJ sem `kind` inclui candidatos cuja única letra está na posição
   desconhecida, preservando os filtros explícitos por família.
+- Cálculo de verificadores de CPF rejeita arrays com posições vazias antes de
+  executar a aritmética, em vez de retornar `NaN`.
 
 ## 3.0.0 - 2026-08-08
 

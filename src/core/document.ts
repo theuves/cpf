@@ -25,10 +25,10 @@ export function calculateVerifiers(
   if (body.length !== spec.bodyLength) {
     throw new Error(`Input must be exactly ${spec.bodyLength} digits`)
   }
-  if (
-    !body.every(digit => Number.isInteger(digit) && digit >= 0 && digit <= 9)
-  ) {
-    throw new Error('All elements must be integers between 0 and 9')
+  for (const digit of body) {
+    if (!Number.isInteger(digit) || digit < 0 || digit > 9) {
+      throw new Error('All elements must be integers between 0 and 9')
+    }
   }
 
   const first = calculateVerifier(body, spec.weights[0])
