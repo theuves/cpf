@@ -4,6 +4,8 @@ O site da biblioteca é publicado em <https://theuves.github.io/cpf/> pelo
 workflow `Documentation`. Os guias são escritos em `docs/guides`; títulos,
 descrições e navegação ficam em `website/pages.json`. A referência da API é
 extraída do README para evitar manter duas cópias do contrato.
+A ordem em `website/pages.json` também define a paginação da documentação:
+links anterior/próxima, números e indicador da página atual.
 
 ## Verificação local
 

@@ -52,6 +52,19 @@ md.renderer.rules.heading_open = (tokens, index, options, env, self) => {
   return self.renderToken(tokens, index, options)
 }
 
+function pagination(slug) {
+  const index = pages.findIndex(page => page.slug === slug)
+  const adjacent = (page, direction) =>
+    page
+      ? `<a class="page-${direction}" href="${base}${page.slug}/" rel="${direction}"><span>${direction === 'prev' ? '← Anterior' : 'Próxima →'}</span><strong>${escape(page.label)}</strong></a>`
+      : ''
+  return `<nav class="pagination" aria-label="Paginação da documentação">
+    <div class="page-adjacent">${adjacent(pages[index - 1], 'prev')}${adjacent(pages[index + 1], 'next')}</div>
+    <ol class="page-numbers">${pages.map((page, i) => `<li><a href="${base}${page.slug}/" aria-label="Página ${i + 1}: ${escape(page.label)}"${i === index ? ' aria-current="page"' : ''}>${i + 1}</a></li>`).join('')}</ol>
+    <p class="note">Página ${index + 1} de ${pages.length}</p>
+  </nav>`
+}
+
 function layout({ title, description, slug = '', body, home = false }) {
   const canonical = new URL(slug ? `${slug}/` : '', siteUrl).href
   const verification = process.env.SEARCH_CONSOLE_VERIFICATION
@@ -76,17 +89,18 @@ function layout({ title, description, slug = '', body, home = false }) {
 <body>
   <a class="skip" href="#conteudo">Pular para o conteúdo</a>
   <header class="header">
-    <div class="brand-group"><a class="brand" href="${base}" aria-label="cpf, início">cpf<span>.</span></a><a class="fidalgo-brand" href="https://www.fidalgoitsolutions.com.br/" aria-label="Fidalgo IT Solutions"><img src="${base}assets/fidalgo.svg" width="32" height="32" alt=""><span>Fidalgo IT Solutions</span></a></div>
+    <div class="brand-group"><a class="brand" href="${base}" aria-label="cpf, início">cpf</a><a class="fidalgo-brand" href="https://www.fidalgoitsolutions.com.br/" aria-label="Fidalgo IT Solutions"><img src="${base}assets/fidalgo.svg" width="32" height="32" alt=""><span>Fidalgo IT Solutions</span></a></div>
     <nav aria-label="Navegação principal">
+      <a href="${base}${pages[0].slug}/">Documentação</a>
       <a href="${base}api/">API</a>
       <a href="${repository}">GitHub</a>
       <a href="https://www.npmjs.com/package/cpf">npm ↗</a>
     </nav>
   </header>
   <main id="conteudo" class="${home ? 'home' : 'docs'}">
-  ${home ? body : `<nav class="sidebar" aria-label="Guias"><p class="eyebrow">Documentação</p>${pages.map(page => `<a href="${base}${page.slug}/"${page.slug === slug ? ' aria-current="page"' : ''}>${escape(page.label)}</a>`).join('')}</nav><article class="article">${body}<div class="article-end"><a href="${base}">← Voltar ao início</a> · <a href="${repository}/issues">Relatar um problema</a></div></article>`}
+  ${home ? body : `<nav class="sidebar" aria-label="Guias"><p class="eyebrow">Documentação</p>${pages.map(page => `<a href="${base}${page.slug}/"${page.slug === slug ? ' aria-current="page"' : ''}>${escape(page.label)}</a>`).join('')}</nav><article class="article">${body}${pagination(slug)}<div class="article-end"><a href="${base}">← Voltar ao início</a> · <a href="${repository}/issues">Relatar um problema</a></div></article>`}
   </main>
-  <footer><a class="fidalgo-brand" href="https://www.fidalgoitsolutions.com.br/"><img src="${base}assets/fidalgo.svg" width="32" height="32" alt=""><span>Fidalgo IT Solutions</span></a><span>cpf · Licença MIT<br>Por <a href="https://github.com/theuves">Matheus Alves</a> · <a href="${repository}">Código aberto</a></span></footer>
+  <footer><div><a class="fidalgo-brand" href="https://www.fidalgoitsolutions.com.br/"><img src="${base}assets/fidalgo.svg" width="32" height="32" alt=""><span>Fidalgo IT Solutions</span></a><p>IA, software e cloud para empresas.</p></div><span>cpf · Licença MIT<br>Por <a href="https://github.com/theuves">Matheus Alves</a>, fundador da Fidalgo IT Solutions<br><a href="${repository}">Código aberto</a></span></footer>
 </body>
 </html>
 `
@@ -150,6 +164,10 @@ cpf.format(<span class="token-string">'5299822'</span>)
     <div class="result"><dl><dt>Prévia com máscara</dt><dd id="formatted-value">—</dd><dt>Valor normalizado</dt><dd id="normalized-value">—</dd></dl><p id="validation-status" class="status" role="status">Digite um documento ou carregue um exemplo.</p></div>
   </div>
   <p class="note">A validação confirma estrutura e dígitos verificadores. Não confirma emissão, identidade, titularidade ou situação cadastral.</p>
+</section>
+<section class="about-fidalgo" aria-labelledby="fidalgo-title">
+  <div><p class="eyebrow">Quem está por trás</p><h2 id="fidalgo-title">Tecnologia com a Fidalgo IT Solutions.</h2><p>A biblioteca cpf é desenvolvida por Matheus Alves, fundador da Fidalgo IT Solutions. Conheça o trabalho da empresa com inteligência artificial, desenvolvimento de software e cloud.</p></div>
+  <a class="button" href="https://www.fidalgoitsolutions.com.br/">Conheça a Fidalgo <span aria-hidden="true">↗</span></a>
 </section>`
 
 await writeFile(

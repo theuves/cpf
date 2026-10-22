@@ -60,9 +60,6 @@ a:hover {
   color: var(--ink);
   letter-spacing: -2px;
 }
-.brand span {
-  color: var(--accent);
-}
 .brand-group {
   display: flex;
   align-items: center;
@@ -110,6 +107,7 @@ main {
 .hero,
 .features,
 .guides-section,
+.about-fidalgo,
 .demo {
   max-width: 1136px;
   margin-inline: auto;
@@ -483,6 +481,82 @@ td {
   margin-top: 48px;
   font-size: 14px;
 }
+.pagination {
+  margin-top: 48px;
+  border-top: 1px solid var(--line);
+  padding-top: 24px;
+}
+.page-adjacent {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.page-adjacent a {
+  padding: 16px;
+  border: 1px solid var(--line);
+  text-decoration: none;
+}
+.page-adjacent a:hover,
+.page-numbers a:hover {
+  background: var(--wash);
+}
+.page-adjacent span {
+  display: block;
+  font-size: 13px;
+  color: var(--muted);
+}
+.page-adjacent strong {
+  font-size: 15px;
+}
+.page-next {
+  grid-column: 2;
+  text-align: right;
+}
+.page-numbers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0;
+  margin: 24px 0 12px;
+  list-style: none;
+}
+.page-numbers a {
+  display: grid;
+  place-items: center;
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid var(--line);
+  text-decoration: none;
+}
+.page-numbers a[aria-current='page'] {
+  color: white;
+  background: var(--navy);
+  border-color: var(--navy);
+}
+.about-fidalgo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  padding-top: 64px;
+}
+.about-fidalgo > div {
+  max-width: 720px;
+}
+.about-fidalgo h2 {
+  margin-top: 0;
+  color: var(--navy);
+}
+.about-fidalgo p:last-child {
+  color: var(--muted);
+  margin-bottom: 0;
+}
+.about-fidalgo .button {
+  flex-shrink: 0;
+}
+footer p {
+  margin: 8px 0 0;
+}
 footer {
   max-width: 1200px;
   margin: auto;
@@ -498,6 +572,7 @@ footer {
   .hero,
   .features,
   .guides-section,
+  .about-fidalgo,
   .demo {
     margin-inline: 32px;
   }
@@ -517,6 +592,7 @@ footer {
   .hero,
   .features,
   .guides-section,
+  .about-fidalgo,
   .demo {
     margin-inline: 20px;
   }
@@ -554,10 +630,26 @@ footer {
   .demo {
     padding: 24px;
   }
+  .about-fidalgo {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 24px;
+  }
 }
 @media (max-width: 520px) {
   .header {
     gap: 12px;
+    flex-wrap: wrap;
+  }
+  .header nav {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .page-adjacent {
+    grid-template-columns: 1fr;
+  }
+  .page-next {
+    grid-column: 1;
   }
   .hero-actions .button {
     width: 100%;
@@ -567,16 +659,6 @@ footer {
   }
   .brand-group .fidalgo-brand {
     padding-left: 12px;
-  }
-  .brand-group .fidalgo-brand span {
-    display: none;
-  }
-  .brand-group .fidalgo-brand::after {
-    content: 'Fidalgo';
-    font-size: 12px;
-  }
-  .brand-group .fidalgo-brand img {
-    display: none;
   }
   .header nav {
     gap: 12px;
