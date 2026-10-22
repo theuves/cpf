@@ -11,6 +11,7 @@ import { demoMessages } from '../website/demo-messages.mjs'
 import {
   ArrowLeft,
   ArrowRight,
+  ArrowUpRight,
   BookOpen,
   Bug,
   CircleCheck,
@@ -137,6 +138,7 @@ function layout(
   locale
 ) {
   const { config, base, pages, t } = context(locale)
+  const companyUrl = `https://www.fidalgoitsolutions.com.br/${locale === 'en' ? 'en' : ''}`
   const canonical = new URL(base + (slug ? `${slug}/` : ''), siteUrl).href
   const alternate = lang => {
     const page = id && localizedPages[lang].find(page => page.id === id)
@@ -195,7 +197,23 @@ function layout(
   <main id="conteudo" class="${home ? 'home' : 'docs'}">
   ${home ? body : `<nav class="sidebar" aria-label="${t('guides')}"><a class="back-link" href="${base}">${icon(ArrowLeft)} ${t('tryLibrary')}</a><p class="eyebrow">${t('documentation')}</p>${pages.map((page, i) => `<a href="${base}${page.slug}/"${page.slug === slug ? ' aria-current="page"' : ''}><span class="sidebar-number">0${i + 1}</span>${escape(page.label)}</a>`).join('')}</nav><article class="article"><p class="eyebrow">${t('progress', { current: pages.findIndex(page => page.slug === slug) + 1, total: pages.length })}</p>${body}${pagination(slug, locale)}<div class="article-end"><a href="${base}">${icon(ArrowLeft)} ${t('back')}</a> · <a href="${repository}/issues">${icon(Bug)} ${t('report')}</a></div></article>`}
   </main>
-  <footer><div><a class="footer-brand" href="https://www.fidalgoitsolutions.com.br/"><img src="${assetBase}assets/fidalgo.svg" width="26" height="26" alt="">Fidalgo IT Solutions</a><span>${t('credit')} <a href="https://github.com/theuves">Matheus Alves</a>.</span></div><nav aria-label="${t('projectLinks')}"><a href="${repository}/blob/master/LICENSE">${t('license')}</a><a href="${repository}/issues">${icon(Bug)} ${t('report')}</a><a href="${repository}">GitHub ${icon(ExternalLink)}</a></nav></footer>
+  <div class="company-footer">
+    <section class="company-cta" aria-labelledby="company-cta-title">
+      <div><p class="eyebrow">Fidalgo IT Solutions</p><h2 id="company-cta-title">${t('ctaTitle')}</h2><p class="company-cta-description">${t('ctaDescription')}</p></div>
+      <div class="company-cta-actions"><a class="company-button" href="mailto:contato@fidalgoitsolutions.com.br">${t('talkToFidalgo')} ${icon(ArrowUpRight)}</a><a class="company-button company-button-secondary" href="${companyUrl}#atuacao">${t('exploreServices')} ${icon(ArrowUpRight)}</a></div>
+    </section>
+    <footer class="site-footer">
+      <div class="footer-main">
+        <div class="footer-about"><a class="footer-brand" href="${companyUrl}"><img src="${assetBase}assets/fidalgo.svg" width="34" height="34" alt="">Fidalgo IT Solutions</a><strong>${t('companyTagline')}</strong><p>${t('companyDescription')}</p><a class="footer-email" href="mailto:contato@fidalgoitsolutions.com.br">contato@fidalgoitsolutions.com.br</a></div>
+        <nav class="footer-links" aria-label="${t('projectLinks')}">
+          <div><h3>${t('application')}</h3><a href="${base}">${t('tryLibrary')}</a><a href="${base}${pages[0].slug}/">${t('documentation')}</a><a href="${base}api/">API</a><a href="${repository}">${t('sourceCode')}</a><a href="${repository}/issues">${t('report')}</a></div>
+          <div><h3>Fidalgo</h3><a href="${companyUrl}#atuacao">${t('services')}</a><a href="${companyUrl}${locale === 'en' ? '/' : ''}blog">Blog</a><a href="mailto:contato@fidalgoitsolutions.com.br">${t('contact')}</a></div>
+          <div><h3>${t('followUs')}</h3><a href="https://linkedin.com/company/fidalgoitsolutions">LinkedIn</a><a href="https://github.com/fidalgoitsolutions">GitHub</a><a href="https://www.instagram.com/fidalgoitsolutions">Instagram</a></div>
+        </nav>
+      </div>
+      <div class="footer-bottom"><p>© ${new Date().getUTCFullYear()} Fidalgo IT Solutions. ${t('companyRights')}</p><div class="footer-company-details"><span>Fidalgo Tecnologia da Informacao LTDA</span><span>Belo Horizonte - MG</span><span>CNPJ 49.627.083/0001-32</span></div><p>${t('credit')} <a href="https://github.com/theuves">Matheus Alves</a>. <a href="${repository}/blob/master/LICENSE">${t('license')}</a>.</p></div>
+    </footer>
+  </div>
 </body>
 </html>
 `

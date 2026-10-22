@@ -698,41 +698,157 @@ th {
   background: var(--navy);
   border-color: var(--navy);
 }
-footer {
-  max-width: 1200px;
-  margin: auto;
-  border-top: 1px solid var(--line);
-  padding: 24px 0 32px;
-  color: var(--muted);
-  font-size: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 24px;
+.company-footer {
+  background: #172d46;
+  color: #bdc9da;
 }
-footer > div {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.footer-brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--navy);
-  font-weight: 600;
+.company-footer a {
+  color: inherit;
   text-decoration: none;
 }
-footer nav {
+.company-footer a:hover {
+  color: white;
+  text-decoration: underline;
+}
+.company-footer :focus-visible {
+  outline-color: #b6c4ff;
+}
+.company-cta,
+.site-footer {
+  max-width: 1264px;
+  padding-inline: 32px;
+  margin-inline: auto;
+}
+.company-cta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 56px;
+  padding-block: 64px;
+}
+.company-cta .eyebrow {
+  color: #b6c4ff;
+  margin: 0 0 12px;
+}
+.company-cta h2 {
+  color: white;
+  font-size: clamp(26px, 3vw, 38px);
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  margin: 0 0 16px;
+}
+.company-cta-description {
+  max-width: 660px;
+  margin: 0;
+  line-height: 1.8;
+}
+.company-cta-actions {
+  display: grid;
+  gap: 10px;
+  min-width: 220px;
+}
+.company-footer .company-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 46px;
+  padding: 10px 16px;
+  border: 1px solid #8c9dff;
+  border-radius: 6px;
+  background: #8c9dff;
+  color: #102b46;
+  font-size: 14px;
+  font-weight: 700;
+}
+.company-footer .company-button:hover {
+  background: #a8b5ff;
+  border-color: #a8b5ff;
+  color: #102b46;
+  text-decoration: none;
+}
+.company-footer .company-button-secondary {
+  background: transparent;
+  border-color: #53657b;
+  color: white;
+}
+.company-footer .company-button-secondary:hover {
+  background: #263f5d;
+  color: white;
+}
+.site-footer {
+  font-size: 13px;
+}
+.footer-main {
+  border-top: 1px solid #354960;
+  padding-block: 48px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 72px;
+}
+.footer-about {
+  max-width: 360px;
+}
+.company-footer .footer-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+.footer-brand img {
+  filter: brightness(0) invert(1);
+}
+.footer-about strong,
+.footer-links h3 {
+  color: #eef2f8;
+  font-size: 13px;
+}
+.footer-about strong {
+  display: block;
+}
+.footer-about p {
+  margin: 8px 0 20px;
+}
+.footer-email {
+  overflow-wrap: anywhere;
+}
+.footer-links {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+}
+.footer-links h3 {
+  margin: 0 0 18px;
+}
+.footer-links a {
+  display: block;
+  width: fit-content;
+  padding-block: 4px;
+}
+.footer-bottom {
+  border-top: 1px solid #354960;
+  padding-block: 24px 32px;
+  font-size: 12px;
+}
+.footer-bottom p {
+  margin: 0 0 8px;
+}
+.footer-bottom p:last-child {
+  margin: 16px 0 0;
+}
+.footer-bottom a {
+  text-decoration: underline;
+}
+.footer-company-details {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  column-gap: 20px;
+  row-gap: 4px;
 }
-@media (max-width: 1264px) {
-  footer {
-    margin-inline: 32px;
-  }
-}
+
 @media (max-width: 900px) {
   .header-inner {
     flex-wrap: wrap;
@@ -828,10 +944,27 @@ footer nav {
     flex-direction: column;
     gap: 12px;
   }
-  footer {
-    margin-inline: 20px;
-    flex-direction: column;
-    align-items: flex-start;
+  .company-cta,
+  .site-footer {
+    padding-inline: 20px;
+  }
+  .company-cta {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding-block: 40px;
+  }
+  .company-cta-actions {
+    justify-self: start;
+    min-width: min(100%, 240px);
+    max-width: 100%;
+  }
+  .footer-main {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    padding-block: 36px;
+  }
+  .footer-links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 @media (max-width: 400px) {
