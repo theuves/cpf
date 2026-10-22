@@ -19,7 +19,8 @@ dependência de desenvolvimento; não acompanha o runtime da biblioteca.
 
 `SITE_URL` controla a URL pública e o prefixo de caminhos. Para testar com um
 servidor local na raiz, use `SITE_URL=http://localhost:8000/` nos dois comandos
-e sirva `site-dist`. No GitHub Actions, a URL vem de `configure-pages`.
+e sirva `site-dist`. O workflow fixa a URL pública HTTPS para manter as URLs
+canônicas e o sitemap consistentes, mesmo quando a API do Pages informa HTTP.
 
 ## Publicação
 
