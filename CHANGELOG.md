@@ -8,6 +8,8 @@ segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e o projeto us
 
 ### Corrigido
 
+- Formatação de CPF aceita string vazia no modo estrito, permitindo limpar
+  campos de formulário sem lançar erro.
 - Reparo de CNPJ sem `kind` inclui candidatos cuja única letra está na posição
   desconhecida, preservando os filtros explícitos por família.
 - Cálculo de verificadores de CPF rejeita arrays com posições vazias antes de

@@ -2,6 +2,12 @@ import test from 'ava'
 import format from '../format'
 
 // Strict mode tests
+test('should allow clearing a CPF field in strict mode', t => {
+  t.is(format('1'), '1')
+  t.is(format(''), '')
+  t.is(format('', { strict: true }), '')
+})
+
 test('should format complete CPF correctly in strict mode', t => {
   const cpf = '12345678900'
   t.is(format(cpf), '123.456.789-00')

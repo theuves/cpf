@@ -80,6 +80,7 @@ export function formatDocument(
   if (typeof value !== 'string') {
     throw new Error('Input must be a string or number')
   }
+  if (value === '') return ''
 
   let digits = value.replace(/\D/g, '')
   if (strict) {
