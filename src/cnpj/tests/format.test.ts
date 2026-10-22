@@ -1,5 +1,7 @@
 import test from 'ava'
 import format from '../format'
+import matchesFormat from '../matches-format'
+import normalize from '../normalize'
 
 // Strict mode tests
 test('should format complete CNPJ correctly in strict mode', t => {
@@ -87,6 +89,30 @@ test('should format complete CNPJ correctly in non-strict mode', t => {
 
 test('should normalize lowercase alphanumeric CNPJ in non-strict mode', t => {
   t.is(format('12.abc.345/01de-35', { strict: false }), '12.ABC.345/01DE-35')
+})
+
+test('should remove letters from verifier positions before truncating in non-strict mode', t => {
+  for (const [suffix, expected] of [
+    ['3A', '12.ABC.345/01DE-3'],
+    ['ZZ', '12.ABC.345/01DE'],
+    ['A35', '12.ABC.345/01DE-35'],
+    ['a3b5c6', '12.ABC.345/01DE-35'],
+  ] as const) {
+    const formatted = format(`12ABC34501DE${suffix}`, { strict: false })
+    t.is(formatted, expected)
+    t.true(matchesFormat(formatted, { completeness: 'partial' }))
+    t.is(format(normalize(formatted)), formatted)
+  }
+})
+
+test('should discard Unicode without converting it into ASCII in non-strict mode', t => {
+  const value = '12abc34501de35'
+  for (const character of ['ß', 'ı', 'ſ', 'ﬀ']) {
+    for (const position of [0, 2, 11, 12, 13, 14]) {
+      const input = value.slice(0, position) + character + value.slice(position)
+      t.is(format(input, { strict: false }), '12.ABC.345/01DE-35')
+    }
+  }
 })
 
 test('should format CNPJ with separators in non-strict mode', t => {
@@ -216,7 +242,7 @@ test('should handle CNPJ with extra characters in non-strict mode', t => {
     format('12abc345def678ghi0001jkl95', { strict: false }),
     '12.ABC.345/DEF6-78'
   )
-  t.is(format('12.345.678/0001-9a', { strict: false }), '12.345.678/0001-9A')
+  t.is(format('12.345.678/0001-9a', { strict: false }), '12.345.678/0001-9')
   t.is(format('12.345.678/0001-9#', { strict: false }), '12.345.678/0001-9')
 })
 

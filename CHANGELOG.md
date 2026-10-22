@@ -8,6 +8,10 @@ segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e o projeto us
 
 ### Corrigido
 
+- Formatação permissiva de CNPJ remove letras nas posições dos verificadores
+  antes de limitar a saída e descarta Unicode sem convertê-lo em letras ASCII.
+- Verificação de máscaras parciais de CPF e CNPJ exige separadores antes de
+  iniciar o próximo grupo, preservando todos os prefixos da máscara canônica.
 - Normalização e parsing de CNPJ rejeitam caracteres Unicode que se converteriam
   em letras ASCII ao aplicar maiúsculas, evitando alterar o identificador.
 - Formatação de CPF aceita string vazia no modo estrito, permitindo limpar

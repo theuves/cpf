@@ -69,7 +69,9 @@ export function cleanCnpj(input: string, strict: boolean): string {
     throw new Error('Invalid characters in CNPJ input')
   }
 
-  const source = strict ? input : input.toUpperCase()
+  const source = strict
+    ? input
+    : input.replace(/[a-z]/g, character => character.toUpperCase())
   const characters = source.replace(/[^A-Z0-9]/g, '')
   if (strict && characters.length > numericCnpjSpec.totalLength) {
     throw new Error(
@@ -79,7 +81,14 @@ export function cleanCnpj(input: string, strict: boolean): string {
   if (strict && /[A-Z]/.test(characters.slice(12))) {
     throw new Error('CNPJ verifier positions must contain digits')
   }
-  return strict ? characters : characters.slice(0, numericCnpjSpec.totalLength)
+  if (strict) return characters
+
+  const body = characters.slice(0, numericCnpjSpec.bodyLength)
+  const verifiers = characters
+    .slice(numericCnpjSpec.bodyLength)
+    .replace(/\D/g, '')
+    .slice(0, 2)
+  return body + verifiers
 }
 
 export function formatCnpjCharacters(characters: string): string {

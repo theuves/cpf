@@ -26,8 +26,14 @@ também oferece `getKind`.
   verificadores; use `matchesFormat` e `isValid` para essas propriedades.
 - `matchesFormat` verifica somente a máscara com
   `completeness: 'complete' | 'partial'`.
+  O modo parcial aceita prefixos da máscara canônica, incluindo string vazia e
+  separadores finais; exige cada separador antes de iniciar o próximo grupo.
 - Entradas numéricas de `format` são aceitas somente com `strict: false` e devem
   ser inteiros seguros não negativos.
+- Em CNPJ, `format` com `strict: false` converte apenas letras ASCII `a-z` para
+  maiúsculas e descarta caracteres fora de `A-Z0-9`. Preserva até 12 caracteres
+  no corpo e, no restante, remove letras antes de limitar os verificadores aos
+  dois primeiros dígitos. A saída pode ser parcial e não atesta validade matemática.
 - `normalize` devolve texto sem máscara, preservando zeros à esquerda; CNPJ
   converte letras minúsculas a maiúsculas.
 - `generate(options)` retorna sempre `string` e
