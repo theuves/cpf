@@ -3,6 +3,10 @@ export const locales = {
     prefix: '',
     language: 'pt-BR',
     ogLocale: 'pt_BR',
+    name: 'Português',
+    country: 'Brasil',
+    code: 'PT',
+    flag: 'br',
     messages: {
       previous: 'Anterior',
       next: 'Próxima',
@@ -37,6 +41,8 @@ export const locales = {
       projectLinks: 'Links do projeto',
       license: 'Licença MIT',
       language: 'Idioma',
+      selectLanguage: 'Selecionar idioma',
+      chooseLanguage: 'Escolha um idioma',
       introTitle: 'CPF e CNPJ em JavaScript e TypeScript',
       introBefore: 'Valide, formate e gere documentos com a biblioteca',
       introAfter:
@@ -80,6 +86,10 @@ export const locales = {
     prefix: 'en/',
     language: 'en',
     ogLocale: 'en_US',
+    name: 'English',
+    country: 'United States',
+    code: 'EN',
+    flag: 'us',
     messages: {
       previous: 'Previous',
       next: 'Next',
@@ -114,6 +124,8 @@ export const locales = {
       projectLinks: 'Project links',
       license: 'MIT License',
       language: 'Language',
+      selectLanguage: 'Select language',
+      chooseLanguage: 'Choose a language',
       introTitle: 'CPF and CNPJ in JavaScript and TypeScript',
       introBefore: 'Validate, format and generate Brazilian tax IDs with the',
       introAfter:

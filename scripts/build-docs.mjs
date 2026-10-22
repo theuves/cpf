@@ -14,13 +14,14 @@ import {
   ArrowUpRight,
   BookOpen,
   Bug,
+  Check,
+  ChevronDown,
   CircleCheck,
   CircleX,
   CodeXml,
   ExternalLink,
   FlaskConical,
   Info,
-  Languages,
   Package,
   ShieldCheck,
   Terminal,
@@ -54,6 +55,11 @@ function context(locale) {
 const styles = await readFile('website/styles.css')
 const stylesVersion = createHash('sha256')
   .update(styles)
+  .digest('hex')
+  .slice(0, 12)
+const languageSwitch = await readFile('website/language-switch.js')
+const languageSwitchVersion = createHash('sha256')
+  .update(languageSwitch)
   .digest('hex')
   .slice(0, 12)
 const highlighter = await createHighlighter({
@@ -173,6 +179,7 @@ function layout(
   <link rel="icon" type="image/svg+xml" href="${assetBase}assets/favicon.svg">
   ${verification ? `<meta name="google-site-verification" content="${escape(verification)}">` : ''}
   <link rel="stylesheet" href="${assetBase}assets/styles.css?v=${stylesVersion}">
+  <script type="module" src="${assetBase}assets/language-switch.js?v=${languageSwitchVersion}"></script>
   ${home ? `<script type="module" src="${assetBase}assets/demo.js?v=${demoVersion}"></script>` : ''}
 </head>
 <body>
@@ -185,14 +192,16 @@ function layout(
       <a href="${repository}">GitHub ${icon(ExternalLink)}</a>
       <a href="https://www.npmjs.com/package/cpf">${icon(Package)} npm</a>
     </nav>
-    <nav class="language-switch" aria-label="${t('language')}">${icon(Languages)}${Object.keys(
-      locales
-    )
-      .map(
-        lang =>
-          `<a href="${escape(new URL(alternate(lang)).pathname)}" lang="${locales[lang].language}" hreflang="${locales[lang].language}" aria-label="${lang === 'pt' ? 'Português' : 'English'}"${lang === locale ? ' aria-current="true"' : ''}>${lang === 'pt' ? 'PT' : 'EN'}</a>`
+    <nav class="language-switch" aria-label="${t('language')}"><details>
+      <summary aria-label="${config.code} ${config.name} — ${t('selectLanguage')}" aria-controls="language-options"><img class="language-flag" src="${assetBase}assets/flags/${config.flag}.svg" width="24" height="18" alt=""><span class="language-name">${config.name}</span><span class="language-code">${config.code}</span>${icon(ChevronDown)}</summary>
+      <div class="language-menu" id="language-options"><p class="language-menu-title">${t('chooseLanguage')}</p>${Object.entries(
+        locales
       )
-      .join('')}</nav></div>
+        .map(
+          ([lang, option]) =>
+            `<a href="${escape(new URL(alternate(lang)).pathname)}" lang="${option.language}" hreflang="${option.language}" aria-label="${option.name}"${lang === locale ? ' aria-current="page"' : ''}><img class="language-flag" src="${assetBase}assets/flags/${option.flag}.svg" width="32" height="24" alt=""><span class="language-option-text"><strong>${option.name}</strong><span>${option.country}</span></span>${lang === locale ? icon(Check) : ''}</a>`
+        )
+        .join('')}</div></details></nav></div>
   </div></header>
   <main id="conteudo" class="${home ? 'home' : 'docs'}">
   ${home ? body : `<nav class="sidebar" aria-label="${t('guides')}"><a class="back-link" href="${base}">${icon(ArrowLeft)} ${t('tryLibrary')}</a><p class="eyebrow">${t('documentation')}</p>${pages.map((page, i) => `<a href="${base}${page.slug}/"${page.slug === slug ? ' aria-current="page"' : ''}><span class="sidebar-number">0${i + 1}</span>${escape(page.label)}</a>`).join('')}</nav><article class="article"><p class="eyebrow">${t('progress', { current: pages.findIndex(page => page.slug === slug) + 1, total: pages.length })}</p>${body}${pagination(slug, locale)}<div class="article-end"><a href="${base}">${icon(ArrowLeft)} ${t('back')}</a> · <a href="${repository}/issues">${icon(Bug)} ${t('report')}</a></div></article>`}
@@ -224,6 +233,16 @@ await mkdir(`${output}/assets`, { recursive: true })
 await copyFile('website/styles.css', `${output}/assets/styles.css`)
 await copyFile('website/fidalgo.svg', `${output}/assets/fidalgo.svg`)
 await copyFile('website/favicon.svg', `${output}/assets/favicon.svg`)
+await copyFile(
+  'website/language-switch.js',
+  `${output}/assets/language-switch.js`
+)
+await mkdir(`${output}/assets/flags`, { recursive: true })
+for (const flag of ['br', 'us'])
+  await copyFile(
+    `website/flags/${flag}.svg`,
+    `${output}/assets/flags/${flag}.svg`
+  )
 await copyFile(
   'node_modules/lucide-static/LICENSE',
   `${output}/assets/lucide-LICENSE.txt`
