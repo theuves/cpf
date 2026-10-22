@@ -25,8 +25,9 @@ function generateMany(
   seed: number,
   isValid: boolean
 ): string[] {
+  const random = seededRandom(seed)
   return Array.from({ length: 200 }, () =>
-    generateDocument(spec, { isFormatted: false, isValid }, seededRandom(seed))
+    generateDocument(spec, { isFormatted: false, isValid }, random)
   )
 }
 
@@ -38,6 +39,7 @@ for (const spec of specs) {
 
     t.deepEqual(first, second)
     t.notDeepEqual(first, differentSeed)
+    t.true(new Set(first).size > 1)
   })
 
   test(`${spec.name}: generated validity matches the requested property`, t => {
