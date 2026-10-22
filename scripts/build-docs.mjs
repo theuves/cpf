@@ -1,4 +1,5 @@
 import { mkdir, readFile, writeFile, copyFile, rm } from 'node:fs/promises'
+import { createHash } from 'node:crypto'
 import { dirname, resolve } from 'node:path'
 import process from 'node:process'
 import { URL } from 'node:url'
@@ -13,6 +14,11 @@ const base = siteUrl.pathname
 const output = resolve('site-dist')
 const repository = 'https://github.com/theuves/cpf'
 const pages = JSON.parse(await readFile('website/pages.json', 'utf8'))
+const styles = await readFile('website/styles.css')
+const stylesVersion = createHash('sha256')
+  .update(styles)
+  .digest('hex')
+  .slice(0, 12)
 const md = new MarkdownIt()
 const escape = md.utils.escapeHtml
 const sourcePages = new Map(
@@ -83,7 +89,7 @@ function layout({ title, description, slug = '', body, home = false }) {
   <meta property="og:url" content="${escape(canonical)}">
   <meta name="theme-color" content="#102b46">
   ${verification ? `<meta name="google-site-verification" content="${escape(verification)}">` : ''}
-  <link rel="stylesheet" href="${base}assets/styles.css">
+  <link rel="stylesheet" href="${base}assets/styles.css?v=${stylesVersion}">
   ${home ? `<script type="module" src="${base}assets/demo.js"></script>` : ''}
 </head>
 <body>
