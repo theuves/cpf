@@ -12,19 +12,11 @@ import {
   ArrowLeft,
   ArrowRight,
   ArrowUpRight,
-  BookOpen,
-  Bug,
   Check,
   ChevronDown,
   CircleCheck,
   CircleX,
-  CodeXml,
-  ExternalLink,
-  FlaskConical,
   Info,
-  Package,
-  ShieldCheck,
-  Terminal,
 } from 'lucide-static'
 
 const siteUrl = new URL(
@@ -187,10 +179,10 @@ function layout(
   <header class="header"><div class="header-inner">
     <div class="brand-group"><a class="brand-symbol" href="${base}" aria-label="CPF/CNPJ, ${t('home')}"><img src="${assetBase}assets/fidalgo.svg" width="38" height="38" alt=""></a><div><a class="brand" href="${base}">CPF/CNPJ</a><a class="fidalgo-brand" href="https://www.fidalgoitsolutions.com.br/">${t('by')} Fidalgo IT Solutions</a></div></div>
     <div class="header-actions"><nav aria-label="${t('navigation')}">
-      <a href="${base}${pages[0].slug}/">${icon(BookOpen)} ${t('documentation')}</a>
-      <a href="${base}api/">${icon(CodeXml)} API</a>
-      <a href="${repository}">GitHub ${icon(ExternalLink)}</a>
-      <a href="https://www.npmjs.com/package/cpf">${icon(Package)} npm</a>
+      <a href="${base}${pages[0].slug}/">${t('documentation')}</a>
+      <a href="${base}api/">API</a>
+      <a href="${repository}">GitHub</a>
+      <a href="https://www.npmjs.com/package/cpf">npm</a>
     </nav>
     <nav class="language-switch" aria-label="${t('language')}"><details>
       <summary aria-label="${config.code} ${config.name} — ${t('selectLanguage')}" aria-controls="language-options"><img class="language-flag" src="${assetBase}assets/flags/${config.flag}.svg" width="24" height="18" alt=""><span class="language-name">${config.name}</span><span class="language-code">${config.code}</span>${icon(ChevronDown)}</summary>
@@ -204,7 +196,7 @@ function layout(
         .join('')}</div></details></nav></div>
   </div></header>
   <main id="conteudo" class="${home ? 'home' : 'docs'}">
-  ${home ? body : `<nav class="sidebar" aria-label="${t('guides')}"><a class="back-link" href="${base}">${icon(ArrowLeft)} ${t('tryLibrary')}</a><p class="eyebrow">${t('documentation')}</p>${pages.map((page, i) => `<a href="${base}${page.slug}/"${page.slug === slug ? ' aria-current="page"' : ''}><span class="sidebar-number">0${i + 1}</span>${escape(page.label)}</a>`).join('')}</nav><article class="article"><p class="eyebrow">${t('progress', { current: pages.findIndex(page => page.slug === slug) + 1, total: pages.length })}</p>${body}${pagination(slug, locale)}<div class="article-end"><a href="${base}">${icon(ArrowLeft)} ${t('back')}</a> · <a href="${repository}/issues">${icon(Bug)} ${t('report')}</a></div></article>`}
+  ${home ? body : `<nav class="sidebar" aria-label="${t('guides')}"><a class="back-link" href="${base}">${icon(ArrowLeft)} ${t('tryLibrary')}</a><p class="eyebrow">${t('documentation')}</p>${pages.map((page, i) => `<a href="${base}${page.slug}/"${page.slug === slug ? ' aria-current="page"' : ''}><span class="sidebar-number">0${i + 1}</span>${escape(page.label)}</a>`).join('')}</nav><article class="article"><p class="eyebrow">${t('progress', { current: pages.findIndex(page => page.slug === slug) + 1, total: pages.length })}</p>${body}${pagination(slug, locale)}<div class="article-end"><a href="${base}">${t('back')}</a> · <a href="${repository}/issues">${t('report')}</a></div></article>`}
   </main>
   <div class="company-footer">
     <section class="company-cta" aria-labelledby="company-cta-title">
@@ -278,7 +270,7 @@ function renderHome(locale) {
   <h1 id="intro-title">${t('introTitle')}</h1>
   <p>${t('introBefore')} <code>cpf</code>${locale === 'pt' ? '. ' : ' '}${t('introAfter')}</p>
 </section>
-<nav class="section-nav" aria-label="${t('onPage')}"><a class="section-current" href="#demo-title">${icon(FlaskConical)} ${t('try')}</a><a href="#instalacao">${icon(Terminal)} ${t('installation')}</a><a href="#guias">${icon(BookOpen)} ${t('guides')}</a></nav>
+<nav class="section-nav" aria-label="${t('onPage')}"><a class="section-current" href="#demo-title">${t('try')}</a><a href="#instalacao">${t('installation')}</a><a href="#guias">${t('guides')}</a></nav>
 <section class="demo" aria-labelledby="demo-title">
   <div class="demo-grid">
     <div class="configuration">
@@ -287,8 +279,8 @@ function renderHome(locale) {
       <label for="document-kind">${t('documentType')}</label><select id="document-kind"><option value="cpf">CPF</option><option value="cnpj">${t('cnpjOption')}</option></select>
       <label for="document-input">${t('document')}</label><input id="document-input" type="text" inputmode="numeric" spellcheck="false" autocapitalize="characters" autocomplete="off" maxlength="64" placeholder="${t('placeholder')}" aria-describedby="input-help validation-status">
       <p id="input-help" class="note">${t('inputHelp')}</p>
-      <button id="load-example" type="button">${icon(FlaskConical)} ${t('loadExample')}</button>
-      <p class="local-note">${icon(ShieldCheck)} <span>${t('local')}</span></p>
+      <button id="load-example" type="button">${t('loadExample')}</button>
+      <p class="local-note"><span>${t('local')}</span></p>
       <noscript>${t('noscript')}</noscript>
     </div>
     <section class="result" aria-labelledby="result-title">
@@ -302,7 +294,7 @@ function renderHome(locale) {
 </section>
 <section class="quickstart" aria-labelledby="instalacao">
   <div class="quickstart-intro"><p class="eyebrow">${t('inProject')}</p><h2 id="instalacao">${t('installation')}</h2><p>${t('environments')}</p><div class="install">${highlight('npm install cpf', 'sh')}</div><a href="${base}api/">${t('apiReference')} ${icon(ArrowRight)}</a></div>
-  <div class="code-panel"><div class="code-label"><span>${icon(CodeXml)} ${t('exampleFile')}</span><span>JavaScript / TypeScript</span></div>${highlight(exampleCode, 'ts')}</div>
+  <div class="code-panel"><div class="code-label"><span>${t('exampleFile')}</span><span>JavaScript / TypeScript</span></div>${highlight(exampleCode, 'ts')}</div>
 </section>
 <section class="guides-section" aria-labelledby="guias">
   <div class="section-top"><div><p class="eyebrow">${t('documentation')}</p><h2 id="guias">${t('implementationGuides')}</h2></div><a href="${base}${pages[0].slug}/">${t('readDocs')} ${icon(ArrowRight)}</a></div>
@@ -310,7 +302,7 @@ function renderHome(locale) {
     .slice(0, 4)
     .map(
       (page, i) =>
-        `<a class="guide" href="${base}${page.slug}/"><span class="guide-number">0${i + 1}</span><div><h3>${escape(page.label)} ${icon(ArrowRight)}</h3><p>${escape(page.description)}</p></div></a>`
+        `<a class="guide" href="${base}${page.slug}/"><span class="guide-number">0${i + 1}</span><div><h3>${escape(page.label)}</h3><p>${escape(page.description)}</p></div></a>`
     )
     .join('')}</div>
 </section>`
