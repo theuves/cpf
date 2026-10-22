@@ -6,6 +6,13 @@ segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e o projeto us
 
 ## Não lançado
 
+### Documentação
+
+- Site estático com demonstração local, referência da API e guias de validação,
+  CNPJ alfanumérico, máscaras e formulários React.
+- Descrição e palavras-chave do pacote destacam JavaScript, TypeScript e CNPJ
+  alfanumérico; o README aponta para os guias de uso.
+
 ### Corrigido
 
 - Formatação permissiva de CNPJ remove letras nas posições dos verificadores

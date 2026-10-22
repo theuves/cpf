@@ -1,16 +1,17 @@
-# cpf
+# cpf — Validação de CPF e CNPJ em JavaScript e TypeScript
 
 Biblioteca JavaScript e TypeScript para validar, inspecionar, formatar, normalizar,
-gerar e reparar CPF e CNPJ. Suporta CNPJ numérico e alfanumérico.
+gerar e reparar CPF e CNPJ. Suporta CNPJ numérico e alfanumérico, funciona em
+Node.js e no navegador e não tem dependências de runtime.
+
+[Documentação e demonstração](https://theuves.github.io/cpf/) ·
+[Pacote no npm](https://www.npmjs.com/package/cpf)
 
 [![CI](https://github.com/theuves/cpf/actions/workflows/ci.yml/badge.svg)](https://github.com/theuves/cpf/actions/workflows/ci.yml)
 [![CodeQL](https://github.com/theuves/cpf/actions/workflows/codeql.yml/badge.svg)](https://github.com/theuves/cpf/actions/workflows/codeql.yml)
 
 > A biblioteca confirma estrutura e dígitos verificadores. Ela não confirma
 > identidade, titularidade, emissão ou situação cadastral.
-
-> [!TIP]
-> Quer entregar software mais rápido, simplificar sua infraestrutura ou reduzir custos de Cloud? Posso ajudar. [Conte sobre o seu desafio](https://www.fidalgoitsolutions.com.br/contato).
 
 ## Funcionalidades
 
@@ -31,7 +32,7 @@ gerar e reparar CPF e CNPJ. Suporta CNPJ numérico e alfanumérico.
 npm install cpf
 ```
 
-## Uso
+## Como validar CPF e CNPJ em JavaScript
 
 ```ts
 import cpf, { cnpj } from 'cpf'
@@ -42,6 +43,13 @@ cpf.format('5299822') // '529.982.2'
 cnpj.isValid('12.ABC.345/01DE-35') // true
 cnpj.getKind('12.ABC.345/01DE-35') // 'alphanumeric'
 ```
+
+## Guias de uso
+
+- [Validar CPF em JavaScript e TypeScript](https://theuves.github.io/cpf/validar-cpf-javascript/): entradas, zeros à esquerda e diagnóstico de erros.
+- [Validar CNPJ alfanumérico](https://theuves.github.io/cpf/validar-cnpj-alfanumerico/): normalização, verificadores e convivência com CNPJ numérico.
+- [Aplicar máscara de CPF e CNPJ](https://theuves.github.io/cpf/mascara-cpf-cnpj/): formatação parcial durante a digitação.
+- [Usar CPF e CNPJ em formulários React](https://theuves.github.io/cpf/cpf-cnpj-react/): campos controlados, mensagens de erro e formatação ao sair do campo.
 
 ## API
 
@@ -358,3 +366,8 @@ request.
 ## Licença
 
 Distribuído sob a [licença MIT](LICENSE).
+
+## Consultoria
+
+Quer entregar software mais rápido, simplificar sua infraestrutura ou reduzir
+custos de Cloud? [Conte sobre o seu desafio](https://www.fidalgoitsolutions.com.br/contato).

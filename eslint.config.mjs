@@ -36,6 +36,12 @@ export default tseslint.config(
     },
   },
   {
+    files: ['website/*.js'],
+    languageOptions: {
+      globals: { document: 'readonly' },
+    },
+  },
+  {
     ignores: ['dist/**', 'node_modules/**'],
   }
 )
