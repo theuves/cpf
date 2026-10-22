@@ -58,6 +58,7 @@ a:hover {
   border-bottom: 1px solid var(--line);
 }
 .header-inner {
+  position: relative;
   max-width: 1264px;
   margin: auto;
   padding: 18px 32px;
@@ -104,6 +105,37 @@ a:hover {
 .header nav a:hover {
   color: var(--link);
   text-decoration: underline;
+}
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.header .language-switch {
+  display: flex;
+  flex-wrap: nowrap;
+  width: auto;
+  gap: 2px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 3px;
+}
+.language-switch > .lucide {
+  margin-inline: 6px;
+  color: var(--muted);
+}
+.header .language-switch a {
+  display: grid;
+  place-items: center;
+  min-width: 32px;
+  min-height: 32px;
+  font-size: 12px;
+  border-radius: 4px;
+}
+.header .language-switch a[aria-current='true'] {
+  background: var(--navy);
+  color: white;
+  font-weight: 600;
 }
 main {
   max-width: 1264px;
@@ -730,6 +762,17 @@ footer nav {
   }
 }
 @media (max-width: 700px) {
+  .header-actions {
+    width: 100%;
+  }
+  .header .language-switch {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+  }
+  .language-switch a[aria-current='true'] {
+    display: none;
+  }
   main {
     padding: 24px 20px 40px;
   }

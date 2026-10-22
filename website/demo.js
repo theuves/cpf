@@ -1,4 +1,5 @@
 import cpf, { cnpj } from '../src/index.ts'
+import { demoMessages } from './demo-messages.mjs'
 
 const input = document.querySelector('#document-input')
 const kind = document.querySelector('#document-kind')
@@ -7,14 +8,8 @@ const normalized = document.querySelector('#normalized-value')
 const status = document.querySelector('#validation-status')
 const statusMessage = document.querySelector('#validation-message')
 const example = document.querySelector('#load-example')
-const issues = {
-  INVALID_TYPE: 'Use um valor em texto.',
-  INVALID_CHARACTERS: 'Há caracteres incompatíveis com o documento.',
-  INVALID_LENGTH: 'O documento ainda não tem o tamanho completo.',
-  INVALID_VERIFIER_CHARACTERS: 'Os dois verificadores precisam ser números.',
-  REPEATED_CHARACTERS: 'Sequências de dígitos repetidos não são aceitas.',
-  INVALID_CHECK_DIGITS: 'Os dígitos verificadores não conferem.',
-}
+const messages =
+  demoMessages[document.documentElement.lang === 'en' ? 'en' : 'pt']
 
 function update() {
   const api = kind.value === 'cpf' ? cpf : cnpj
@@ -23,7 +18,7 @@ function update() {
   normalized.textContent = '—'
   status.dataset.valid = ''
   if (!input.value.trim()) {
-    statusMessage.textContent = 'Digite um documento ou carregue um exemplo.'
+    statusMessage.textContent = messages.idle
     return
   }
   try {
@@ -32,12 +27,11 @@ function update() {
     const result = api.inspect(value)
     status.dataset.valid = String(result.valid)
     statusMessage.textContent = result.valid
-      ? 'Estrutura e dígitos verificadores válidos.'
-      : issues[result.issue]
+      ? messages.valid
+      : messages.issues[result.issue]
   } catch {
     status.dataset.valid = 'false'
-    statusMessage.textContent =
-      'A entrada contém caracteres ou tamanho incompatíveis.'
+    statusMessage.textContent = messages.invalid
   }
 }
 

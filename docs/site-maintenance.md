@@ -7,6 +7,21 @@ extraída do README para evitar manter duas cópias do contrato.
 A ordem em `website/pages.json` também define a paginação da documentação:
 links anterior/próxima, números e indicador da página atual.
 
+## Idiomas
+
+Português mantém as URLs originais. A versão inglesa fica em `/en/`, com os
+quatro guias e a referência em `docs/en`. Cada entrada de `website/pages.json`
+tem os metadados portugueses e sua tradução em `en`; mantenha os dois conteúdos
+atualizados ao mudar a API. A referência portuguesa continua extraída do README;
+a inglesa é mantida em `docs/en/api.md`.
+
+Os textos da interface ficam em `website/i18n.mjs` e as mensagens da demonstração
+em `website/demo-messages.mjs`. O seletor usa links estáticos para a página
+equivalente, sem redirecionamento automático nem dependência de JavaScript.
+Cada página tem URL canônica própria e alternativas `hreflang` recíprocas. O
+sitemap inclui as 12 páginas. `test:docs` verifica traduções, alternância de
+idioma, paginação, links e exemplos de código nos dois idiomas.
+
 ## Verificação local
 
 ```sh

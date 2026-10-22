@@ -1,0 +1,138 @@
+export const locales = {
+  pt: {
+    prefix: '',
+    language: 'pt-BR',
+    ogLocale: 'pt_BR',
+    messages: {
+      previous: 'Anterior',
+      next: 'Próxima',
+      pagination: 'Paginação da documentação',
+      page: 'Página',
+      pageCount: 'Página {current} de {total}',
+      skip: 'Pular para o conteúdo',
+      home: 'início',
+      by: 'por',
+      navigation: 'Navegação principal',
+      documentation: 'Documentação',
+      guides: 'Guias',
+      tryLibrary: 'Experimentar a biblioteca',
+      progress: 'Documentação / {current} de {total}',
+      back: 'Voltar ao início',
+      report: 'Relatar um problema',
+      credit: 'Uma biblioteca de código aberto por',
+      projectLinks: 'Links do projeto',
+      license: 'Licença MIT',
+      language: 'Idioma',
+      introTitle: 'CPF e CNPJ em JavaScript e TypeScript',
+      introBefore: 'Valide, formate e gere documentos com a biblioteca',
+      introAfter:
+        'Suporte a CNPJ alfanumérico, tipos incluídos e zero dependências de runtime.',
+      onPage: 'Nesta página',
+      try: 'Experimentar',
+      installation: 'Instalação e uso',
+      inputStep: '01 / Entrada',
+      validate: 'Validar e formatar',
+      brazilianDocument: 'Documento brasileiro',
+      documentType: 'Tipo de documento',
+      cnpjOption: 'CNPJ numérico ou alfanumérico',
+      document: 'Documento',
+      placeholder: 'Digite com ou sem pontuação',
+      inputHelp:
+        'A validação usa a entrada original normalizada. A máscara é uma prévia de formatação.',
+      loadExample: 'Carregar exemplo',
+      local: 'Processamento local. Nenhum documento é enviado.',
+      noscript:
+        'Ative JavaScript para usar a demonstração. Os guias e a referência da API continuam disponíveis.',
+      outputStep: '02 / Saída',
+      result: 'Resultado',
+      preview: 'Prévia com máscara',
+      outputOf: 'Saída de',
+      normalized: 'Valor normalizado',
+      limitation:
+        'A validação verifica estrutura e dígitos verificadores. Não consulta emissão, titularidade ou situação cadastral.',
+      inProject: 'No seu projeto',
+      environments:
+        'Disponível para Node.js e navegador, com exports ESM e CommonJS.',
+      apiReference: 'Consultar a referência da API',
+      exampleFile: 'exemplo.ts',
+      implementationGuides: 'Guias de implementação',
+      readDocs: 'Ler a documentação',
+      homeTitle: 'Validação de CPF e CNPJ em JavaScript e TypeScript',
+      homeDescription:
+        'Valide e formate CPF e CNPJ numérico ou alfanumérico com a biblioteca cpf. Guias, exemplos React e demonstração local, sem dependências de runtime.',
+    },
+  },
+  en: {
+    prefix: 'en/',
+    language: 'en',
+    ogLocale: 'en_US',
+    messages: {
+      previous: 'Previous',
+      next: 'Next',
+      pagination: 'Documentation pagination',
+      page: 'Page',
+      pageCount: 'Page {current} of {total}',
+      skip: 'Skip to content',
+      home: 'home',
+      by: 'by',
+      navigation: 'Main navigation',
+      documentation: 'Documentation',
+      guides: 'Guides',
+      tryLibrary: 'Try the library',
+      progress: 'Documentation / {current} of {total}',
+      back: 'Back to home',
+      report: 'Report an issue',
+      credit: 'An open-source library by',
+      projectLinks: 'Project links',
+      license: 'MIT License',
+      language: 'Language',
+      introTitle: 'CPF and CNPJ in JavaScript and TypeScript',
+      introBefore: 'Validate, format and generate Brazilian tax IDs with the',
+      introAfter:
+        'library. Alphanumeric CNPJ support, built-in types and zero runtime dependencies.',
+      onPage: 'On this page',
+      try: 'Try it',
+      installation: 'Installation and usage',
+      inputStep: '01 / Input',
+      validate: 'Validate and format',
+      brazilianDocument: 'Brazilian tax ID',
+      documentType: 'Document type',
+      cnpjOption: 'Numeric or alphanumeric CNPJ',
+      document: 'Document number',
+      placeholder: 'Enter with or without punctuation',
+      inputHelp:
+        'Validation uses the normalized original input. The mask is a formatting preview.',
+      loadExample: 'Load example',
+      local: 'Processed locally. No document number is sent.',
+      noscript:
+        'Enable JavaScript to use the demo. The guides and API reference remain available.',
+      outputStep: '02 / Output',
+      result: 'Result',
+      preview: 'Formatted preview',
+      outputOf: 'Output of',
+      normalized: 'Normalized value',
+      limitation:
+        'Validation checks the structure and check digits. It does not verify issuance, ownership or registration status.',
+      inProject: 'In your project',
+      environments:
+        'Available for Node.js and browsers, with ESM and CommonJS exports.',
+      apiReference: 'View the API reference',
+      exampleFile: 'example.ts',
+      implementationGuides: 'Implementation guides',
+      readDocs: 'Read the documentation',
+      homeTitle: 'CPF and CNPJ validation in JavaScript and TypeScript',
+      homeDescription:
+        'Validate and format CPF and numeric or alphanumeric CNPJ with the cpf library. Guides, React examples and a local demo, with zero runtime dependencies.',
+    },
+  },
+}
+
+export function translate(locale, key, values = {}) {
+  const message = locales[locale].messages[key]
+  if (message === undefined)
+    throw new Error(`Missing translation: ${locale}.${key}`)
+  return message.replace(/\{(\w+)\}/g, (_, name) => {
+    if (!(name in values)) throw new Error(`Missing translation value: ${name}`)
+    return String(values[name])
+  })
+}

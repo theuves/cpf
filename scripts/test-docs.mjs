@@ -5,6 +5,8 @@ import process from 'node:process'
 import { URL } from 'node:url'
 import { transform } from 'esbuild'
 import MarkdownIt from 'markdown-it'
+import { locales } from '../website/i18n.mjs'
+import { demoMessages } from '../website/demo-messages.mjs'
 
 const pages = JSON.parse(await readFile('website/pages.json', 'utf8'))
 const siteUrl = new URL(
@@ -12,15 +14,30 @@ const siteUrl = new URL(
 )
 if (!siteUrl.pathname.endsWith('/')) siteUrl.pathname += '/'
 const output = resolve('site-dist')
-const paths = ['', ...pages.map(page => `${page.slug}/`)]
+const paths = Object.entries(locales).flatMap(([locale, config]) => [
+  { path: config.prefix, locale, page: null },
+  ...pages.map(page => ({
+    path: config.prefix + (locale === 'en' ? page.en.slug : page.slug) + '/',
+    locale,
+    page,
+  })),
+])
+assert.deepEqual(
+  Object.keys(locales.pt.messages).sort(),
+  Object.keys(locales.en.messages).sort()
+)
+assert.deepEqual(
+  Object.keys(demoMessages.pt.issues).sort(),
+  Object.keys(demoMessages.en.issues).sort()
+)
 const titles = new Set()
 const descriptions = new Set()
 const sitemap = await readFile(`${output}/sitemap.xml`, 'utf8')
 
-for (const path of paths) {
+for (const { path, locale, page } of paths) {
   const html = await readFile(`${output}/${path}index.html`, 'utf8')
   assert.equal((html.match(/<h1\b/g) || []).length, 1, `${path}: one H1`)
-  assert.match(html, /<html lang="pt-BR">/)
+  assert(html.includes(`<html lang="${locales[locale].language}">`))
   assert(!html.includes('noindex'), `${path}: must be indexable`)
   const title = html.match(/<title>(.*?)<\/title>/)?.[1]
   const description = html.match(/name="description" content="([^"]+)"/)?.[1]
@@ -32,6 +49,47 @@ for (const path of paths) {
   const canonical = new URL(path, siteUrl).href
   assert(html.includes(`rel="canonical" href="${canonical}"`))
   assert(sitemap.includes(`<loc>${canonical}</loc>`))
+  const switcher = html.match(
+    /<nav class="language-switch"[\s\S]*?<\/nav>/
+  )?.[0]
+  assert(switcher, `${path}: missing language switch`)
+  for (const [language, config] of Object.entries(locales)) {
+    const localizedPage = language === 'en' ? page?.en : page
+    const alternate = new URL(
+      config.prefix + (localizedPage ? `${localizedPage.slug}/` : ''),
+      siteUrl
+    ).href
+    assert(
+      html.includes(
+        `rel="alternate" hreflang="${config.language}" href="${alternate}"`
+      ),
+      `${path}: incorrect alternate`
+    )
+    assert(
+      switcher.includes(`href="${new URL(alternate).pathname}"`),
+      `${path}: switch must keep the same page`
+    )
+    if (language === 'pt')
+      assert(html.includes(`hreflang="x-default" href="${alternate}"`))
+  }
+  if (page) {
+    const position = pages.indexOf(page)
+    const pager = html.match(/<nav class="pagination"[\s\S]*?<\/nav>/)?.[0]
+    assert(pager, `${path}: missing pagination`)
+    assert.equal(pager.includes('rel="prev"'), position > 0)
+    assert.equal(pager.includes('rel="next"'), position < pages.length - 1)
+    const localizedPaths = new Set(
+      paths
+        .filter(entry => entry.locale === locale && entry.page)
+        .map(entry => siteUrl.pathname + entry.path)
+    )
+    for (const [, href] of pager.matchAll(/href="([^"]+)"/g)) {
+      assert(
+        localizedPaths.has(new URL(href, canonical).pathname),
+        `${path}: pagination changes language`
+      )
+    }
+  }
 
   for (const [, href] of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
     const url = new URL(href, canonical)
@@ -55,8 +113,10 @@ for (const path of paths) {
 
 const md = new MarkdownIt()
 let snippets = 0
-for (const page of pages.filter(page => page.slug !== 'api')) {
-  const source = await readFile(page.source, 'utf8')
+for (const page of pages.flatMap(page => [page, page.en])) {
+  let source = await readFile(page.source, 'utf8')
+  if (page.source === 'README.md')
+    source = source.split('## API\n')[1].split('## Migração da versão 2.x')[0]
   for (const token of md.parse(source, {})) {
     if (token.type !== 'fence' || !['ts', 'tsx', 'js'].includes(token.info))
       continue

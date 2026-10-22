@@ -4,34 +4,69 @@
     "title": "Como validar CPF em JavaScript e TypeScript",
     "description": "Valide CPF com ou sem máscara, preserve zeros à esquerda e diagnostique erros com a biblioteca cpf para JavaScript e TypeScript.",
     "source": "docs/guides/validar-cpf-javascript.md",
-    "label": "Validar CPF"
+    "label": "Validar CPF",
+    "en": {
+      "slug": "validate-cpf-javascript",
+      "title": "Validate CPF in JavaScript and TypeScript",
+      "description": "Validate CPF with or without formatting, preserve leading zeros and diagnose errors with the cpf library for JavaScript and TypeScript.",
+      "source": "docs/en/validate-cpf-javascript.md",
+      "label": "Validate CPF"
+    }
   },
   {
     "slug": "validar-cnpj-alfanumerico",
     "title": "Como validar CNPJ alfanumérico em JavaScript",
     "description": "Valide CNPJ numérico e alfanumérico, normalize letras minúsculas e calcule os dígitos verificadores em JavaScript e TypeScript.",
     "source": "docs/guides/validar-cnpj-alfanumerico.md",
-    "label": "CNPJ alfanumérico"
+    "label": "CNPJ alfanumérico",
+    "en": {
+      "slug": "validate-alphanumeric-cnpj",
+      "title": "Validate alphanumeric CNPJ in JavaScript",
+      "description": "Validate numeric and alphanumeric CNPJ, normalize lowercase letters and calculate check digits in JavaScript and TypeScript.",
+      "source": "docs/en/validate-alphanumeric-cnpj.md",
+      "label": "Alphanumeric CNPJ"
+    }
   },
   {
     "slug": "mascara-cpf-cnpj",
     "title": "Máscara de CPF e CNPJ em JavaScript",
     "description": "Formate CPF e CNPJ completos ou parciais e mostre a máscara durante a digitação, preservando o cursor e validando a entrada original.",
     "source": "docs/guides/mascara-cpf-cnpj.md",
-    "label": "Máscaras e formulários"
+    "label": "Máscaras e formulários",
+    "en": {
+      "slug": "cpf-cnpj-input-masks",
+      "title": "CPF and CNPJ input masks in JavaScript",
+      "description": "Format complete or partial CPF and CNPJ values while preserving the cursor and validating the original input.",
+      "source": "docs/en/cpf-cnpj-input-masks.md",
+      "label": "Masks and forms"
+    }
   },
   {
     "slug": "cpf-cnpj-react",
     "title": "CPF e CNPJ em formulários React com TypeScript",
     "description": "Exemplo de formulário React com validação de CPF e CNPJ, campos controlados, mensagens acessíveis e máscara aplicada ao sair do campo.",
     "source": "docs/guides/cpf-cnpj-react.md",
-    "label": "Integração com React"
+    "label": "Integração com React",
+    "en": {
+      "slug": "cpf-cnpj-react",
+      "title": "CPF and CNPJ in React forms with TypeScript",
+      "description": "Build a React form with CPF and CNPJ validation, controlled inputs, accessible messages and formatting on blur.",
+      "source": "docs/en/cpf-cnpj-react.md",
+      "label": "React integration"
+    }
   },
   {
     "slug": "api",
     "title": "Referência da API de CPF e CNPJ",
     "description": "Consulte isValid, inspect, format, normalize, parse, generate e outras funções da biblioteca cpf para JavaScript e TypeScript.",
     "source": "README.md",
-    "label": "Referência da API"
+    "label": "Referência da API",
+    "en": {
+      "slug": "api",
+      "title": "CPF and CNPJ API reference",
+      "description": "Explore isValid, inspect, format, normalize, parse, generate and the other cpf library functions for JavaScript and TypeScript.",
+      "source": "docs/en/api.md",
+      "label": "API reference"
+    }
   }
 ]
