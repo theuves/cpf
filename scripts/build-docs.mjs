@@ -101,6 +101,7 @@ function layout({ title, description, slug = '', body, home = false }) {
   <meta property="og:description" content="${escape(description)}">
   <meta property="og:url" content="${escape(canonical)}">
   <meta name="theme-color" content="#102b46">
+  <link rel="icon" type="image/svg+xml" href="${base}assets/favicon.svg">
   ${verification ? `<meta name="google-site-verification" content="${escape(verification)}">` : ''}
   <link rel="stylesheet" href="${base}assets/styles.css?v=${stylesVersion}">
   ${home ? `<script type="module" src="${base}assets/demo.js"></script>` : ''}
@@ -129,6 +130,7 @@ await rm(output, { recursive: true, force: true })
 await mkdir(`${output}/assets`, { recursive: true })
 await copyFile('website/styles.css', `${output}/assets/styles.css`)
 await copyFile('website/fidalgo.svg', `${output}/assets/fidalgo.svg`)
+await copyFile('website/favicon.svg', `${output}/assets/favicon.svg`)
 await build({
   entryPoints: ['website/demo.js'],
   bundle: true,
