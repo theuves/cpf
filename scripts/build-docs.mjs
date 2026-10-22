@@ -95,7 +95,7 @@ function layout({ title, description, slug = '', body, home = false }) {
 <body>
   <a class="skip" href="#conteudo">Pular para o conteúdo</a>
   <header class="header"><div class="header-inner">
-    <div class="brand-group"><a class="brand-symbol" href="${base}" aria-label="cpf, início"><img src="${base}assets/fidalgo.svg" width="38" height="38" alt=""></a><div><a class="brand" href="${base}">cpf <span>Validação de CPF e CNPJ</span></a><a class="fidalgo-brand" href="https://www.fidalgoitsolutions.com.br/">por Fidalgo IT Solutions</a></div></div>
+    <div class="brand-group"><a class="brand-symbol" href="${base}" aria-label="CPF/CNPJ, início"><img src="${base}assets/fidalgo.svg" width="38" height="38" alt=""></a><div><a class="brand" href="${base}">CPF/CNPJ</a><a class="fidalgo-brand" href="https://www.fidalgoitsolutions.com.br/">por Fidalgo IT Solutions</a></div></div>
     <nav aria-label="Navegação principal">
       <a href="${base}${pages[0].slug}/">Documentação</a>
       <a href="${base}api/">API</a>

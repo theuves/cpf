@@ -75,13 +75,6 @@ a:hover {
   line-height: 1.25;
   text-decoration: none;
 }
-.brand span {
-  font-size: 14px;
-  font-weight: 600;
-  margin-left: 8px;
-  padding-left: 12px;
-  border-left: 1px solid var(--line);
-}
 .fidalgo-brand {
   color: var(--link);
   font-size: 12px;
@@ -770,13 +763,6 @@ footer nav {
   }
 }
 @media (max-width: 400px) {
-  .brand span {
-    display: block;
-    border: 0;
-    margin: 3px 0 0;
-    padding: 0;
-    font-size: 12px;
-  }
   .section-nav a {
     font-size: 12px;
     padding: 9px 11px;
