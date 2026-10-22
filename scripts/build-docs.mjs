@@ -94,19 +94,19 @@ function layout({ title, description, slug = '', body, home = false }) {
 </head>
 <body>
   <a class="skip" href="#conteudo">Pular para o conteúdo</a>
-  <header class="header">
-    <div class="brand-group"><a class="brand" href="${base}" aria-label="cpf, início">cpf</a><a class="fidalgo-brand" href="https://www.fidalgoitsolutions.com.br/" aria-label="Fidalgo IT Solutions"><img src="${base}assets/fidalgo.svg" width="32" height="32" alt=""><span>Fidalgo IT Solutions</span></a></div>
+  <header class="header"><div class="header-inner">
+    <div class="brand-group"><a class="brand-symbol" href="${base}" aria-label="cpf, início"><img src="${base}assets/fidalgo.svg" width="38" height="38" alt=""></a><div><a class="brand" href="${base}">cpf <span>Validação de CPF e CNPJ</span></a><a class="fidalgo-brand" href="https://www.fidalgoitsolutions.com.br/">por Fidalgo IT Solutions</a></div></div>
     <nav aria-label="Navegação principal">
       <a href="${base}${pages[0].slug}/">Documentação</a>
       <a href="${base}api/">API</a>
       <a href="${repository}">GitHub</a>
       <a href="https://www.npmjs.com/package/cpf">npm ↗</a>
     </nav>
-  </header>
+  </div></header>
   <main id="conteudo" class="${home ? 'home' : 'docs'}">
-  ${home ? body : `<nav class="sidebar" aria-label="Guias"><p class="eyebrow">Documentação</p>${pages.map(page => `<a href="${base}${page.slug}/"${page.slug === slug ? ' aria-current="page"' : ''}>${escape(page.label)}</a>`).join('')}</nav><article class="article">${body}${pagination(slug)}<div class="article-end"><a href="${base}">← Voltar ao início</a> · <a href="${repository}/issues">Relatar um problema</a></div></article>`}
+  ${home ? body : `<nav class="sidebar" aria-label="Guias"><a class="back-link" href="${base}">← Experimentar a biblioteca</a><p class="eyebrow">Documentação</p>${pages.map((page, i) => `<a href="${base}${page.slug}/"${page.slug === slug ? ' aria-current="page"' : ''}><span class="sidebar-number">0${i + 1}</span>${escape(page.label)}</a>`).join('')}</nav><article class="article"><p class="eyebrow">Documentação / ${pages.findIndex(page => page.slug === slug) + 1} de ${pages.length}</p>${body}${pagination(slug)}<div class="article-end"><a href="${base}">← Voltar ao início</a> · <a href="${repository}/issues">Relatar um problema</a></div></article>`}
   </main>
-  <footer><div><a class="fidalgo-brand" href="https://www.fidalgoitsolutions.com.br/"><img src="${base}assets/fidalgo.svg" width="32" height="32" alt=""><span>Fidalgo IT Solutions</span></a><p>IA, software e cloud para empresas.</p></div><span>cpf · Licença MIT<br>Por <a href="https://github.com/theuves">Matheus Alves</a>, fundador da Fidalgo IT Solutions<br><a href="${repository}">Código aberto</a></span></footer>
+  <footer><div><a class="footer-brand" href="https://www.fidalgoitsolutions.com.br/"><img src="${base}assets/fidalgo.svg" width="26" height="26" alt="">Fidalgo IT Solutions</a><span>Uma biblioteca de código aberto por <a href="https://github.com/theuves">Matheus Alves</a>.</span></div><nav aria-label="Links do projeto"><a href="${repository}/blob/master/LICENSE">Licença MIT</a><a href="${repository}/issues">Reportar problema</a><a href="${repository}">GitHub ↗</a></nav></footer>
 </body>
 </html>
 `
@@ -126,15 +126,35 @@ await build({
 })
 
 const homeBody = `
-<div class="hero-shell"><section class="hero">
-  <div>
-    <p class="eyebrow">Código aberto · JavaScript & TypeScript</p>
-    <h1>CPF e CNPJ.<br>Do campo<br>ao <span>código.</span></h1>
-    <p class="lede">Valide, formate e gere CPF e CNPJ em JavaScript e TypeScript. Com suporte a CNPJ alfanumérico e zero dependências de runtime.</p>
-    <div class="hero-actions"><a class="button" href="${base}validar-cpf-javascript/">Começar a usar <span aria-hidden="true">→</span></a><a class="button button-outline" href="${base}api/">Explorar a API</a></div>
-    <div class="install"><span aria-hidden="true">$</span> <code>npm install cpf</code></div>
+<section class="intro" aria-labelledby="intro-title">
+  <h1 id="intro-title">CPF e CNPJ em JavaScript e TypeScript</h1>
+  <p>Valide, formate e gere documentos com a biblioteca <code>cpf</code>. Suporte a CNPJ alfanumérico, tipos incluídos e zero dependências de runtime.</p>
+</section>
+<nav class="section-nav" aria-label="Nesta página"><a class="section-current" href="#demo-title">Experimentar</a><a href="#instalacao">Instalação e uso</a><a href="#guias">Guias</a></nav>
+<section class="demo" aria-labelledby="demo-title">
+  <div class="demo-grid">
+    <div class="configuration">
+      <p class="eyebrow">01 / Entrada</p><h2 id="demo-title">Validar e formatar</h2>
+      <p class="field-group">Documento brasileiro</p>
+      <label for="document-kind">Tipo de documento</label><select id="document-kind"><option value="cpf">CPF</option><option value="cnpj">CNPJ numérico ou alfanumérico</option></select>
+      <label for="document-input">Documento</label><input id="document-input" type="text" inputmode="numeric" spellcheck="false" autocapitalize="characters" autocomplete="off" maxlength="64" placeholder="Digite com ou sem pontuação" aria-describedby="input-help validation-status">
+      <p id="input-help" class="note">A validação usa a entrada original normalizada. A máscara é uma prévia de formatação.</p>
+      <button id="load-example" type="button">Carregar exemplo <span aria-hidden="true">↗</span></button>
+      <p class="local-note"><span aria-hidden="true">◉</span> Processamento local. Nenhum documento é enviado.</p>
+      <noscript>Ative JavaScript para usar a demonstração. Os guias e a referência da API continuam disponíveis.</noscript>
+    </div>
+    <section class="result" aria-labelledby="result-title">
+      <p class="eyebrow">02 / Saída</p><h2 id="result-title">Resultado</h2>
+      <div class="result-preview"><dl><dt>Prévia com máscara</dt><dd id="formatted-value">—</dd></dl><p>Saída de <code>format</code></p></div>
+      <dl class="normalized-result"><dt>Valor normalizado</dt><dd id="normalized-value">—</dd></dl>
+      <p id="validation-status" class="status" role="status">Digite um documento ou carregue um exemplo.</p>
+      <p class="result-note">A validação verifica estrutura e dígitos verificadores. Não consulta emissão, titularidade ou situação cadastral.</p>
+    </section>
   </div>
-  <div class="code-panel"><div class="code-label"><span class="code-dots" aria-hidden="true">● ● ●</span> exemplo.ts <span>TypeScript</span></div><pre><code><span class="token-keyword">import</span> cpf, { cnpj } <span class="token-keyword">from</span> <span class="token-string">'cpf'</span>
+</section>
+<section class="quickstart" aria-labelledby="instalacao">
+  <div class="quickstart-intro"><p class="eyebrow">No seu projeto</p><h2 id="instalacao">Instalação e uso</h2><p>Disponível para Node.js e navegador, com exports ESM e CommonJS.</p><pre class="install"><code>npm install cpf</code></pre><a href="${base}api/">Consultar a referência da API →</a></div>
+  <div class="code-panel"><div class="code-label"><span>exemplo.ts</span><span>JavaScript / TypeScript</span></div><pre><code><span class="token-keyword">import</span> cpf, { cnpj } <span class="token-keyword">from</span> <span class="token-string">'cpf'</span>
 
 cpf.isValid(<span class="token-string">'529.982.247-25'</span>)
 <span class="token-comment">// true</span>
@@ -143,37 +163,17 @@ cnpj.isValid(<span class="token-string">'12.ABC.345/01DE-35'</span>)
 <span class="token-comment">// true</span>
 
 cpf.format(<span class="token-string">'5299822'</span>)
-<span class="token-comment">// '529.982.2'</span></code></pre><div class="code-foot">Uma biblioteca. Dois documentos. Zero dependências.</div></div>
-</section></div>
-<div class="features"><span>CPF + CNPJ alfanumérico</span><span>Tipos incluídos</span><span>Node.js + navegador</span><span>ESM + CommonJS</span></div>
+<span class="token-comment">// '529.982.2'</span></code></pre></div>
+</section>
 <section class="guides-section" aria-labelledby="guias">
-  <p class="eyebrow">Guias de implementação</p>
-  <div class="section-top"><h2 id="guias">Da dúvida à implementação.</h2><p class="note">Exemplos prontos para adaptar ao seu projeto.</p></div>
+  <div class="section-top"><div><p class="eyebrow">Documentação</p><h2 id="guias">Guias de implementação</h2></div><a href="${base}${pages[0].slug}/">Ler a documentação →</a></div>
   <div class="guide-grid">${pages
     .slice(0, 4)
     .map(
       (page, i) =>
-        `<a class="guide" href="${base}${page.slug}/"><span class="guide-number">0${i + 1} ↗</span><h3>${escape(page.title)}</h3><p>${escape(page.description)}</p></a>`
+        `<a class="guide" href="${base}${page.slug}/"><span class="guide-number">0${i + 1}</span><div><h3>${escape(page.label)} <span aria-hidden="true">↗</span></h3><p>${escape(page.description)}</p></div></a>`
     )
     .join('')}</div>
-</section>
-<section class="demo" aria-labelledby="demo-title">
-  <p class="eyebrow">Da documentação à prática</p>
-  <h2 id="demo-title">Experimente no navegador.</h2>
-  <p class="note">O documento é processado apenas nesta página, sem envio a um servidor. A máscara é uma prévia; a validação usa a entrada original normalizada.</p>
-  <noscript>Ative JavaScript para usar a demonstração. Os guias e a referência da API continuam disponíveis.</noscript>
-  <div class="demo-grid">
-    <div><label for="document-kind">Tipo de documento</label><select id="document-kind"><option value="cpf">CPF</option><option value="cnpj">CNPJ numérico ou alfanumérico</option></select>
-      <label for="document-input">Documento</label><input id="document-input" type="text" inputmode="numeric" spellcheck="false" autocapitalize="characters" autocomplete="off" maxlength="64" aria-describedby="validation-status">
-      <button id="load-example" type="button">Carregar exemplo</button>
-    </div>
-    <div class="result"><dl><dt>Prévia com máscara</dt><dd id="formatted-value">—</dd><dt>Valor normalizado</dt><dd id="normalized-value">—</dd></dl><p id="validation-status" class="status" role="status">Digite um documento ou carregue um exemplo.</p></div>
-  </div>
-  <p class="note">A validação confirma estrutura e dígitos verificadores. Não confirma emissão, identidade, titularidade ou situação cadastral.</p>
-</section>
-<section class="about-fidalgo" aria-labelledby="fidalgo-title">
-  <div><p class="eyebrow">Quem está por trás</p><h2 id="fidalgo-title">Tecnologia com a Fidalgo IT Solutions.</h2><p>A biblioteca cpf é desenvolvida por Matheus Alves, fundador da Fidalgo IT Solutions. Conheça o trabalho da empresa com inteligência artificial, desenvolvimento de software e cloud.</p></div>
-  <a class="button" href="https://www.fidalgoitsolutions.com.br/">Conheça a Fidalgo <span aria-hidden="true">↗</span></a>
 </section>`
 
 await writeFile(

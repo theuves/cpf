@@ -57,8 +57,10 @@ exigiria definir e conectar uma ferramenta de analytics.
 
 ## Manutenção de conteúdo
 
-A identidade visual acompanha a Fidalgo IT Solutions: azul-marinho `#102b46`,
-azul-claro `#7c9cff`, fonte Arial e formas retas. Os estilos ficam em
+A interface toma como referência a ferramenta Fargate da Fidalgo: cabeçalho
+compacto, fundo claro, entrada e resultado lado a lado e documentação acessível.
+A assinatura da Fidalgo aparece no cabeçalho e rodapé, sem chamadas comerciais.
+A paleta usa azul-marinho `#102b46`, azul-claro `#7c9cff` e fonte Arial. Os estilos ficam em
 `website/styles.css`; `website/fidalgo.svg` é o símbolo da Fidalgo, copiado dos
 assets oficiais da marca. O site serve todos os assets localmente.
 
