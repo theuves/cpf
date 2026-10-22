@@ -8,6 +8,8 @@ segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e o projeto us
 
 ### Corrigido
 
+- Normalização e parsing de CNPJ rejeitam caracteres Unicode que se converteriam
+  em letras ASCII ao aplicar maiúsculas, evitando alterar o identificador.
 - Formatação de CPF aceita string vazia no modo estrito, permitindo limpar
   campos de formulário sem lançar erro.
 - Reparo de CNPJ sem `kind` inclui candidatos cuja única letra está na posição
