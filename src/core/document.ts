@@ -1,4 +1,3 @@
-/* c8 ignore next */
 import type {
   DocumentSpec,
   GenerateDocumentOptions,
@@ -236,7 +235,6 @@ function replaceVerifiers(spec: DocumentSpec, input: string): string[] {
   return validateDocument(spec, result) ? [result] : []
 }
 
-/* c8 ignore next */
 export function generateDocument(
   spec: DocumentSpec,
   options: GenerateDocumentOptions,

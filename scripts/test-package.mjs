@@ -70,7 +70,13 @@ try {
   for (const path of requiredPaths) {
     assert(packedPaths.has(path), `Required package file is missing: ${path}`)
   }
-  const forbiddenPrefixes = ['src/', 'scripts/', '.github/', 'coverage/']
+  const forbiddenPrefixes = [
+    'src/',
+    'scripts/',
+    '.github/',
+    '.test-build/',
+    'coverage/',
+  ]
   for (const { path } of files) {
     assert(
       !forbiddenPrefixes.some(prefix => path.startsWith(prefix)),

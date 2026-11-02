@@ -1,4 +1,3 @@
-/* c8 ignore next */
 import { isStructurallyValidCnpj } from './codec'
 import type { CnpjKind } from './codec'
 

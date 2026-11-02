@@ -27,15 +27,6 @@ export default tseslint.config(
     },
   },
   {
-    files: ['src/**/*.test.ts'],
-    rules: {
-      '@typescript-eslint/no-unused-vars': [
-        'error',
-        { argsIgnorePattern: '^t$' },
-      ],
-    },
-  },
-  {
     files: ['website/*.{js,mjs}'],
     languageOptions: {
       globals: { document: 'readonly', window: 'readonly' },

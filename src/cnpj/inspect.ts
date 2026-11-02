@@ -1,4 +1,3 @@
-/* c8 ignore next */
 import { calculateCnpjVerifiers, hasValidCnpjCharacters } from './codec'
 import type {
   DocumentIssueCode,

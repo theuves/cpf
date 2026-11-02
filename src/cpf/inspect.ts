@@ -1,4 +1,3 @@
-/* c8 ignore next */
 import { inspectDocument } from '../core/document'
 import { cpfSpec } from './spec'
 import type {

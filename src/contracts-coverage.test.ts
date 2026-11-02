@@ -1,4 +1,5 @@
-import test from 'ava'
+import { strict as assert } from 'node:assert'
+import { test } from 'node:test'
 import cnpj from './cnpj/index'
 import cpf from './cpf/index'
 import { cleanCnpj } from './cnpj/codec'
@@ -11,119 +12,164 @@ import {
 } from './core/document'
 import { cpfSpec } from './cpf/spec'
 
-test('covers invalid canonical options and random sources', t => {
+test('covers invalid canonical options and random sources', () => {
   for (const document of [cpf, cnpj]) {
-    t.throws(() => document.matchesFormat('x', { completeness: 'x' as never }))
-    t.throws(() => document.generate({ validity: 'x' as never }))
-    t.throws(() => document.generate({ output: 'x' as never }))
+    assert.throws(() =>
+      document.matchesFormat('x', { completeness: 'x' as never })
+    )
+    assert.throws(() => document.generate({ validity: 'x' as never }))
+    assert.throws(() => document.generate({ output: 'x' as never }))
   }
-  t.throws(() => cnpj.generate({ kind: 'x' as never }))
-  t.throws(() =>
+  assert.throws(() => cnpj.generate({ kind: 'x' as never }))
+  assert.throws(() =>
     cnpj.findValidRepairs('12ABC34501DE3?', { kind: 'x' as never })
   )
   for (const sample of [-1, 1, Number.NaN]) {
-    t.throws(() => cpf.generate({ randomSource: () => sample }))
-    t.throws(() => cnpj.generate({ randomSource: () => sample }))
+    assert.throws(() => cpf.generate({ randomSource: () => sample }))
+    assert.throws(() => cnpj.generate({ randomSource: () => sample }))
   }
-  t.throws(() => cpf.generateMany(0))
-  t.throws(() => cnpj.generateMany(0))
+  assert.throws(() => cpf.generateMany(0))
+  assert.throws(() => cnpj.generateMany(0))
   for (const document of [cpf, cnpj]) {
-    t.throws(() => document.generateMany(1.5), {
+    assert.throws(() => document.generateMany(1.5), {
       message: 'Count must be a positive integer',
     })
-    t.throws(() => document.generateMany(MAX_GENERATION_BATCH_SIZE + 1), {
+    assert.throws(() => document.generateMany(MAX_GENERATION_BATCH_SIZE + 1), {
       message: `Count cannot exceed ${MAX_GENERATION_BATCH_SIZE}`,
     })
   }
 
   for (const invalidNumber of [-1, 1.2, Number.NaN, Number.POSITIVE_INFINITY]) {
-    t.throws(() => cpf.format(invalidNumber, { strict: false }), {
+    assert.throws(() => cpf.format(invalidNumber, { strict: false }), {
       message: 'Number input must be a non-negative safe integer',
     })
-    t.throws(() => cnpj.format(invalidNumber, { strict: false }), {
+    assert.throws(() => cnpj.format(invalidNumber, { strict: false }), {
       message: 'Number input must be a non-negative safe integer',
     })
   }
-  t.throws(() => cpf.format(Number.MAX_SAFE_INTEGER + 1, { strict: false }))
-  t.throws(() => cnpj.format(Number.MAX_SAFE_INTEGER + 1, { strict: false }))
+  assert.throws(() =>
+    cpf.format(Number.MAX_SAFE_INTEGER + 1, { strict: false })
+  )
+  assert.throws(() =>
+    cnpj.format(Number.MAX_SAFE_INTEGER + 1, { strict: false })
+  )
 })
 
-test('covers normalization, repair and shared-core rejection paths', t => {
+test('covers normalization, repair and shared-core rejection paths', () => {
   // @ts-expect-error runtime guard
-  t.throws(() => cnpj.normalize(1))
-  t.throws(() => cnpj.normalize('12ABC34501DE35!'))
-  t.throws(() => cnpj.normalize('12ABC34501DE355'))
-  t.throws(() => cleanCnpj('12ABC34501DE355', true))
-  t.is(cleanCnpj('12abc34501de35', false), '12ABC34501DE35')
-  t.throws(() => cleanCnpj('12ABC34501DE3A', true))
-  t.throws(() => unformatDocument(cpfSpec, 1, true))
-  t.is(unformatDocument(cpfSpec, '123456789012', false), '12345678901')
-  t.false(checkDocument(cpfSpec, 1, true))
-  t.false(checkDocument(cpfSpec, '123', true))
-  t.false(checkDocument(cpfSpec, 'abc', false))
-  t.true(checkDocument(cpfSpec, '123', false))
-  t.deepEqual(repairDocument(cpfSpec, 'X2345678X01'), [])
-  t.deepEqual(repairDocument(cpfSpec, null), [])
-  t.deepEqual(repairDocument(cpfSpec, '123'), [])
-  t.deepEqual(repairDocument(cpfSpec, '52998224725'), ['52998224725'])
-  t.deepEqual(repairDocument(cpfSpec, '52998224726'), [])
-  t.deepEqual(repairDocument(cpfSpec, '52998224XXX'), [])
-  t.deepEqual(repairDocument(cpfSpec, '529982247XX'), ['52998224725'])
-  t.deepEqual(repairDocument(cpfSpec, '000000000XX'), [])
-  t.throws(() =>
+  assert.throws(() => cnpj.normalize(1))
+  assert.throws(() => cnpj.normalize('12ABC34501DE35!'))
+  assert.throws(() => cnpj.normalize('12ABC34501DE355'))
+  assert.throws(() => cleanCnpj('12ABC34501DE355', true))
+  assert.strictEqual(cleanCnpj('12abc34501de35', false), '12ABC34501DE35')
+  assert.throws(() => cleanCnpj('12ABC34501DE3A', true))
+  assert.throws(() => unformatDocument(cpfSpec, 1, true))
+  assert.strictEqual(
+    unformatDocument(cpfSpec, '123456789012', false),
+    '12345678901'
+  )
+  assert.strictEqual(checkDocument(cpfSpec, 1, true), false)
+  assert.strictEqual(checkDocument(cpfSpec, '123', true), false)
+  assert.strictEqual(checkDocument(cpfSpec, 'abc', false), false)
+  assert.strictEqual(checkDocument(cpfSpec, '123', false), true)
+  assert.deepStrictEqual(repairDocument(cpfSpec, 'X2345678X01'), [])
+  assert.deepStrictEqual(repairDocument(cpfSpec, null), [])
+  assert.deepStrictEqual(repairDocument(cpfSpec, '123'), [])
+  assert.deepStrictEqual(repairDocument(cpfSpec, '52998224725'), [
+    '52998224725',
+  ])
+  assert.deepStrictEqual(repairDocument(cpfSpec, '52998224726'), [])
+  assert.deepStrictEqual(repairDocument(cpfSpec, '52998224XXX'), [])
+  assert.deepStrictEqual(repairDocument(cpfSpec, '529982247XX'), [
+    '52998224725',
+  ])
+  assert.deepStrictEqual(repairDocument(cpfSpec, '000000000XX'), [])
+  assert.throws(() =>
     generateDocument(cpfSpec, { isFormatted: false, isValid: true }, () => 1)
   )
-  t.is(
+  assert.strictEqual(
     typeof generateDocument(cpfSpec, { isFormatted: false, isValid: true }),
     'string'
   )
 
-  t.deepEqual(cnpj.findValidRepairs(null as never), [])
-  t.throws(() => cnpj.findValidRepairs('12ABC34501DE35', { placeholder: 'X' }))
-  t.deepEqual(cnpj.findValidRepairs('12ABC34501DE3'), [])
-  t.deepEqual(cnpj.findValidRepairs('1'.repeat(1_000_000)), [])
-  t.deepEqual(cnpj.findValidRepairs('12ABC34501DE???'), [])
-  t.deepEqual(cnpj.findValidRepairs('?2ABC34501DE3?'), [])
-  t.deepEqual(cnpj.findValidRepairs('12ABC34501DE35'), ['12ABC34501DE35'])
-  t.deepEqual(cnpj.findValidRepairs('12ABC34501DE36'), [])
-  t.deepEqual(cnpj.findValidRepairs('12ABC34501D???'), [])
-  t.deepEqual(cnpj.findValidRepairs('12ABC34501DE??'), ['12ABC34501DE35'])
-  t.deepEqual(cnpj.findValidRepairs('000000000000??'), [])
-  t.true(cnpj.findValidRepairs('?2ABC34501DE35').includes('12ABC34501DE35'))
-  t.true(cnpj.findValidRepairs('?1222333000181').length > 0)
-  t.deepEqual(
+  assert.deepStrictEqual(cnpj.findValidRepairs(null as never), [])
+  assert.throws(() =>
+    cnpj.findValidRepairs('12ABC34501DE35', { placeholder: 'X' })
+  )
+  assert.deepStrictEqual(cnpj.findValidRepairs('12ABC34501DE3'), [])
+  assert.deepStrictEqual(cnpj.findValidRepairs('1'.repeat(1_000_000)), [])
+  assert.deepStrictEqual(cnpj.findValidRepairs('12ABC34501DE???'), [])
+  assert.deepStrictEqual(cnpj.findValidRepairs('?2ABC34501DE3?'), [])
+  assert.deepStrictEqual(cnpj.findValidRepairs('12ABC34501DE35'), [
+    '12ABC34501DE35',
+  ])
+  assert.deepStrictEqual(cnpj.findValidRepairs('12ABC34501DE36'), [])
+  assert.deepStrictEqual(cnpj.findValidRepairs('12ABC34501D???'), [])
+  assert.deepStrictEqual(cnpj.findValidRepairs('12ABC34501DE??'), [
+    '12ABC34501DE35',
+  ])
+  assert.deepStrictEqual(cnpj.findValidRepairs('000000000000??'), [])
+  assert.strictEqual(
+    cnpj.findValidRepairs('?2ABC34501DE35').includes('12ABC34501DE35'),
+    true
+  )
+  assert.strictEqual(cnpj.findValidRepairs('?1222333000181').length > 0, true)
+  assert.deepStrictEqual(
     cnpj.findValidRepairs('?1222333000181', { kind: 'alphanumeric' }),
     ['G1222333000181', 'R1222333000181']
   )
-  t.deepEqual(cnpj.findValidRepairs('?2ABC34501DE35', { kind: 'numeric' }), [])
-  t.deepEqual(cnpj.findValidRepairs('12ABC34501DE3?', { kind: 'numeric' }), [])
-  t.deepEqual(
+  assert.deepStrictEqual(
+    cnpj.findValidRepairs('?2ABC34501DE35', { kind: 'numeric' }),
+    []
+  )
+  assert.deepStrictEqual(
+    cnpj.findValidRepairs('12ABC34501DE3?', { kind: 'numeric' }),
+    []
+  )
+  assert.deepStrictEqual(
     cnpj.findValidRepairs('11222333000181', { kind: 'alphanumeric' }),
     []
   )
-  t.deepEqual(cnpj.findValidRepairs('12ABC34501DE3_', { placeholder: '_' }), [
-    '12ABC34501DE35',
-  ])
-  t.true(
-    cnpj.findValidRepairs('$2ABC34501DE35', { placeholder: '$' }).length > 0
+  assert.deepStrictEqual(
+    cnpj.findValidRepairs('12ABC34501DE3_', { placeholder: '_' }),
+    ['12ABC34501DE35']
   )
-  t.true(cnpj.matchesFormat('12.ABC.345/01DE-35'))
-  t.false(cnpj.matchesFormat(null as never))
-  t.false(cnpj.matchesFormat('12.ABC', { completeness: 'complete' }))
-  t.false(cnpj.matchesFormat('abc', { completeness: 'partial' }))
-  t.true(cnpj.matchesFormat('12.ABC', { completeness: 'partial' }))
+  assert.strictEqual(
+    cnpj.findValidRepairs('$2ABC34501DE35', { placeholder: '$' }).length > 0,
+    true
+  )
+  assert.strictEqual(cnpj.matchesFormat('12.ABC.345/01DE-35'), true)
+  assert.strictEqual(cnpj.matchesFormat(null as never), false)
+  assert.strictEqual(
+    cnpj.matchesFormat('12.ABC', { completeness: 'complete' }),
+    false
+  )
+  assert.strictEqual(
+    cnpj.matchesFormat('abc', { completeness: 'partial' }),
+    false
+  )
+  assert.strictEqual(
+    cnpj.matchesFormat('12.ABC', { completeness: 'partial' }),
+    true
+  )
   for (const partial of ['', '1']) {
-    t.true(cnpj.matchesFormat(partial, { completeness: 'partial' }))
+    assert.strictEqual(
+      cnpj.matchesFormat(partial, { completeness: 'partial' }),
+      true
+    )
   }
   for (const partial of ['', '1', '12']) {
-    t.true(cpf.matchesFormat(partial, { completeness: 'partial' }))
+    assert.strictEqual(
+      cpf.matchesFormat(partial, { completeness: 'partial' }),
+      true
+    )
   }
-  t.deepEqual(cpf.findValidRepairs('529!982!247!2X'), [])
-  t.deepEqual(cpf.findValidRepairs('529.982.247-25!'), [])
-  t.deepEqual(cpf.findValidRepairs('1'.repeat(1_000_000)), [])
-  t.deepEqual(cnpj.findValidRepairs('12!ABC!345!01DE!3?'), [])
-  t.deepEqual(cnpj.findValidRepairs('12.ABC.345/01DE-35!'), [])
-  t.is(
+  assert.deepStrictEqual(cpf.findValidRepairs('529!982!247!2X'), [])
+  assert.deepStrictEqual(cpf.findValidRepairs('529.982.247-25!'), [])
+  assert.deepStrictEqual(cpf.findValidRepairs('1'.repeat(1_000_000)), [])
+  assert.deepStrictEqual(cnpj.findValidRepairs('12!ABC!345!01DE!3?'), [])
+  assert.deepStrictEqual(cnpj.findValidRepairs('12.ABC.345/01DE-35!'), [])
+  assert.strictEqual(
     cnpj
       .generate({
         kind: 'alphanumeric',

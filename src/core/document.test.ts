@@ -1,4 +1,5 @@
-import test from 'ava'
+import { strict as assert } from 'node:assert'
+import { test } from 'node:test'
 import { numericCnpjSpec } from '../cnpj/spec'
 import { cpfSpec } from '../cpf/spec'
 import {
@@ -32,34 +33,34 @@ function generateMany(
 }
 
 for (const spec of specs) {
-  test(`${spec.name}: seeded generation is reproducible`, t => {
+  test(`${spec.name}: seeded generation is reproducible`, () => {
     const first = generateMany(spec, 42, true)
     const second = generateMany(spec, 42, true)
     const differentSeed = generateMany(spec, 43, true)
 
-    t.deepEqual(first, second)
-    t.notDeepEqual(first, differentSeed)
-    t.true(new Set(first).size > 1)
+    assert.deepStrictEqual(first, second)
+    assert.notDeepStrictEqual(first, differentSeed)
+    assert.strictEqual(new Set(first).size > 1, true)
   })
 
-  test(`${spec.name}: generated validity matches the requested property`, t => {
+  test(`${spec.name}: generated validity matches the requested property`, () => {
     for (const document of generateMany(spec, 1, true)) {
-      t.true(validateDocument(spec, document))
+      assert.strictEqual(validateDocument(spec, document), true)
     }
     for (const document of generateMany(spec, 2, false)) {
-      t.false(validateDocument(spec, document))
+      assert.strictEqual(validateDocument(spec, document), false)
     }
   })
 
-  test(`${spec.name}: formatting round-trips generated digit strings`, t => {
+  test(`${spec.name}: formatting round-trips generated digit strings`, () => {
     for (const digits of generateMany(spec, 3, true)) {
       const formatted = formatDocument(spec, digits, true)
-      t.is(unformatDocument(spec, formatted, true), digits)
-      t.is(formatDocument(spec, formatted, true), formatted)
+      assert.strictEqual(unformatDocument(spec, formatted, true), digits)
+      assert.strictEqual(formatDocument(spec, formatted, true), formatted)
     }
   })
 
-  test(`${spec.name}: changing either verifier invalidates a generated document`, t => {
+  test(`${spec.name}: changing either verifier invalidates a generated document`, () => {
     for (const digits of generateMany(spec, 4, true)) {
       for (
         let position = spec.bodyLength;
@@ -69,51 +70,54 @@ for (const spec of specs) {
         const replacement = ((Number(digits[position]) + 1) % 10).toString()
         const changed =
           digits.slice(0, position) + replacement + digits.slice(position + 1)
-        t.false(validateDocument(spec, changed))
+        assert.strictEqual(validateDocument(spec, changed), false)
       }
     }
   })
 
-  test(`${spec.name}: repairing any single unknown digit only returns valid results`, t => {
+  test(`${spec.name}: repairing any single unknown digit only returns valid results`, () => {
     for (const digits of generateMany(spec, 5, true).slice(0, 20)) {
       for (let position = 0; position < spec.totalLength; position++) {
         const unknown =
           digits.slice(0, position) + 'X' + digits.slice(position + 1)
         const repaired = repairDocument(spec, unknown)
-        t.true(repaired.includes(digits))
-        t.true(repaired.every(candidate => validateDocument(spec, candidate)))
+        assert.strictEqual(repaired.includes(digits), true)
+        assert.strictEqual(
+          repaired.every(candidate => validateDocument(spec, candidate)),
+          true
+        )
       }
     }
   })
 
-  test(`${spec.name}: repeated random digits are corrected deterministically`, t => {
+  test(`${spec.name}: repeated random digits are corrected deterministically`, () => {
     const generated = generateDocument(
       spec,
       { isFormatted: false, isValid: true },
       () => 0
     )
 
-    t.is(typeof generated, 'string')
+    assert.strictEqual(typeof generated, 'string')
     if (typeof generated !== 'string') return
-    t.is(
+    assert.strictEqual(
       generated.slice(0, spec.bodyLength),
       `${'0'.repeat(spec.bodyLength - 1)}1`
     )
-    t.true(validateDocument(spec, generated))
+    assert.strictEqual(validateDocument(spec, generated), true)
   })
 
-  test(`${spec.name}: repeated bodies cannot be repaired with two verifiers`, t => {
+  test(`${spec.name}: repeated bodies cannot be repaired with two verifiers`, () => {
     const unknownVerifiers = `${'0'.repeat(spec.bodyLength)}XX`
-    t.deepEqual(repairDocument(spec, unknownVerifiers), [])
+    assert.deepStrictEqual(repairDocument(spec, unknownVerifiers), [])
     const unknownSecondVerifier = `${'0'.repeat(spec.bodyLength)}0X`
-    t.deepEqual(repairDocument(spec, unknownSecondVerifier), [])
+    assert.deepStrictEqual(repairDocument(spec, unknownSecondVerifier), [])
   })
 
-  test(`${spec.name}: generation uses its default random source`, t => {
+  test(`${spec.name}: generation uses its default random source`, () => {
     const generated = generateDocument(spec, {
       isFormatted: false,
       isValid: true,
     })
-    t.is(typeof generated, 'string')
+    assert.strictEqual(typeof generated, 'string')
   })
 }

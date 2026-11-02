@@ -1,4 +1,3 @@
-/* c8 ignore next */
 import parse from './parse'
 
 /*

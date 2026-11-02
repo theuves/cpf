@@ -1,95 +1,96 @@
-import test from 'ava'
+import { strict as assert } from 'node:assert'
+import { test } from 'node:test'
 import validate from '../is-valid'
 
-test('should return true for valid CPF with dots and dash', t => {
+test('should return true for valid CPF with dots and dash', () => {
   const cpf = '529.982.247-25'
-  t.true(validate(cpf))
+  assert.strictEqual(validate(cpf), true)
 })
 
-test('should return true for valid CPF without formatting', t => {
+test('should return true for valid CPF without formatting', () => {
   const cpf = '52998224725'
-  t.true(validate(cpf))
+  assert.strictEqual(validate(cpf), true)
 })
 
-test('should return true for valid CPF with mixed formatting', t => {
+test('should return true for valid CPF with mixed formatting', () => {
   const cpf = '529.982247-25'
-  t.true(validate(cpf))
+  assert.strictEqual(validate(cpf), true)
 })
 
-test('should return false for CPF with all same digits', t => {
+test('should return false for CPF with all same digits', () => {
   const cpf = '111.111.111-11'
-  t.false(validate(cpf))
+  assert.strictEqual(validate(cpf), false)
 })
 
-test('should return false for CPF with all same digits without formatting', t => {
+test('should return false for CPF with all same digits without formatting', () => {
   const cpf = '11111111111'
-  t.false(validate(cpf))
+  assert.strictEqual(validate(cpf), false)
 })
 
-test('should return false for CPF with invalid first verifier', t => {
+test('should return false for CPF with invalid first verifier', () => {
   const cpf = '529.982.247-35'
-  t.false(validate(cpf))
+  assert.strictEqual(validate(cpf), false)
 })
 
-test('should return false for CPF with invalid second verifier', t => {
+test('should return false for CPF with invalid second verifier', () => {
   const cpf = '529.982.247-26'
-  t.false(validate(cpf))
+  assert.strictEqual(validate(cpf), false)
 })
 
-test('should return false for CPF with both invalid verifiers', t => {
+test('should return false for CPF with both invalid verifiers', () => {
   const cpf = '529.982.247-36'
-  t.false(validate(cpf))
+  assert.strictEqual(validate(cpf), false)
 })
 
-test('should return false for CPF with less than 11 digits', t => {
+test('should return false for CPF with less than 11 digits', () => {
   const cpf = '529.982.247-2'
-  t.false(validate(cpf))
+  assert.strictEqual(validate(cpf), false)
 })
 
-test('should return false for CPF with more than 11 digits', t => {
+test('should return false for CPF with more than 11 digits', () => {
   const cpf = '529.982.247-250'
-  t.false(validate(cpf))
+  assert.strictEqual(validate(cpf), false)
 })
 
-test('should return false for empty string', t => {
+test('should return false for empty string', () => {
   const cpf = ''
-  t.false(validate(cpf))
+  assert.strictEqual(validate(cpf), false)
 })
 
-test('should return false for string with no digits', t => {
+test('should return false for string with no digits', () => {
   const cpf = 'abc.def.ghi-jk'
-  t.false(validate(cpf))
+  assert.strictEqual(validate(cpf), false)
 })
 
-test('should return false for string with mixed digits and letters', t => {
+test('should return false for string with mixed digits and letters', () => {
   const cpf = '529a982b247c25'
-  t.false(validate(cpf))
+  assert.strictEqual(validate(cpf), false)
 })
 
-test('should return false for non-string input', t => {
+test('should return false for non-string input', () => {
   // @ts-expect-error invalid type
-  t.false(validate(52998224725))
+  assert.strictEqual(validate(52998224725), false)
   // @ts-expect-error invalid type
-  t.false(validate(null))
+  assert.strictEqual(validate(null), false)
   // @ts-expect-error invalid type
-  t.false(validate(undefined))
+  assert.strictEqual(validate(undefined), false)
   // @ts-expect-error invalid type
-  t.false(validate({}))
+  assert.strictEqual(validate({}), false)
   // @ts-expect-error invalid type
-  t.false(validate([]))
+  assert.strictEqual(validate([]), false)
 })
 
-test('should return true for another valid CPF', t => {
+test('should return true for another valid CPF', () => {
   const cpf = '123.456.789-09'
-  t.true(validate(cpf))
+  assert.strictEqual(validate(cpf), true)
 })
 
-test('should return true for valid CPF with zeros', t => {
+test('should return true for valid CPF with zeros', () => {
   const cpf = '000.000.001-91'
-  t.true(validate(cpf))
+  assert.strictEqual(validate(cpf), true)
 })
 
-test('should return false for CPF with only zeros', t => {
+test('should return false for CPF with only zeros', () => {
   const cpf = '000.000.000-00'
-  t.false(validate(cpf))
+  assert.strictEqual(validate(cpf), false)
 })

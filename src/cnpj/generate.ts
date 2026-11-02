@@ -1,4 +1,3 @@
-/* c8 ignore next */
 import {
   calculateCnpjVerifiers,
   formatCnpjCharacters,
@@ -22,7 +21,6 @@ export default function generate(options: GenerationOptions = {}): string {
   return generateSingle(resolved)
 }
 
-/* c8 ignore next */
 export function generateMany(
   count: number,
   options: GenerationOptions = {}
@@ -32,7 +30,6 @@ export function generateMany(
   return Array.from({ length: count }, () => generateSingle(resolved))
 }
 
-/* c8 ignore next */
 function generateSingle(options: {
   valid: boolean
   formatted: boolean
@@ -67,7 +64,6 @@ function generateSingle(options: {
   return options.formatted ? formatCnpjCharacters(cnpj) : cnpj
 }
 
-/* c8 ignore next */
 function resolveGenerationOptions(options: GenerationOptions): {
   valid: boolean
   formatted: boolean

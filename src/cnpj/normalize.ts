@@ -1,4 +1,3 @@
-/* c8 ignore next */
 import { cleanCnpj } from './codec'
 
 export default function normalize(cnpj: string): string {
