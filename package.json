@@ -111,17 +111,17 @@
   "author": "Matheus Alves",
   "license": "MIT",
   "devDependencies": {
-    "@eslint/js": "^9.31.0",
-    "@types/node": "^24.0.13",
-    "esbuild": "^0.25.6",
-    "eslint": "^9.31.0",
-    "eslint-config-prettier": "^10.1.5",
-    "eslint-plugin-prettier": "^5.5.1",
-    "lucide-static": "^1.61.0",
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^26.6.6",
+    "esbuild": "^0.28.2",
+    "eslint": "^10.14.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.7",
+    "lucide-static": "^1.65.0",
     "markdown-it": "^15.0.3",
-    "prettier": "^3.6.2",
+    "prettier": "^3.9.10",
     "shiki": "^4.5.0",
-    "typescript": "5.8.3",
-    "typescript-eslint": "^8.36.0"
+    "typescript": "7.0.2",
+    "typescript-eslint": "^8.72.1"
   }
 }
