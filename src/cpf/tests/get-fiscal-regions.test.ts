@@ -1,70 +1,71 @@
-import test from 'ava'
+import { strict as assert } from 'node:assert'
+import { test } from 'node:test'
 import rfs from '../get-fiscal-regions'
 
-test('should return correct RF for valid CPF with 9th digit 0', t => {
+test('should return correct RF for valid CPF with 9th digit 0', () => {
   const cpf = '123.456.780-00'
-  t.deepEqual(rfs(cpf), ['RS'])
+  assert.deepStrictEqual(rfs(cpf), ['RS'])
 })
 
-test('should return correct RF for valid CPF with 9th digit 1', t => {
+test('should return correct RF for valid CPF with 9th digit 1', () => {
   const cpf = '123.456.781-01'
-  t.deepEqual(rfs(cpf), ['DF', 'GO', 'MS', 'MT', 'TO'])
+  assert.deepStrictEqual(rfs(cpf), ['DF', 'GO', 'MS', 'MT', 'TO'])
 })
 
-test('should return correct RF for valid CPF with 9th digit 2', t => {
+test('should return correct RF for valid CPF with 9th digit 2', () => {
   const cpf = '123.456.782-02'
-  t.deepEqual(rfs(cpf), ['AC', 'AM', 'AP', 'PA', 'RO', 'RR'])
+  assert.deepStrictEqual(rfs(cpf), ['AC', 'AM', 'AP', 'PA', 'RO', 'RR'])
 })
 
-test('should return correct RF for valid CPF with 9th digit 3', t => {
+test('should return correct RF for valid CPF with 9th digit 3', () => {
   const cpf = '123.456.783-03'
-  t.deepEqual(rfs(cpf), ['CE', 'MA', 'PI'])
+  assert.deepStrictEqual(rfs(cpf), ['CE', 'MA', 'PI'])
 })
 
-test('should return correct RF for valid CPF with 9th digit 4', t => {
+test('should return correct RF for valid CPF with 9th digit 4', () => {
   const cpf = '123.456.784-04'
-  t.deepEqual(rfs(cpf), ['AL', 'PB', 'PE', 'RN'])
+  assert.deepStrictEqual(rfs(cpf), ['AL', 'PB', 'PE', 'RN'])
 })
 
-test('should return correct RF for valid CPF with 9th digit 5', t => {
+test('should return correct RF for valid CPF with 9th digit 5', () => {
   const cpf = '123.456.785-05'
-  t.deepEqual(rfs(cpf), ['BA', 'SE'])
+  assert.deepStrictEqual(rfs(cpf), ['BA', 'SE'])
 })
 
-test('should return correct RF for valid CPF with 9th digit 6', t => {
+test('should return correct RF for valid CPF with 9th digit 6', () => {
   const cpf = '123.456.786-06'
-  t.deepEqual(rfs(cpf), ['MG'])
+  assert.deepStrictEqual(rfs(cpf), ['MG'])
 })
 
-test('should return correct RF for valid CPF with 9th digit 7', t => {
+test('should return correct RF for valid CPF with 9th digit 7', () => {
   const cpf = '123.456.787-07'
-  t.deepEqual(rfs(cpf), ['ES', 'RJ'])
+  assert.deepStrictEqual(rfs(cpf), ['ES', 'RJ'])
 })
 
-test('should return correct RF for valid CPF with 9th digit 8', t => {
+test('should return correct RF for valid CPF with 9th digit 8', () => {
   const cpf = '123.456.788-08'
-  t.deepEqual(rfs(cpf), ['SP'])
+  assert.deepStrictEqual(rfs(cpf), ['SP'])
 })
 
-test('should return correct RF for valid CPF with 9th digit 9', t => {
+test('should return correct RF for valid CPF with 9th digit 9', () => {
   const cpf = '123.456.789-09'
-  t.deepEqual(rfs(cpf), ['PR', 'SC'])
+  assert.deepStrictEqual(rfs(cpf), ['PR', 'SC'])
 })
 
-test('should return empty array for CPF with less than 11 digits', t => {
+test('should return empty array for CPF with less than 11 digits', () => {
   const cpf = '123.456.789-0'
-  t.deepEqual(rfs(cpf), [])
+  assert.deepStrictEqual(rfs(cpf), [])
 })
 
-test('should return empty array for non-string input', t => {
+test('should return empty array for non-string input', () => {
   // @ts-expect-error invalid type
-  t.deepEqual(rfs(12345678900), [])
+  assert.deepStrictEqual(rfs(12345678900), [])
   // @ts-expect-error invalid type
-  t.deepEqual(rfs(null), [])
+  assert.deepStrictEqual(rfs(null), [])
   // @ts-expect-error invalid type
-  t.deepEqual(rfs(undefined), [])
+  assert.deepStrictEqual(rfs(undefined), [])
   // @ts-expect-error invalid type
-  t.deepEqual(rfs({}), [])
+  assert.deepStrictEqual(rfs({}), [])
   // @ts-expect-error invalid type
-  t.deepEqual(rfs([]), [])
+  assert.deepStrictEqual(rfs([]), [])
 })

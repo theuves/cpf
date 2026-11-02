@@ -1,4 +1,3 @@
-/* c8 ignore next */
 import { cleanCnpj, formatCnpjCharacters } from './codec'
 
 export interface FormatOptions {

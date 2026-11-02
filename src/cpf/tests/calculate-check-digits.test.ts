@@ -1,59 +1,78 @@
-import test from 'ava'
+import { strict as assert } from 'node:assert'
+import { test } from 'node:test'
 import calc from '../calculate-check-digits'
 
-test('should return correct verifiers for valid body', t => {
+test('should return correct verifiers for valid body', () => {
   const body = [1, 2, 3, 4, 5, 6, 7, 8, 9]
   const result = calc(body)
-  t.deepEqual(result, [0, 9])
+  assert.deepStrictEqual(result, [0, 9])
 })
 
-test('should throw error for body with less than 9 digits', t => {
+test('should throw error for body with less than 9 digits', () => {
   const body = [1, 2, 3, 4, 5, 6, 7, 8]
-  const error = t.throws(
+  assert.throws(
     () => {
       calc(body)
     },
-    { instanceOf: Error }
+    (error: unknown) => {
+      assert.ok(error instanceof Error)
+      assert.strictEqual(error.message, 'Input must be exactly 9 digits')
+      return true
+    }
   )
-  t.is(error.message, 'Input must be exactly 9 digits')
 })
 
-test('should throw error for body with more than 9 digits', t => {
+test('should throw error for body with more than 9 digits', () => {
   const body = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
-  const error = t.throws(
+  assert.throws(
     () => {
       calc(body)
     },
-    { instanceOf: Error }
+    (error: unknown) => {
+      assert.ok(error instanceof Error)
+      assert.strictEqual(error.message, 'Input must be exactly 9 digits')
+      return true
+    }
   )
-  t.is(error.message, 'Input must be exactly 9 digits')
 })
 
-test('should throw error for body with non-integer values', t => {
+test('should throw error for body with non-integer values', () => {
   const body = [1, 2, 3, 4, 5, 6, 7, 8, 'a']
-  const error = t.throws(
+  assert.throws(
     () => {
       // @ts-expect-error invalid type
       calc(body)
     },
-    { instanceOf: Error }
+    (error: unknown) => {
+      assert.ok(error instanceof Error)
+      assert.strictEqual(
+        error.message,
+        'All elements must be integers between 0 and 9'
+      )
+      return true
+    }
   )
-  t.is(error.message, 'All elements must be integers between 0 and 9')
 })
 
-test('should throw error for body with integers out of range', t => {
+test('should throw error for body with integers out of range', () => {
   const body = [1, 2, 3, 4, 5, 6, 7, 8, 10]
-  const error = t.throws(
+  assert.throws(
     () => {
       calc(body)
     },
-    { instanceOf: Error }
+    (error: unknown) => {
+      assert.ok(error instanceof Error)
+      assert.strictEqual(
+        error.message,
+        'All elements must be integers between 0 and 9'
+      )
+      return true
+    }
   )
-  t.is(error.message, 'All elements must be integers between 0 and 9')
 })
 
-test('should reject sparse bodies before calculating verifiers', t => {
-  t.throws(() => calc(new Array<number>(9)), {
+test('should reject sparse bodies before calculating verifiers', () => {
+  assert.throws(() => calc(new Array<number>(9)), {
     message: 'All elements must be integers between 0 and 9',
   })
 
@@ -61,9 +80,9 @@ test('should reject sparse bodies before calculating verifiers', t => {
     const body = [5, 2, 9, 9, 8, 2, 2, 4, 7]
     delete body[position]
 
-    t.throws(() => calc(body), {
+    assert.throws(() => calc(body), {
       message: 'All elements must be integers between 0 and 9',
     })
-    t.false(position in body)
+    assert.strictEqual(position in body, false)
   }
 })

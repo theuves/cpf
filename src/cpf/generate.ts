@@ -1,4 +1,3 @@
-/* c8 ignore next */
 import { assertGenerationCount, generateDocument } from '../core/document'
 import { cpfSpec } from './spec'
 
@@ -16,7 +15,6 @@ export default function generate(options: GenerationOptions = {}): string {
   return generateDocument(cpfSpec, { isValid, isFormatted }, random)
 }
 
-/* c8 ignore next */
 export function generateMany(
   count: number,
   options: GenerationOptions = {}
@@ -28,7 +26,6 @@ export function generateMany(
   )
 }
 
-/* c8 ignore next */
 function resolveGenerationOptions(options: GenerationOptions): {
   isValid: boolean
   isFormatted: boolean

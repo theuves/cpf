@@ -1,4 +1,3 @@
-/* c8 ignore next */
 import { numericCnpjSpec } from './spec'
 
 export type CnpjKind = 'numeric' | 'alphanumeric'
@@ -154,7 +153,6 @@ function normalizeBody(body: CnpjInternalBody): string[] {
   return characters
 }
 
-/* c8 ignore next */
 function calculateVerifier(
   characters: readonly string[],
   weights: readonly number[]

@@ -1,4 +1,3 @@
-/* c8 ignore next */
 import { calculateCnpjVerifiers } from './codec'
 import type { CnpjBody } from './codec'
 

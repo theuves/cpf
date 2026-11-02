@@ -1,4 +1,3 @@
-/* c8 ignore next */
 const STRICT_PATTERN =
   /^[A-Z0-9]{2}\.[A-Z0-9]{3}\.[A-Z0-9]{3}\/[A-Z0-9]{4}-\d{2}$/
 const VALID_CHARACTERS = /^[A-Z0-9.\-/\s]+$/

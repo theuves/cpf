@@ -13,8 +13,8 @@ incompatível com `engines`, uma release major.
 
 ## Desenvolvimento e tipos
 
-- O build oficial usa Node.js 20 e `npm ci` com o lockfile versionado.
-- Ferramentas locais exigem Node.js 18.18 ou superior.
+- O build oficial usa Node.js 24 e `npm ci` com o lockfile versionado.
+- Os comandos de desenvolvimento exigem Node.js 24 ou superior.
 - As declarações são verificadas com resolução `NodeNext` para consumidores ESM
   e CommonJS.
 - A versão de TypeScript usada no CI é a fixada pelo lockfile. Outras versões não

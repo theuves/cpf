@@ -35,10 +35,26 @@ dependências e análise estática de segurança.
 - Não dependa de aleatoriedade, relógio, rede ou estado global em testes.
 - Explique riscos, rollback e efeitos para ESM, CommonJS, navegador e tipos.
 
-Diretivas `c8 ignore` são permitidas somente para branches artificiais mapeados
-pelo `tsx` durante interoperabilidade ESM/CommonJS. Elas não podem ocultar uma
-decisão de negócio ou fallback executável; nesses casos, escreva o teste ou
-remova o ramo inalcançável.
+## Testes e cobertura
+
+Use Node.js 24 ou superior para desenvolver. O pacote publicado continua
+compatível com Node.js 16 ou superior, validado pela matriz de runtime do CI.
+
+- `npm test`: compila os fontes e testes TypeScript em `.test-build/` e executa
+  a suíte com `node:test` e asserções de `node:assert/strict`.
+- `npm run test:coverage`: usa a cobertura nativa do Node, exige 100% de linhas,
+  branches e funções e gera `coverage/lcov.info`.
+- `npm run test:watch`: recompila os arquivos TypeScript e reexecuta os testes
+  quando os arquivos compilados mudam.
+
+A cobertura mede o JavaScript compilado, sem helpers de interoperabilidade,
+loaders de TypeScript ou diretivas para ignorar branches artificiais. O preload
+carrega todos os módulos elegíveis, incluindo os que ainda não têm testes.
+Os arquivos de testes, entrypoints `index`, especificações declarativas,
+tipos e o entrypoint de navegador ficam fora da medição. Os entrypoints públicos
+e o bundle de navegador são verificados pelos testes de runtime e do pacote.
+Não use diretivas de cobertura para esconder decisões de negócio ou fallbacks
+executáveis; escreva o teste ou remova o ramo inalcançável.
 
 ## Commits e releases
 

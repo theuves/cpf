@@ -1,4 +1,3 @@
-/* c8 ignore next */
 import { unformatDocument } from '../core/document'
 import { cpfSpec } from './spec'
 

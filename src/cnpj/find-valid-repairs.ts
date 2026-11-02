@@ -1,4 +1,3 @@
-/* c8 ignore next */
 import { calculateCnpjVerifiers, getCnpjAlphabet } from './codec'
 import { MAX_REPAIR_INPUT_LENGTH } from '../core/document'
 import type { CnpjKind } from './codec'
