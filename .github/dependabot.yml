@@ -7,6 +7,12 @@ updates:
   groups:
     development-dependencies:
       dependency-type: development
+  # Keep TypeScript within typescript-eslint support and Node types on CI runtime.
+  ignore:
+  - dependency-name: typescript
+    versions: ['>=7']
+  - dependency-name: '@types/node'
+    versions: ['>=25']
   open-pull-requests-limit: 5
 
 - package-ecosystem: github-actions

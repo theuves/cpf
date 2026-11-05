@@ -6,7 +6,9 @@
     "rootDir": "./src",
     "outDir": "./.test-build",
     "module": "CommonJS",
+    "moduleResolution": "node",
     "esModuleInterop": false,
+    "ignoreDeprecations": "6.0",
     "declaration": false,
     "declarationMap": false,
     "sourceMap": false
