@@ -47,3 +47,14 @@ As mudanças abaixo não devem ser introduzidas silenciosamente em uma minor 3.x
 
 Uma futura versão major deve incluir tabela de equivalência, exemplos
 antes/depois e período de suporte definido para a major anterior.
+
+## Ferramentas de desenvolvimento
+
+O desenvolvimento e o CI usam Node.js 24 e tipos da mesma série. TypeScript 6
+é mantido dentro da faixa suportada pelo typescript-eslint; a atualização para
+TypeScript 7 depende de suporte desse lint.
+
+O build usa resolução de módulos para bundlers. A compilação isolada dos testes
+mantém CommonJS sem helpers de interoperabilidade, para medir somente branches
+da biblioteca. A opção `ignoreDeprecations: "6.0"` fica restrita a esse runner
+durante a transição do TypeScript 6; os limites de cobertura continuam em 100%.
