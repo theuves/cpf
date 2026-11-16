@@ -117,11 +117,11 @@
     "eslint": "^10.14.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.7",
-    "lucide-static": "^1.68.0",
+    "lucide-static": "^1.71.0",
     "markdown-it": "^15.0.3",
     "prettier": "^3.9.10",
     "shiki": "^4.6.0",
     "typescript": "6.0.3",
-    "typescript-eslint": "^8.72.1"
+    "typescript-eslint": "^8.72.2"
   }
 }
